@@ -2,8 +2,12 @@ package xflfk.wicresoft.dao;
 
 import java.util.List;
 
+import xfl.fk.sqldao.SqlControl;
+import xflfk.wicresoft.utils.LuckyUtils;
+
 @SuppressWarnings("all") 
 public interface SqlDao <T>  {
+	public SqlControl sqlControl=LuckyUtils.getSqlControl();
 	/**
 	 * 通过ID查询数据
 	 * @param id

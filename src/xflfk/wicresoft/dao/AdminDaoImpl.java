@@ -9,13 +9,9 @@ import xflfk.wicresoft.utils.LuckyUtils;
 
 @SuppressWarnings("all") 
 public class AdminDaoImpl implements SqlDao<Admin> {
-	private SqlControl sqlControl;
 	private Admin admin=null;
 	private boolean isOk=false;
 	private List<Admin> admlist=null;
-	public AdminDaoImpl() {
-		sqlControl=LuckyUtils.getSqlControl();
-	}
 
 	@Override
 	public Admin getOne(int id) {

@@ -4,13 +4,14 @@ import java.util.List;
 
 import xfl.fk.sqldao.SqlControl;
 import xflfk.wicresoft.entitry.Author;
+import xflfk.wicresoft.utils.LuckyUtils;
 
 @SuppressWarnings("all") 
 public class AuthorDaoImpl implements SqlDao<Author> {
 	private boolean isOk=false;
-	private SqlControl sqlControl;
-	private Author author;
+	private Author author=null;
 	private List<Author> autlist=null;
+
 
 	@Override
 	public Author getOne(int id) {
