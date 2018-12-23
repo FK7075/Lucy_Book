@@ -4,7 +4,7 @@ import java.util.List;
 
 import xfl.fk.sqldao.SqlControl;
 import xflfk.wicresoft.entitry.Author;
-import xflfk.wicresoft.utils.LuckyUtils;
+import xflfk.wicresoft.factory.LuckyUtils;
 
 @SuppressWarnings("all") 
 public class AuthorDaoImpl implements SqlDao<Author> {

@@ -3,7 +3,7 @@ package xflfk.wicresoft.dao;
 import java.util.List;
 
 import xfl.fk.sqldao.SqlControl;
-import xflfk.wicresoft.utils.LuckyUtils;
+import xflfk.wicresoft.factory.LuckyUtils;
 
 @SuppressWarnings("all") 
 public interface SqlDao <T>  {

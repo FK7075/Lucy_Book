@@ -5,7 +5,7 @@ import java.util.List;
 
 import xfl.fk.sqldao.SqlControl;
 import xflfk.wicresoft.entitry.Admin;
-import xflfk.wicresoft.utils.LuckyUtils;
+import xflfk.wicresoft.factory.LuckyUtils;
 
 @SuppressWarnings("all") 
 public class AdminDaoImpl implements SqlDao<Admin> {

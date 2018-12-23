@@ -1,4 +1,4 @@
-package xflfk.wicresoft.utils;
+package xflfk.wicresoft.factory;
 
 import xfl.fk.sqldao.SqlControl;
 
@@ -9,7 +9,9 @@ public class LuckyUtils {
 	 * @return
 	 */
 	public static SqlControl getSqlControl() {
-		sql=new SqlControl();
+		if(sql==null){
+			sql=new SqlControl();
+		}
 		return sql;
 	}
 }

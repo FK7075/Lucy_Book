@@ -4,84 +4,96 @@ import java.util.List;
 
 import xflfk.wicresoft.entitry.Notes;
 
-public class NotesDaoImpl implements SqlDao<Notes> {
 
+@SuppressWarnings("all")
+public class NotesDaoImpl implements SqlDao<Notes> {
+	private Notes note=null;
+	private List<Notes> notelist=null;
+	private boolean isOk=false;
 	@Override
 	public Notes getOne(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		note=(Notes) sqlControl.getOne(Notes.class, id);
+		return note;
 	}
 
 	@Override
 	public boolean delete(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		String tableName=Notes.class.getSimpleName();
+		if(sqlControl.delete(tableName, id))
+			isOk=true;
+		return isOk;
 	}
 
 	@Override
 	public boolean save(Notes t) {
-		// TODO Auto-generated method stub
-		return false;
+		if(sqlControl.save(t))
+			isOk=true;
+		return isOk;
 	}
 
 	@Override
 	public boolean delete(Notes t) {
-		// TODO Auto-generated method stub
-		return false;
+		if(sqlControl.delete(t))
+			isOk=true;
+		return isOk;
 	}
 
 	@Override
 	public boolean update(Notes t) {
-		// TODO Auto-generated method stub
-		return false;
+		if(sqlControl.update(t))
+			isOk=true;
+		return isOk;
 	}
 
 	@Override
 	public List<Notes> getList(Notes t) {
-		// TODO Auto-generated method stub
-		return null;
+		notelist=(List<Notes>) sqlControl.getList(t);
+		return notelist;
 	}
 
 	@Override
 	public boolean save(String sql, Object... obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if(sqlControl.save(sql, obj))
+			isOk=true;
+		return isOk;
 	}
 
 	@Override
 	public boolean delete(String sql, Object... obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if(sqlControl.delete(sql, obj))
+			isOk=true;
+		return isOk;
 	}
 
 	@Override
 	public boolean update(String sql, Object... obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if(sqlControl.update(sql, obj))
+			isOk=true;
+		return isOk;
 	}
 
 	@Override
 	public List<Notes> getList(String sql, Object... obj) {
-		// TODO Auto-generated method stub
-		return null;
+		notelist=(List<Notes>) sqlControl.getList(Notes.class, sql, obj);
+		return notelist;
 	}
 
 	@Override
 	public List<Notes> getPagList(Notes t, int index, int size) {
-		// TODO Auto-generated method stub
-		return null;
+		notelist=(List<Notes>) sqlControl.getPagList(t, index, size);
+		return notelist;
 	}
 
 	@Override
 	public List<Notes> getSortList(Notes t, String property, int r) {
-		// TODO Auto-generated method stub
-		return null;
+		notelist=(List<Notes>) sqlControl.getSortList(t, property, r);
+		return notelist;
 	}
 
 	@Override
 	public List<Notes> getFuzzyList(String property, String info) {
-		// TODO Auto-generated method stub
-		return null;
+		notelist=(List<Notes>) sqlControl.getFuzzyList(Notes.class , property, info);
+		return notelist;
 	}
 
 }
