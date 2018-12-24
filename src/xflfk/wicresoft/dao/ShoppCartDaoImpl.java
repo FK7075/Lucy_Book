@@ -4,6 +4,7 @@ import java.util.List;
 
 import xflfk.wicresoft.entitry.ShoppCart;
 
+@SuppressWarnings("all")
 public class ShoppCartDaoImpl implements SqlDao<ShoppCart> {
 	private ShoppCart shopp=null;
 	private List<ShoppCart> shopplist=null;
@@ -25,67 +26,73 @@ public class ShoppCartDaoImpl implements SqlDao<ShoppCart> {
 
 	@Override
 	public boolean save(ShoppCart t) {
-		
+		if(sqlControl.save(t))
+			isOk=true;
 		return isOk;
 	}
 
 	@Override
 	public boolean delete(ShoppCart t) {
-		// TODO Auto-generated method stub
+		if(sqlControl.delete(t))
+			isOk=true;
 		return isOk;
 	}
 
 	@Override
 	public boolean update(ShoppCart t) {
-		// TODO Auto-generated method stub
+		if(sqlControl.update(t))
+			isOk=true;
 		return isOk;
 	}
 
 	@Override
 	public List<ShoppCart> getList(ShoppCart t) {
-		// TODO Auto-generated method stub
+		shopplist=(List<ShoppCart>) sqlControl.getList(t);
 		return shopplist;
 	}
 
 	@Override
 	public boolean save(String sql, Object... obj) {
-		// TODO Auto-generated method stub
+		if(sqlControl.save(sql, obj))
+			isOk=true;
 		return isOk;
 	}
 
 	@Override
 	public boolean delete(String sql, Object... obj) {
-		// TODO Auto-generated method stub
+		if(sqlControl.delete(sql, obj))
+			isOk=true;
 		return isOk;
 	}
 
 	@Override
 	public boolean update(String sql, Object... obj) {
-		// TODO Auto-generated method stub
+		if(sqlControl.update(sql, obj))
+			isOk=true;
 		return isOk;
 	}
 
 	@Override
 	public List<ShoppCart> getList(String sql, Object... obj) {
-		// TODO Auto-generated method stub
+		shopplist=(List<ShoppCart>) sqlControl.getList(ShoppCart.class, sql, obj);
 		return shopplist;
 	}
 
 	@Override
 	public List<ShoppCart> getPagList(ShoppCart t, int index, int size) {
-		// TODO Auto-generated method stub
+		shopplist=(List<ShoppCart>) sqlControl.getPagList(t, index, size);
 		return shopplist;
 	}
 
 	@Override
 	public List<ShoppCart> getSortList(ShoppCart t, String property, int r) {
-		// TODO Auto-generated method stub
+		shopplist=(List<ShoppCart>) sqlControl.getSortList(t, property, r);
 		return shopplist;
 	}
 
 	@Override
 	public List<ShoppCart> getFuzzyList(String property, String info) {
-		// TODO Auto-generated method stub
+		shopplist=(List<ShoppCart>) sqlControl.getFuzzyList(ShoppCart.class, property, info);
 		return shopplist;
 	}
 
