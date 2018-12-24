@@ -1,31 +1,30 @@
 package xflfk.wicresoft.test;
 
-import xfl.fk.sqldao.Transaction;
-import xflfk.wicresoft.dao.AuthorDaoImpl;
-import xflfk.wicresoft.dao.SqlDao;
-import xflfk.wicresoft.entitry.Author;
+import java.util.Date;
+
+import xflfk.wicresoft.dao.BookDaoImpl;
+import xflfk.wicresoft.entitry.Detail;
+import xflfk.wicresoft.entitry.Orders;
+import xflfk.wicresoft.factory.SqlDaoImplFactory;
+import xflfk.wicresoft.service.UserService;
 
 public class DomeTest {
 
 	@SuppressWarnings("all")
 	public static void main(String[] args) {
-		SqlDao<Author> sqlDao=new AuthorDaoImpl();
-		Transaction tx=null;
-		try {
-			tx=sqlDao.sqlControl.openTransaction();
-			Author a1=sqlDao.getOne(1);
-			Author a2=sqlDao.getOne(2);
-			a1.setAutName("ppp");
-			a2.setAutName("lucy");
-			sqlDao.update(a1);
-//			int i=1/0;
-			sqlDao.update(a2); 
-			tx.commit();
-		}catch (Exception e) {
-			tx.rollback();
-			e.printStackTrace();
-		}
-		
+		BookDaoImpl bookDaoImpl=SqlDaoImplFactory.getBookDaoImpl();
+		Orders order=new Orders();
+		Detail detail=new Detail();
+		order.setOrdState("已付款");
+		order.setOrdTime((new Date()).toString());
+		order.setUid(1);
+		detail.setBid(1);
+		detail.setConsid(1);
+		detail.setNumber(3);
+		detail.setUserdetail("快点发货可好？！");
+		detail.setMoney(bookDaoImpl.getOne(1).getbPrice()*3);
+		UserService userService=new UserService();
+		userService.buyBook(order, detail);
 	}
 
 }

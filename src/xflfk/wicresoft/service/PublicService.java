@@ -1,5 +1,5 @@
 package xflfk.wicresoft.service;
 
-public class AdminService {
+public class PublicService {
 
 }

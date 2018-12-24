@@ -14,34 +14,34 @@ import xflfk.wicresoft.dao.UserDaoImpl;
 
 @SuppressWarnings("all")
 public class SqlDaoImplFactory {
-	public static SqlDao getAdminDaoImpl() {
+	public static AdminDaoImpl getAdminDaoImpl() {
 		return new AdminDaoImpl();
 	}
-	public static SqlDao getAuthorDaoImpl() {
+	public static AuthorDaoImpl getAuthorDaoImpl() {
 		return new AuthorDaoImpl();
 	}
-	public static SqlDao getBookDaoImpl() {
+	public static BookDaoImpl getBookDaoImpl() {
 		return new BookDaoImpl();
 	}
-	public static SqlDao getConsignessDaoImpl() {
+	public static ConsignessDaoImpl getConsignessDaoImpl() {
 		return new ConsignessDaoImpl();
 	}
-	public static SqlDao getDetailDaoImpl() {
+	public static DetailDaoImpl getDetailDaoImpl() {
 		return new DetailDaoImpl();
 	}
-	public static SqlDao getNotesDaoImpl() {
+	public static NotesDaoImpl getNotesDaoImpl() {
 		return new NotesDaoImpl();
 	}
-	public static SqlDao getOrdersDaoImpl() {
+	public static OrdersDaoImpl getOrdersDaoImpl() {
 		return new OrdersDaoImpl();
 	}
-	public static SqlDao getShoppCartDaoImpl() {
+	public static ShoppCartDaoImpl getShoppCartDaoImpl() {
 		return new ShoppCartDaoImpl();
 	}
-	public static SqlDao getStortDaoImpl() {
+	public static StortDaoImpl getStortDaoImpl() {
 		return new StortDaoImpl();
 	}
-	public static SqlDao getUserDaoImpl() {
+	public static UserDaoImpl getUserDaoImpl() {
 		return new UserDaoImpl();
 	}
 }
