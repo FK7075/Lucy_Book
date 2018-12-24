@@ -2,39 +2,37 @@ package xflfk.wicresoft.entitry;
 
 
 public class ShoppCart {
-	private Integer shopid;
-	private String shopTime;//创建时间
-	private Integer uid;//创建该购物车的用户
-	private Integer detid;//明细信息
+	private Integer shopid;//id
+	private Integer bid;//书本信息
+	private Integer number;// 购书数量
+	private Double money;//价格小计
 	public Integer getShopid() {
 		return shopid;
 	}
 	public void setShopid(Integer shopid) {
 		this.shopid = shopid;
 	}
-	public String getShopTime() {
-		return shopTime;
+	public Integer getBid() {
+		return bid;
 	}
-	public void setShopTime(String shopTime) {
-		this.shopTime = shopTime;
+	public void setBid(Integer bid) {
+		this.bid = bid;
 	}
-	public Integer getUid() {
-		return uid;
+	public Integer getNumber() {
+		return number;
 	}
-	public void setUid(Integer uid) {
-		this.uid = uid;
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
-	public Integer getDetid() {
-		return detid;
+	public Double getMoney() {
+		return money;
 	}
-	public void setDetid(Integer detid) {
-		this.detid = detid;
+	public void setMoney(Double money) {
+		this.money = money;
 	}
 	@Override
 	public String toString() {
-		return "ShoppCart [shopid=" + shopid + ", shopTime=" + shopTime + ", uid=" + uid + ", detid=" + detid + "]";
+		return "ShoppCart [shopid=" + shopid + ", bid=" + bid + ", number=" + number + ", money=" + money + "]";
 	}
-
-	
 
 }
