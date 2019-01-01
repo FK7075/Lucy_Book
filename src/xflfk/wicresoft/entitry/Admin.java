@@ -5,6 +5,14 @@ public class Admin {
 	private String admName;//µÇÂ¼Ãû
 	private String admPassword;//ÃÜÂë
 	private String admPor;//Í·Ïñ
+	private String admTel;
+	
+	public String getAdmTel() {
+		return admTel;
+	}
+	public void setAdmTel(String admTel) {
+		this.admTel = admTel;
+	}
 	public Integer getAdmid() {
 		return admid;
 	}
@@ -32,8 +40,7 @@ public class Admin {
 	@Override
 	public String toString() {
 		return "Admin [admid=" + admid + ", admName=" + admName + ", admPassword=" + admPassword + ", admPor=" + admPor
-				+ "]";
+				+ ", admTel=" + admTel + "]";
 	}
-	
 
 }

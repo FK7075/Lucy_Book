@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Lucy_Book-Admin</title>
+		<link rel="stylesheet" href="../../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+		<link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+		<link rel="stylesheet" href="../../css/style.css">
+		<link rel="shortcut icon" href="../../images/favicon.png" />
+	</head>
+
+	<body>
+		<div class="container-scroller">
+			<!-- partial:../../partials/_navbar.html -->
+			<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+				<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+					<a class="navbar-brand brand-logo" href="../../index.html"><img src="../../images/logo.svg" alt="logo" /></a>
+					<a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo" /></a>
+				</div>
+				<div class="navbar-menu-wrapper d-flex align-items-stretch">
+					<div class="search-field d-none d-md-block">
+						<form class="d-flex align-items-center h-100" action="#">
+							<div class="input-group">
+								<div class="input-group-prepend bg-transparent">
+									<i class="input-group-text border-0 mdi mdi-magnify"></i>
+								</div>
+								<input type="text" class="form-control bg-transparent border-0" placeholder="搜索">
+							</div>
+						</form>
+					</div>
+					<ul class="navbar-nav navbar-nav-right">
+						<li class="nav-item nav-profile dropdown">
+							<a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+								<div class="nav-profile-img">
+									<img src="../../images/faces/face11.jpg" alt="image">
+									<span class="availability-status online"></span>
+								</div>
+								<div class="nav-profile-text">
+									<p class="mb-1 text-black">谢富丽</p>
+								</div>
+							</a>
+							<div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+								<a class="dropdown-item" href="#">
+									<i class="mdi mdi-cached mr-2 text-success"></i> 个人信息
+								</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">
+									<i class="mdi mdi-logout mr-2 text-primary"></i> 登出
+								</a>
+							</div>
+						</li>
+						<li class="nav-item d-none d-lg-block full-screen-link">
+							<a class="nav-link">
+								<i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+							</a>
+						</li>
+						<li class="nav-item dropdown">
+							<div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+								<h6 class="p-3 mb-0">Messages</h6>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item preview-item">
+									<div class="preview-thumbnail">
+										<img src="../../images/faces/face4.jpg" alt="image" class="profile-pic">
+									</div>
+									<div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+										<h6 class="preview-subject ellipsis mb-1 font-weight-normal">Mark send you a message</h6>
+										<p class="text-gray mb-0">
+											1 Minutes ago
+										</p>
+									</div>
+								</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item preview-item">
+									<div class="preview-thumbnail">
+										<img src="../../images/faces/face2.jpg" alt="image" class="profile-pic">
+									</div>
+									<div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+										<h6 class="preview-subject ellipsis mb-1 font-weight-normal">Cregh send you a message</h6>
+										<p class="text-gray mb-0">
+											15 Minutes ago
+										</p>
+									</div>
+								</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item preview-item">
+									<div class="preview-thumbnail">
+										<img src="../../images/faces/face3.jpg" alt="image" class="profile-pic">
+									</div>
+									<div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+										<h6 class="preview-subject ellipsis mb-1 font-weight-normal">Profile picture updated</h6>
+										<p class="text-gray mb-0">
+											18 Minutes ago
+										</p>
+									</div>
+								</a>
+								<div class="dropdown-divider"></div>
+								<h6 class="p-3 mb-0 text-center">4 new messages</h6>
+							</div>
+						</li>
+						<li class="nav-item dropdown">
+							<div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+								<h6 class="p-3 mb-0">Notifications</h6>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item preview-item">
+									<div class="preview-thumbnail">
+										<div class="preview-icon bg-success">
+											<i class="mdi mdi-calendar"></i>
+										</div>
+									</div>
+									<div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+										<h6 class="preview-subject font-weight-normal mb-1">Event today</h6>
+										<p class="text-gray ellipsis mb-0">
+											Just a reminder that you have an event today
+										</p>
+									</div>
+								</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item preview-item">
+									<div class="preview-thumbnail">
+										<div class="preview-icon bg-warning">
+											<i class="mdi mdi-settings"></i>
+										</div>
+									</div>
+									<div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+										<h6 class="preview-subject font-weight-normal mb-1">Settings</h6>
+										<p class="text-gray ellipsis mb-0">
+											Update dashboard
+										</p>
+									</div>
+								</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item preview-item">
+									<div class="preview-thumbnail">
+										<div class="preview-icon bg-info">
+											<i class="mdi mdi-link-variant"></i>
+										</div>
+									</div>
+									<div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+										<h6 class="preview-subject font-weight-normal mb-1">Launch Admin</h6>
+										<p class="text-gray ellipsis mb-0">
+											New admin wow!
+										</p>
+									</div>
+								</a>
+								<div class="dropdown-divider"></div>
+								<h6 class="p-3 mb-0 text-center">See all notifications</h6>
+							</div>
+						</li>
+						<li class="nav-item nav-logout d-none d-lg-block">
+							<a class="nav-link" href="#">
+								<i class="mdi mdi-power"></i>
+							</a>
+						</li>
+						<li class="nav-item nav-settings d-none d-lg-block">
+							<a class="nav-link" href="#">
+								<i class="mdi mdi-format-line-spacing"></i>
+							</a>
+						</li>
+					</ul>
+					<button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+				</div>
+			</nav>
+			<!-- partial -->
+			<div class="container-fluid page-body-wrapper">
+				<!-- partial:../../partials/_sidebar.html -->
+				<nav class="sidebar sidebar-offcanvas" id="sidebar">
+					<ul class="nav">
+						<li class="nav-item nav-profile">
+							<a href="#" class="nav-link">
+								<div class="nav-profile-image">
+									<img src="../../images/faces/face11.jpg" alt="profile">
+									<span class="login-status online"></span>
+									<!--change to offline or busy as needed-->
+								</div>
+								<div class="nav-profile-text d-flex flex-column">
+									<span class="font-weight-bold mb-2">谢富丽</span>
+									<span class="text-secondary text-small">书店管理员</span>
+								</div>
+								<i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="../../index.html">
+								<span class="menu-title">书店主页</span>
+								<i class="mdi mdi-home menu-icon"></i>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false" aria-controls="ui-basic4">
+								<span class="menu-title">账户管理</span>
+								<i class="menu-arrow"></i>
+								<i class="mdi mdi-binoculars menu-icon"></i>
+							</a>
+							<div class="collapse" id="ui-basic4">
+								<ul class="nav flex-column sub-menu">
+									<li class="nav-item">
+										<a class="nav-link" href="#">管理员管理</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">用户管理</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+								<span class="menu-title">书本管理</span>
+								<i class="menu-arrow"></i>
+								<i class="mdi mdi-crosshairs-gps menu-icon"></i>
+							</a>
+							<div class="collapse" id="ui-basic">
+								<ul class="nav flex-column sub-menu">
+									<li class="nav-item">
+										<a class="nav-link" href="#">新书上架</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">旧书下架</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">库存管理</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">编辑书本</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic1">
+								<span class="menu-title">类型管理</span>
+								<i class="menu-arrow"></i>
+								<i class="mdi mdi-contacts menu-icon"></i>
+							</a>
+							<div class="collapse" id="ui-basic1">
+								<ul class="nav flex-column sub-menu">
+									<li class="nav-item">
+										<a class="nav-link" href="#">所有类型</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">新增类型</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">编辑类型</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">删除类型</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="collapse" href="#ui-basic3" aria-expanded="false" aria-controls="ui-basic3">
+								<span class="menu-title">作者管理</span>
+								<i class="menu-arrow"></i>
+								<i class="mdi mdi-cake menu-icon"></i>
+							</a>
+							<div class="collapse" id="ui-basic3">
+								<ul class="nav flex-column sub-menu">
+									<li class="nav-item">
+										<a class="nav-link" href="#">所有作者</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">新增作者</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">编辑作者</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">删除作者</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="collapse" href="#ui-basic5" aria-expanded="false" aria-controls="ui-basic5">
+								<span class="menu-title">订单管理</span>
+								<i class="menu-arrow"></i>
+								<i class="mdi mdi-biohazard menu-icon"></i>
+							</a>
+							<div class="collapse" id="ui-basic5">
+								<ul class="nav flex-column sub-menu">
+									<li class="nav-item">
+										<a class="nav-link" href="#">所有订单</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">待支付订单</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">已支付订单</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">账单统计</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								<span class="menu-title">设置</span>
+								<i class="mdi mdi-brightness-7 menu-icon"></i>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<!-- partial -->
+				<div class="content-wrapper">
+					<p class="text-primary" style="b">Lucy_Book--书本管理</p>
+					<div class="content-wrapper">
+						<table class="table table-bordered">
+							<thead>
+								<tr align="center">
+									<th>图片</th>
+									<th>书名</th>
+									<th>作者</th>
+									<th>类别</th>
+									<th>库存</th>
+									<th>单价</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="table-info" align="center">
+									<td>图片一</td>
+									<td>《活着》</td>
+									<td>余华</td>
+									<td>文学经典</td>
+									<td>123</td>
+									<td>￥23.5</td>
+									<td>
+										<a href="#">查看</a>&nbsp;&nbsp;
+										<a href="#">编辑</a>&nbsp;&nbsp;
+										<a href="#">删除</a>
+									</td>
+								</tr>
+								<tr class="table-warning" align="center">
+									<td>图片一</td>
+									<td>《活着》</td>
+									<td>余华</td>
+									<td>文学经典</td>
+									<td>123</td>
+									<td>￥23.5</td>
+									<td>
+										<a href="#">查看</a>&nbsp;&nbsp;
+										<a href="#">编辑</a>&nbsp;&nbsp;
+										<a href="#">删除</a>
+									</td>
+								</tr>
+								<tr class="table-danger" align="center">
+									<td>图片一</td>
+									<td>《活着》</td>
+									<td>余华</td>
+									<td>文学经典</td>
+									<td>123</td>
+									<td>￥23.5</td>
+									<td>
+										<a href="#">查看</a>&nbsp;&nbsp;
+										<a href="#">编辑</a>&nbsp;&nbsp;
+										<a href="#">删除</a>
+									</td>
+								</tr>
+								<tr class="table-success" align="center">
+									<td>图片一</td>
+									<td>《活着》</td>
+									<td>余华</td>
+									<td>文学经典</td>
+									<td>123</td>
+									<td>￥23.5</td>
+									<td>
+										<a href="#">查看</a>&nbsp;&nbsp;
+										<a href="#">编辑</a>&nbsp;&nbsp;
+										<a href="#">删除</a>
+									</td>
+								</tr>
+								<tr class="table-primary" align="center">
+									<td>图片一</td>
+									<td>《活着》</td>
+									<td>余华</td>
+									<td>文学经典</td>
+									<td>123</td>
+									<td>￥23.5</td>
+									<td>
+										<a href="#">查看</a>&nbsp;&nbsp;
+										<a href="#">编辑</a>&nbsp;&nbsp;
+										<a href="#">删除</a>
+									</td>
+								</tr>
+								<tr class="table-info" align="center">
+									<td>图片一</td>
+									<td>《活着》</td>
+									<td>余华</td>
+									<td>文学经典</td>
+									<td>123</td>
+									<td>￥23.5</td>
+									<td>
+										<a href="#">查看</a>&nbsp;&nbsp;
+										<a href="#">编辑</a>&nbsp;&nbsp;
+										<a href="#">删除</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<div class="btn-group" role="group" aria-label="Basic example">
+							<button type="button" class="btn btn-primary" align="right">上一页</button>
+							<button type="button" class="btn btn-primary" align="right">下一页</button>
+						</div>
+					</div>
+					<!-- content-wrapper ends -->
+					<!-- partial:.g./../partials/_footer.html -->
+					<footer class="footer">
+						<div class="d-sm-flex justify-content-center justify-content-sm-between">
+							<span class="text-muted text-center text-sm-left d-block d-sm-inline-block">版权所有 © 2017 <a href="#" target="_blank">Lucy_Book</a>. 仿冒必究.</span>
+							<span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">感谢您的选择和信赖
+              <i class="mdi mdi-heart text-danger"></i> - 我们将打造更优秀的平台 <a href="#" target="_blank" title="Lucy_Book">Lucy_Book</a> - 联系我们<a href="#" title="1814375626@qq.com" target="_blank">1814375626@qq.com</a></span>
+						</div>
+					</footer>
+				</div>
+			</div>
+		</div>
+		<script src="../../vendors/js/vendor.bundle.base.js"></script>
+		<script src="../../vendors/js/vendor.bundle.addons.js"></script>
+		<script src="../../js/off-canvas.js"></script>
+		<script src="../../js/misc.js"></script>
+	</body>
+</html>

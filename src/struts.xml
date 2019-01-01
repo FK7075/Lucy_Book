@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	<struts>
+		<package name="package1" extends="struts-default" namespace="/Admin/pages">
+			<action name="admin_*" class="xflfk.wicresoft.action.AdminAction" method="{1}">
+				<result name="ok">admin_BookList.jsp</result>
+				<result name="login" type="chain">admin_showBook</result>
+				<result name="onlogin">admin_Login.jsp</result>
+				<result name="showAddBookOK">admin_AddBook.jsp</result>
+				<result name="bookUploadOK" type="chain">admin_showBook</result>
+				<result name="adminUploadOK">addAdmin.jsp</result>
+				<result name="settingOK">setting.jsp</result>
+				<result name="inveAlarmOK">InventoryAlarm.jsp</result>
+				<result name="upInvenOK" type="chain">sadmin_upInven</result>
+				<result name="showUpInvenOK">admin_upBook.jsp</result>
+				<result name="upInvenOK" type="chain">admin_inveAlarm</result>
+			</action>
+		</package>
+	</struts>
