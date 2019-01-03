@@ -85,6 +85,15 @@ public class AdminService {
 	public <T> boolean del(T t) {
 		return sqlDao.delete(t);
 	}
+	/**
+	 * ÀàÃû+idÉ¾³ı
+	 * @param tableName
+	 * @param id
+	 * @return
+	 */
+	public boolean del(String tableName,int id) {
+		return sqlDao.deleteById(tableName, id);
+	}
 
 	/**
 	 * sqlÉ¾³ı

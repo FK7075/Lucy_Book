@@ -3,6 +3,7 @@
 	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 	<struts>
+		<constant name="struts.multipart.maxSize" value="9000000"/>  
 		<package name="package1" extends="struts-default" namespace="/Admin/pages">
 			<action name="admin_*" class="xflfk.wicresoft.action.AdminAction" method="{1}">
 				<result name="ok">admin_BookList.jsp</result>
@@ -14,8 +15,12 @@
 				<result name="settingOK">setting.jsp</result>
 				<result name="inveAlarmOK">InventoryAlarm.jsp</result>
 				<result name="upInvenOK" type="chain">sadmin_upInven</result>
+				<result name="BookInfoOK">BookInfo.jsp</result>
 				<result name="showUpInvenOK">admin_upBook.jsp</result>
 				<result name="upInvenOK" type="chain">admin_inveAlarm</result>
+				<result name="bookStoreOK" type="chain">admin_showBook</result>
+				<result name="showUpdateBookOK">admin_updateBook.jsp</result>
+				<result name="updateBookOK" type="chain">admin_showUpdateBook</result>
 			</action>
 		</package>
 	</struts>

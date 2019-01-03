@@ -8,6 +8,14 @@ public class BookInfo {
 	private String stName;
 	private Integer bStore;
 	private Double bPrice;
+	private String bdetail;
+	
+	public String getBdetail() {
+		return bdetail;
+	}
+	public void setBdetail(String bdetail) {
+		this.bdetail = bdetail;
+	}
 	public String getbName() {
 		return bName;
 	}
@@ -55,7 +63,8 @@ public class BookInfo {
 	@Override
 	public String toString() {
 		return "BookInfo [bid=" + bid + ", bPhoto=" + bPhoto + ", bName=" + bName + ", autName=" + autName + ", stName="
-				+ stName + ", bStore=" + bStore + ", bPrice=" + bPrice + "]";
+				+ stName + ", bStore=" + bStore + ", bPrice=" + bPrice + ", bdetail=" + bdetail + "]";
 	}
+
 
 }

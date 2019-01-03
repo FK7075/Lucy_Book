@@ -12,7 +12,14 @@
 		<link rel="stylesheet" href="../css/style.css">
 		<link rel="shortcut icon" href="../images/favicon.png" />
 	</head>
-
+	<script type="text/javascript">
+	function click1(){
+	if(confirm("您确定删除这本图书？"))
+		return true;
+	else
+		return false;
+	}
+	</script>
 	<body>
 		<div class="container-scroller">
 			<!-- partial:../../partials/_navbar.html -->
@@ -36,7 +43,7 @@
 						<li class="nav-item nav-profile dropdown">
 							<a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
 								<div class="nav-profile-img">
-									<img src="${sessionScope.admin.admPor }" alt="image">
+									<img src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }" alt="image">
 									<span class="availability-status online"></span>
 								</div>
 								<div class="nav-profile-text">
@@ -79,7 +86,7 @@
 						<li class="nav-item nav-profile">
 							<a href="#" class="nav-link">
 								<div class="nav-profile-image">
-									<img src="${sessionScope.admin.admPor }" alt="profile">
+									<img src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }" alt="profile">
 									<span class="login-status online"></span>
 									<!--change to offline or busy as needed-->
 								</div>
@@ -132,9 +139,6 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=1">库存警报</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#">编辑书本</a>
 									</li>
 								</ul>
 							</div>
@@ -254,16 +258,16 @@
 							i++;
 							%> 
 								<tr class=<%=color %> align="center">
-								    <td><img src="${bl.bPhoto }" style="border-radius:0px;width:50px;height:50px"></td>
+								    <td><img src="${pageContext.request.contextPath}/${bl.bPhoto}" style="border-radius:0px;width:50px;height:50px"></td>
 									<td>${bl.bName}</td>
 									<td>${bl.autName}</td>
 									<td>${bl.stName}</td>
 									<td>${bl.bStore}</td>
 									<td>￥${bl.bPrice}</td>
 									<td>
-										<a href="#">查看</a>&nbsp;&nbsp;
-										<a href="#">编辑</a>&nbsp;&nbsp;
-										<a href="#">删除</a>
+										<a href="${pageContext.request.contextPath}/Admin/pages/admin_BookInfo?bid=${bl.bid}">查看</a>&nbsp;&nbsp;
+										<a href="${pageContext.request.contextPath}/Admin/pages/admin_showUpdateBook?bid=${bl.bid}">编辑</a>&nbsp;&nbsp;
+										<a href="${pageContext.request.contextPath}/Admin/pages/admin_delBook?bid=${bl.bid}" onclick="return click1()">删除</a>
 									</td>
 								</tr>
 							</c:forEach>

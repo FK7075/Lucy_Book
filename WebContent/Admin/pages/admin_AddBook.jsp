@@ -36,7 +36,7 @@
 						<li class="nav-item nav-profile dropdown">
 							<a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
 								<div class="nav-profile-img">
-									<img src="${sessionScope.admin.admPor }" alt="image">
+									<img src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }" alt="image">
 									<span class="availability-status online"></span>
 								</div>
 								<div class="nav-profile-text">
@@ -78,7 +78,7 @@
 						<li class="nav-item nav-profile">
 							<a href="#" class="nav-link">
 								<div class="nav-profile-image">
-									<img src="${sessionScope.admin.admPor }" alt="profile">
+									<img src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }" alt="profile">
 									<span class="login-status online"></span>
 								</div>
 								<div class="nav-profile-text d-flex flex-column">
@@ -130,9 +130,6 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=1">库存警报</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#">编辑书本</a>
 									</li>
 								</ul>
 							</div>

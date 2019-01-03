@@ -34,8 +34,9 @@ public class AdminAction extends ActionSupport {
 	private List<Stort> stlist = new ArrayList<Stort>();// 所有类型信息
 	private String bookName;// 书名
 	private String bookDetail;// 描述
-	private String admTel;// 描述
-	private String admPass;// 描述
+	private String admTel;// 
+	private String admPass;// 
+	private Integer tableid;
 	private Integer bookStore;// 库存
 	private Integer bookStort;// 类型
 	private Integer bookAuthor;// 作者
@@ -44,8 +45,21 @@ public class AdminAction extends ActionSupport {
 	private String bookUpContentType; // 得到文件的类型
 	private String bookUpFileName;// 文件名
 	private Book book=new Book();
+	private BookInfo bookInfo=new BookInfo();
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession();
+
+	public BookInfo getBookInfo() {
+		return bookInfo;
+	}
+
+	public void setBookInfo(BookInfo bookInfo) {
+		this.bookInfo = bookInfo;
+	}
+
+	public void setTableid(Integer tableid) {
+		this.tableid = tableid;
+	}
 
 	public Book getBook() {
 		return book;
@@ -183,7 +197,7 @@ public class AdminAction extends ActionSupport {
 		System.out.println("File:" + bookUp);
 
 		// 获取要保存文件夹的物理路径(绝对路径)
-		String realPath = ServletActionContext.getServletContext().getRealPath("/Admin/books");
+		String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/books");
 		File file = new File(realPath);
 		// 测试此抽象路径名表示的文件或目录是否存在。若不存在，创建此抽象路径名指定的目录，包括所有必需但不存在的父目录。
 		if (!file.exists())
@@ -196,7 +210,7 @@ public class AdminAction extends ActionSupport {
 			book.setAutid(bookAuthor);
 			book.setBdetail(bookDetail);
 			book.setbName(bookName);
-			book.setbPhoto("../books/" + fileName);
+			book.setbPhoto("Lucy/books/" + fileName);
 			book.setbPrice(bookPrice);
 			book.setbStore(bookStore);
 			book.setStid(bookStort);
@@ -220,7 +234,7 @@ public class AdminAction extends ActionSupport {
 			System.out.println("contentType:" + bookUpContentType);
 			System.out.println("File:" + bookUp);
 			// 获取要保存文件夹的物理路径(绝对路径)
-			String realPath = ServletActionContext.getServletContext().getRealPath("/Admin/admins");
+			String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/admins");
 			File file = new File(realPath);
 			// 测试此抽象路径名表示的文件或目录是否存在。若不存在，创建此抽象路径名指定的目录，包括所有必需但不存在的父目录。
 			if (!file.exists())
@@ -233,7 +247,7 @@ public class AdminAction extends ActionSupport {
 				admin.setAdmName(bookName);
 				admin.setAdmPassword(admPass);
 				admin.setAdmTel(admTel);
-				admin.setAdmPor("../admins/" + fileName);
+				admin.setAdmPor("Lucy/admins/" + fileName);
 				admService.update(admin);
 				request.setAttribute("addIsOk", 1);
 				System.out.println(realPath);
@@ -279,6 +293,7 @@ public class AdminAction extends ActionSupport {
 		book=(Book) admService.getOne(Book.class, bid);
 		return "showUpInvenOK";
 	}
+	//修改库存
 	public String upInven() {
 		Book b=new Book();
 		b.setBid(bookStort);
@@ -286,5 +301,45 @@ public class AdminAction extends ActionSupport {
 		admService.update(b);
 		request.setAttribute("pages", 1);
 		return "upInvenOK";
+	}
+	//删除书本
+	public String delBook() {
+		int id=Integer.parseInt(request.getParameter("bid"));
+		admService.del("Book", id);
+		request.setAttribute("pages", 1);
+		return "bookStoreOK";
+	}
+	//修改书本信息前的数据准备
+	public String showUpdateBook() {
+		int id=0;
+		if(request.getParameter("bid")!=null)
+			id=Integer.parseInt(request.getParameter("bid"));
+		if(request.getAttribute("bid")!=null)
+			id=(int) request.getAttribute("bid");
+		book=(Book) admService.getOne(Book.class, id);
+		return "showUpdateBookOK";
+	}
+	//修改书本信息
+	public String updateBook() {
+		book.setBid(tableid);book.setbName(bookName);book.setBdetail(bookDetail);book.setbPrice(bookPrice);
+		book.setbStore(bookStore);
+		admService.update(book);
+		request.setAttribute("bid", tableid);
+		return "updateBookOK";
+	}
+	public String BookInfo() {
+		int id=0;
+		if(request.getParameter("bid")!=null)
+			id=Integer.parseInt(request.getParameter("bid"));
+		if(request.getAttribute("bid")!=null)
+			id=(int) request.getAttribute("bid");
+		String sql="select b.bphoto,b.bName,a.autName,s.stName, b.bStore,b.bPrice,b.bid,b.bdetail " + "from Book b,Author a,Stort s "
+				+ "where b.stid=s.stid and b.autid=a.autid and b.bid=? ";
+		this.bookInfo=(BookInfo) admService.getList(BookInfo.class, sql, id).get(0);
+		return "BookInfoOK";
+	}
+	public void showBookOne() {
+
+		System.out.println(bookInfo);
 	}
 }

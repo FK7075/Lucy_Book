@@ -12,10 +12,10 @@
 		<link rel="stylesheet" href="../css/style.css">
 		<link rel="shortcut icon" href="../images/favicon.png" />
 		<%
-		if(request.getAttribute("settingIsOk")!=null){
+		if(request.getAttribute("xfl")!=null){
 		%>
 		<script type="text/javascript">
-		alert("设置成功！");
+		alert("修改成功！");
 		</script>
 		<%
 		}
@@ -138,7 +138,7 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=1">库存警报</a>
-								    </li> 
+<!-- 									</li> -->
 								</ul>
 							</div>
 						</li>
@@ -221,28 +221,45 @@
 				</nav>
 				<!-- partial -->
 				<div class="content-wrapper">
-					<p class="text-primary" style="b">Lucy_Book--设置</p>
+					<p class="text-primary" style="b">Lucy_Book--修改书本信息</p>
 					<div class="col-12 grid-margin stretch-card">
 						<div class="card-body">
-							<h4 class="card-title">网站的相关设置</h4>
+							<h4 class="card-title">书库中书本信息更新了？</h4>
 							<p class="card-description">
-								变成你所喜欢的样子
+								我们来修改吧
 							</p>
-							<form class="forms-sample" action="${pageContext.request.contextPath}/Admin/pages/admin_setting" method="post">
-								<div class="form-group row">
-									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">分页设置</label>
+							<form class="forms-sample" action="${pageContext.request.contextPath}/Admin/pages/admin_updateBook" method="post">
+							   <div class="form-group row">
+									<label for="exampleInputUsername1" class="col-sm-3 col-form-label">书本编号</label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control" id="exampleInputUsername2" placeholder="设置一个你喜欢的展示条数" name="bookStore">
+										<input type="text" class="form-control" id="exampleInputUsername2" value="${book.bid }" name="tableid" >
 									</div>
 								</div>
 								<div class="form-group row">
-									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">库存警报设置</label>
+									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">书名</label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control" id="exampleInputUsername3" placeholder="设置一个适合本书店的库存警报数量" name="bookStort">
+										<input type="text" class="form-control" id="exampleInputUsername2" value="${book.bName }" name="bookName" >
 									</div>
 								</div>
-								<button type="submit" class="btn btn-gradient-primary mr-2" >修改</button>
-								<button type="reset" class="btn btn-light">重置</button>
+								<div class="form-group row">
+									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">库存</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="exampleInputUsername3" value="${book.bStore }" name="bookStore">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">单价</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="exampleInputUsername3" value="${book.bPrice }" name="bookPrice">
+									</div>
+								</div>
+								<div>
+									<div class="form-group">
+										<label for="exampleTextarea1">书本描述</label>
+										<textarea class="form-control" id="exampleTextarea1" rows="4" name="bookDetail">${book.bdetail }</textarea>
+									</div>
+								</div>
+								<button type="submit" class="btn btn-gradient-primary mr-2" >确定</button>
 							</form>
 						</div>
 					</div>

@@ -44,7 +44,7 @@
 						<li class="nav-item nav-profile dropdown">
 							<a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
 								<div class="nav-profile-img">
-									<img src="${sessionScope.admin.admPor }" alt="image">
+									<img src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }" alt="image">
 									<span class="availability-status online"></span>
 								</div>
 								<div class="nav-profile-text">
@@ -86,7 +86,7 @@
 						<li class="nav-item nav-profile">
 							<a href="#" class="nav-link">
 								<div class="nav-profile-image">
-									<img src="${sessionScope.admin.admPor }" alt="profile">
+									<img src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }" alt="profile">
 									<span class="login-status online"></span>
 								</div>
 								<div class="nav-profile-text d-flex flex-column">
@@ -139,9 +139,6 @@
 									<li class="nav-item">
 										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=1">库存警报</a>
 <!-- 									</li> -->
-									<li class="nav-item">
-										<a class="nav-link" href="#">编辑书本</a>
-									</li>
 								</ul>
 							</div>
 						</li>
@@ -232,16 +229,17 @@
 								来添加一点吧
 							</p>
 							<form class="forms-sample" action="${pageContext.request.contextPath}/Admin/pages/admin_upInven" method="post">
+							<input type="hidden" value="${book.bid }" name="bookStort" >
 							   <div class="form-group row">
 									<label for="exampleInputUsername1" class="col-sm-3 col-form-label">书本编号</label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control" id="exampleInputUsername2" value="${book.bid }" name="bookStort" >
+										<input type="text" class="form-control" id="exampleInputUsername2" value="${book.bid }" disabled="disabled">
 									</div>
 								</div>
 								<div class="form-group row">
 									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">书名</label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control" id="exampleInputUsername2" value="${book.bName }" name="bookName" >
+										<input type="text" class="form-control" id="exampleInputUsername2" value="${book.bName }" disabled="disabled">
 									</div>
 								</div>
 								<div class="form-group row">

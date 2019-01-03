@@ -221,29 +221,16 @@
 				</nav>
 				<!-- partial -->
 				<div class="content-wrapper">
-					<p class="text-primary" style="b">Lucy_Book--设置</p>
+					<p class="text-primary" style="b">Lucy_Book--书本信息</p>
 					<div class="col-12 grid-margin stretch-card">
-						<div class="card-body">
-							<h4 class="card-title">网站的相关设置</h4>
-							<p class="card-description">
-								变成你所喜欢的样子
-							</p>
-							<form class="forms-sample" action="${pageContext.request.contextPath}/Admin/pages/admin_setting" method="post">
-								<div class="form-group row">
-									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">分页设置</label>
-									<div class="col-sm-9">
-										<input type="text" class="form-control" id="exampleInputUsername2" placeholder="设置一个你喜欢的展示条数" name="bookStore">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">库存警报设置</label>
-									<div class="col-sm-9">
-										<input type="text" class="form-control" id="exampleInputUsername3" placeholder="设置一个适合本书店的库存警报数量" name="bookStort">
-									</div>
-								</div>
-								<button type="submit" class="btn btn-gradient-primary mr-2" >修改</button>
-								<button type="reset" class="btn btn-light">重置</button>
-							</form>
+						<img src="${pageContext.request.contextPath }/${bookInfo.bPhoto}" width="160px" height="200px">
+						<div>
+						<h3>${bookInfo.bName }</h3><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>作者</b>:&nbsp;&nbsp;${bookInfo.autName }<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>类型</b>:&nbsp;&nbsp;${bookInfo.stName }<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>价格</b>:&nbsp;&nbsp;${ bookInfo.bPrice}<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>书本简介</b>:<br>
+						${bookInfo.bdetail }
 						</div>
 					</div>
 					<footer class="footer">
