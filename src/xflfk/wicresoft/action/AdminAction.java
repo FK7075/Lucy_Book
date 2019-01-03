@@ -45,9 +45,27 @@ public class AdminAction extends ActionSupport {
 	private String bookUpContentType; // 得到文件的类型
 	private String bookUpFileName;// 文件名
 	private Book book=new Book();
+	private List<Stort> stortlist=new ArrayList<Stort>();
+	private Stort stort=new Stort();
 	private BookInfo bookInfo=new BookInfo();
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession();
+
+	public Stort getStort() {
+		return stort;
+	}
+
+	public void setStort(Stort stort) {
+		this.stort = stort;
+	}
+
+	public List<Stort> getStortlist() {
+		return stortlist;
+	}
+
+	public void setStortlist(List<Stort> stortlist) {
+		this.stortlist = stortlist;
+	}
 
 	public BookInfo getBookInfo() {
 		return bookInfo;
@@ -327,6 +345,7 @@ public class AdminAction extends ActionSupport {
 		request.setAttribute("bid", tableid);
 		return "updateBookOK";
 	}
+	//查看书本的详细信息
 	public String BookInfo() {
 		int id=0;
 		if(request.getParameter("bid")!=null)
@@ -338,8 +357,52 @@ public class AdminAction extends ActionSupport {
 		this.bookInfo=(BookInfo) admService.getList(BookInfo.class, sql, id).get(0);
 		return "BookInfoOK";
 	}
-	public void showBookOne() {
-
-		System.out.println(bookInfo);
+	public String showStort() {
+		PageInfo pi = null;
+		int page = 0;
+		if (request.getAttribute("pages") != null)
+			page = (int) request.getAttribute("pages");
+		else
+			page = Integer.parseInt(request.getParameter("pages"));
+		pi = admService.getPageInfo(new Book(), page);
+		if (page == admService.getPageSize(new Book()))
+			request.setAttribute("fk", 1);
+		request.setAttribute("page", page);
+		stortlist=(List<Stort>) admService.getListPag(new Stort(), pi.getIndex());
+		return "showStortOK";
+	}
+	//删除类型和其下的所有书本
+	public String delStort() {
+		int id=Integer.parseInt(request.getParameter("stid"));
+		admService.del("Stort", id);
+		request.setAttribute("pages", 1);
+		return "delStortOK";
+	}
+	//修改类型信息
+	public String upStort() {
+		Stort s=new Stort();
+		s.setStid(tableid);
+		s.setStName(bookName);
+		admService.update(s);
+		request.setAttribute("stid",tableid);
+		return "upStortOK";
+	}
+	//修改类型信息前的数据准备
+	public String showUpStort() {
+		int id=0;
+		if(request.getParameter("stid")!=null)
+			id=Integer.parseInt(request.getParameter("stid"));
+		if(request.getAttribute("stid")!=null)
+			id=(int) request.getAttribute("stid");
+		stort=(Stort) admService.getOne(Stort.class, id);
+		return "showUpStortOK";
+	}
+	//添加类型
+	public String addStort() {
+		Stort st=new Stort();
+		st.setStName(bookName);
+		admService.add(st);
+		request.setAttribute("IsOk", 1);
+		return "addStortOK";
 	}
 }

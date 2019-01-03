@@ -159,7 +159,15 @@ public class AdminService {
 	public <T> List<?> getList(T t) {
 		return sqlDao.getList(t);
 	}
-
+	/**
+	 * 分页查询
+	 * @param t
+	 * @param index
+	 * @return
+	 */
+	public <T> List<?> getListPag(T t,int index ){
+		return sqlDao.getPagList(t, index);
+	}
 	/**
 	 * 返回某个表的总记录数
 	 * 
@@ -219,8 +227,6 @@ public class AdminService {
 	 *            表所对应的空对象
 	 * @param nextIndex
 	 *            下一页页数
-	 * @param ts
-	 *            操作提示（0-上一页 1-下一页）
 	 * @return
 	 */
 	public <T> PageInfo getPageInfo(T t, int nextIndex) {
@@ -232,7 +238,12 @@ public class AdminService {
 		pi.setIndex(cfg.getPagesize()*(nextIndex-1));
 		return pi;
 	}
-
+	/**
+	 *  获得分页信息
+	 * @param pagenum
+	 * @param nowIndex
+	 * @return
+	 */
 	public PageInfo getPageInfo(int pagenum, int nowIndex) {
 		LucyCfg cfg = (LucyCfg) sqlDao.getOne(LucyCfg.class, 1);
 		PageInfo pi = new PageInfo();

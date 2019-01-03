@@ -6,21 +6,26 @@
 		<constant name="struts.multipart.maxSize" value="9000000"/>  
 		<package name="package1" extends="struts-default" namespace="/Admin/pages">
 			<action name="admin_*" class="xflfk.wicresoft.action.AdminAction" method="{1}">
-				<result name="ok">admin_BookList.jsp</result>
 				<result name="login" type="chain">admin_showBook</result>
-				<result name="onlogin">admin_Login.jsp</result>
-				<result name="showAddBookOK">admin_AddBook.jsp</result>
 				<result name="bookUploadOK" type="chain">admin_showBook</result>
+				<result name="upInvenOK" type="chain">sadmin_upInven</result>
+				<result name="upInvenOK" type="chain">admin_inveAlarm</result>
+				<result name="bookStoreOK" type="chain">admin_showBook</result>
+				<result name="updateBookOK" type="chain">admin_showUpdateBook</result>
+				<result name="delStortOK" type="chain">admin_showStort</result>
+				<result name="upStortOK" type="chain">admin_showUpStort</result>
+				<result name="onlogin">admin_Login.jsp</result>
+				<result name="ok">admin_BookList.jsp</result>
+				<result name="showAddBookOK">admin_AddBook.jsp</result>
 				<result name="adminUploadOK">addAdmin.jsp</result>
 				<result name="settingOK">setting.jsp</result>
 				<result name="inveAlarmOK">InventoryAlarm.jsp</result>
-				<result name="upInvenOK" type="chain">sadmin_upInven</result>
 				<result name="BookInfoOK">BookInfo.jsp</result>
 				<result name="showUpInvenOK">admin_upBook.jsp</result>
-				<result name="upInvenOK" type="chain">admin_inveAlarm</result>
-				<result name="bookStoreOK" type="chain">admin_showBook</result>
 				<result name="showUpdateBookOK">admin_updateBook.jsp</result>
-				<result name="updateBookOK" type="chain">admin_showUpdateBook</result>
+				<result name="showStortOK">admin_StortList.jsp</result>
+				<result name="showUpStortOK">admin_UpStort.jsp</result>
+				<result name="addStortOK">admin_AddStort.jsp</result>
 			</action>
 		</package>
 	</struts>

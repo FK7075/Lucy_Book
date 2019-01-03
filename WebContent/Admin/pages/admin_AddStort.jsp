@@ -1,32 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 	<head>
+		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>Lucy_Book-Admin</title>
+		<title>Purple Admin</title>
 		<link rel="stylesheet" href="../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
 		<link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
 		<link rel="stylesheet" href="../css/style.css">
 		<link rel="shortcut icon" href="../images/favicon.png" />
 	</head>
-	<script type="text/javascript">
-	function click1(){
-	if(confirm("您确定删除这本图书？"))
-		return true;
-	else
-		return false;
-	}
-	</script>
+			<%
+		if(request.getAttribute("IsOk")!=null){
+		%>
+		<script type="text/javascript">
+		alert("类型添加成功！");
+		</script>
+		<%
+		}
+		%>
 	<body>
 		<div class="container-scroller">
 			<!-- partial:../../partials/_navbar.html -->
-			<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+						<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 				<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-					<a class="navbar-brand brand-logo" href="../index.html"><img src="../images/logo.svg" alt="logo" /></a>
-					<a class="navbar-brand brand-logo-mini" href="../index.html"><img src="../images/logo-mini.svg" alt="logo" /></a>
+					<a class="navbar-brand brand-logo" href="#"><img src="../images/logo.svg" alt="logo" /></a>
+					<a class="navbar-brand brand-logo-mini" href="#"><img src="../images/logo-mini.svg" alt="logo" /></a>
 				</div>
 				<div class="navbar-menu-wrapper d-flex align-items-stretch">
 					<div class="search-field d-none d-md-block">
@@ -65,6 +66,7 @@
 								<i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
 							</a>
 						</li>
+						
 						<li class="nav-item nav-logout d-none d-lg-block">
 							<a class="nav-link" href="admin_Login.jsp">
 								<i class="mdi mdi-power"></i>
@@ -78,9 +80,7 @@
 					</ul>
 				</div>
 			</nav>
-			<!-- partial -->
 			<div class="container-fluid page-body-wrapper">
-				<!-- partial:../../partials/_sidebar.html -->
 				<nav class="sidebar sidebar-offcanvas" id="sidebar">
 					<ul class="nav">
 						<li class="nav-item nav-profile">
@@ -88,7 +88,6 @@
 								<div class="nav-profile-image">
 									<img src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }" alt="profile">
 									<span class="login-status online"></span>
-									<!--change to offline or busy as needed-->
 								</div>
 								<div class="nav-profile-text d-flex flex-column">
 									<span class="font-weight-bold mb-2">${sessionScope.admin.admName }</span>
@@ -98,7 +97,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="../index.html">
+							<a class="nav-link" href="#">
 								<span class="menu-title">书店主页</span>
 								<i class="mdi mdi-home menu-icon"></i>
 							</a>
@@ -139,7 +138,7 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=1">库存警报</a>
-									</li>
+								    </li> 
 								</ul>
 							</div>
 						</li>
@@ -216,77 +215,25 @@
 				</nav>
 				<!-- partial -->
 				<div class="content-wrapper">
-					<p class="text-primary" style="b">Lucy_Book--书本管理</p>
-					<div class="content-wrapper">
-						<table class="table table-bordered">
-							<thead>
-								<tr align="center">
-									<th>图片</th>
-									<th>书名</th>
-									<th>作者</th>
-									<th>类别</th>
-									<th>库存</th>
-									<th>单价</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<%
-							int i=0;
-							String color="";
-							%>
-							<tbody>
-							<c:forEach items="${booklist }" var="bl">
-							<%
-							switch (i%5){
-							case 0:
-								color="table-info";break;
-							case 1:
-								color="table-warning";break;
-							case 2:
-								color="table-danger";break;
-							case 3:
-								color="table-success";break;
-							case 4:
-								color="table-primary";break;
-							}
-							i++;
-							%> 
-								<tr class=<%=color %> align="center">
-								    <td><img src="${pageContext.request.contextPath}/${bl.bPhoto}" style="border-radius:0px;width:50px;height:50px"></td>
-									<td>${bl.bName}</td>
-									<td>${bl.autName}</td>
-									<td>${bl.stName}</td>
-									<td>${bl.bStore}</td>
-									<td>￥${bl.bPrice}</td>
-									<td>
-										<a href="${pageContext.request.contextPath}/Admin/pages/admin_BookInfo?bid=${bl.bid}">查看</a>&nbsp;&nbsp;
-										<a href="${pageContext.request.contextPath}/Admin/pages/admin_showUpdateBook?bid=${bl.bid}">编辑</a>&nbsp;&nbsp;
-										<a href="${pageContext.request.contextPath}/Admin/pages/admin_delBook?bid=${bl.bid}" onclick="return click1()">删除</a>
-									</td>
-								</tr>
-							</c:forEach>
-							</tbody>
-						</table>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<div class="btn-group" role="group" aria-label="Basic example">
-							<button id="bu1" type="button" class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showBook?pages=${page-1 }';">上一页</button>
-							<button id="bu2" type="button" class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showBook?&pages=${page+1 }';">下一页</button>
+					<p class="text-primary" style="b">Lucy_Book--类型添加</p>
+					<div class="col-12 grid-margin stretch-card">
+						<div class="card-body">
+							<h4 class="card-title">书库将会来一大波书本小伙伴</h4>
+							<p class="card-description">
+								来为他们添加新的类型名称吧
+							</p>
+							<form class="forms-sample" action="${pageContext.request.contextPath}/Admin/pages/admin_addStort" method="post">
+							   <div class="form-group row">
+									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">类型编号</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="exampleInputUsername3" placeholder="添加一个响亮的类型名" name="bookName">
+									</div>
+								</div>
+								<button type="submit" class="btn btn-gradient-primary mr-2" >添加</button>
+								<button type="reset" class="btn btn-light">重置</button>
+							</form>
 						</div>
 					</div>
-					<!-- content-wrapper ends -->
-					<!-- partial:.g./../partials/_footer.html -->
 					<footer class="footer">
 						<div class="d-sm-flex justify-content-center justify-content-sm-between">
 							<span class="text-muted text-center text-sm-left d-block d-sm-inline-block">版权所有 © 2017 <a href="#" target="_blank">Lucy_Book</a>. 仿冒必究.</span>
@@ -297,10 +244,11 @@
 				</div>
 			</div>
 		</div>
-
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>
 		<script src="../js/off-canvas.js"></script>
 		<script src="../js/misc.js"></script>
+		<script src="../js/file-upload.js"></script>
 	</body>
+
 </html>

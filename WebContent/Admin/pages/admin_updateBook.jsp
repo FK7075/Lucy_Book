@@ -151,16 +151,10 @@
 							<div class="collapse" id="ui-basic1">
 								<ul class="nav flex-column sub-menu">
 									<li class="nav-item">
-										<a class="nav-link" href="#">所有类型</a>
+										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_showStort?pages=1">所有类型</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="#">新增类型</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#">编辑类型</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#">删除类型</a>
+										<a class="nav-link" href="admin_AddStort.jsp">新增类型</a>
 									</li>
 								</ul>
 							</div>

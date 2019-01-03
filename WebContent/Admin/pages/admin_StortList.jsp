@@ -14,7 +14,7 @@
 	</head>
 	<script type="text/javascript">
 	function click1(){
-	if(confirm("您确定删除这本图书？"))
+	if(confirm("您将删除该类型和其所对应的所有书本！"))
 		return true;
 	else
 		return false;
@@ -221,12 +221,8 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr align="center">
-									<th>图片</th>
-									<th>书名</th>
-									<th>作者</th>
-									<th>类别</th>
-									<th>库存</th>
-									<th>单价</th>
+									<th>类型编号</th>
+									<th>类型名称</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -235,7 +231,7 @@
 							String color="";
 							%>
 							<tbody>
-							<c:forEach items="${booklist }" var="bl">
+							<c:forEach items="${stortlist }" var="sl">
 							<%
 							switch (i%5){
 							case 0:
@@ -252,16 +248,11 @@
 							i++;
 							%> 
 								<tr class=<%=color %> align="center">
-								    <td><img src="${pageContext.request.contextPath}/${bl.bPhoto}" style="border-radius:0px;width:50px;height:50px"></td>
-									<td>${bl.bName}</td>
-									<td>${bl.autName}</td>
-									<td>${bl.stName}</td>
-									<td>${bl.bStore}</td>
-									<td>￥${bl.bPrice}</td>
+									<td>${sl.stid}</td>
+									<td>${sl.stName}</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/Admin/pages/admin_BookInfo?bid=${bl.bid}">查看</a>&nbsp;&nbsp;
-										<a href="${pageContext.request.contextPath}/Admin/pages/admin_showUpdateBook?bid=${bl.bid}">编辑</a>&nbsp;&nbsp;
-										<a href="${pageContext.request.contextPath}/Admin/pages/admin_delBook?bid=${bl.bid}" onclick="return click1()">删除</a>
+										<a href="${pageContext.request.contextPath}/Admin/pages/admin_showUpStort?stid=${sl.stid}">编辑</a>&nbsp;&nbsp;
+										<a href="${pageContext.request.contextPath}/Admin/pages/admin_delStort?stid=${sl.stid}" onclick="return click1()">删除</a>
 									</td>
 								</tr>
 							</c:forEach>
@@ -281,8 +272,8 @@
 						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<div class="btn-group" role="group" aria-label="Basic example">
-							<button id="bu1" type="button" class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showBook?pages=${page-1 }';">上一页</button>
-							<button id="bu2" type="button" class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showBook?&pages=${page+1 }';">下一页</button>
+							<button id="bu1" type="button" class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showStort?pages=${page-1 }';">上一页</button>
+							<button id="bu2" type="button" class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showStort?&pages=${page+1 }';">下一页</button>
 						</div>
 					</div>
 					<!-- content-wrapper ends -->
