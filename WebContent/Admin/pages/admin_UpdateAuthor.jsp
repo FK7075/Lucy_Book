@@ -129,7 +129,7 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=1">库存警报</a>
-								    </li> 
+<!-- 									</li> -->
 								</ul>
 							</div>
 						</li>
@@ -200,16 +200,54 @@
 				</nav>
 				<!-- partial -->
 				<div class="content-wrapper">
-					<p class="text-primary" style="b">Lucy_Book--书本信息</p>
+					<p class="text-primary" style="b">Lucy_Book--修改作者信息</p>
 					<div class="col-12 grid-margin stretch-card">
-						<img src="${pageContext.request.contextPath }/${bookInfo.bPhoto}" width="160px" height="200px">
-						<div>
-						<h3>${bookInfo.bName }</h3><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>作者</b>:&nbsp;&nbsp;${bookInfo.autName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>类型</b>:&nbsp;&nbsp;${bookInfo.stName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>价格</b>:&nbsp;&nbsp;${ bookInfo.bPrice}<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>书本简介</b>:<br>
-						${bookInfo.bdetail }
+						<div class="card-body">
+							<h4 class="card-title">作者信息需要修改了？</h4>
+							<p class="card-description">
+								好的，来吧
+							</p>
+							<form class="forms-sample" action="${pageContext.request.contextPath}/Admin/pages/admin_upAuthor" method="post">
+								<input type="hidden" value="${author.autid}" name="tableid"/>
+							   <div class="form-group row">
+									<label for="exampleInputUsername1" class="col-sm-3 col-form-label">作者编号</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="exampleInputUsername2" value="${author.autid}" disabled="disabled">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">作者姓名</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="exampleInputUsername2" value="${author.autName }" name="bookName" >
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">国籍</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="exampleInputUsername3" value="${author.autPlace }" name="username">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">性别</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="exampleInputUsername3" value="${author.autSex }" name="password">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="exampleInputUsername2" class="col-sm-3 col-form-label">出生日期</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" id="exampleInputUsername3" value="${author.autdate }" name="admPass">
+									</div>
+								</div>
+								<div>
+									<div class="form-group">
+										<label for="exampleTextarea1">作者描述</label>
+										<textarea class="form-control" id="exampleTextarea1" rows="4" name="bookDetail">${author.autdetail }</textarea>
+									</div>
+								</div>
+								<button type="submit" class="btn btn-gradient-primary mr-2" >修改</button>
+								<button type="reset" class="btn btn-gradient-primary mr-2" >还原</button>
+							</form>
 						</div>
 					</div>
 					<footer class="footer">

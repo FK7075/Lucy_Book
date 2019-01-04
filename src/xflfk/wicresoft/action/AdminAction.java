@@ -48,8 +48,26 @@ public class AdminAction extends ActionSupport {
 	private List<Stort> stortlist=new ArrayList<Stort>();
 	private Stort stort=new Stort();
 	private BookInfo bookInfo=new BookInfo();
+	private Author author=new Author();
+	private List<Author> authorlist=new ArrayList<Author>();
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession();
+
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
+	public List<Author> getAuthorlist() {
+		return authorlist;
+	}
+
+	public void setAuthorlist(List<Author> authorlist) {
+		this.authorlist = authorlist;
+	}
 
 	public Stort getStort() {
 		return stort;
@@ -357,6 +375,7 @@ public class AdminAction extends ActionSupport {
 		this.bookInfo=(BookInfo) admService.getList(BookInfo.class, sql, id).get(0);
 		return "BookInfoOK";
 	}
+	//分页查看所有类型
 	public String showStort() {
 		PageInfo pi = null;
 		int page = 0;
@@ -404,5 +423,82 @@ public class AdminAction extends ActionSupport {
 		admService.add(st);
 		request.setAttribute("IsOk", 1);
 		return "addStortOK";
+	}
+	//分页显示所有作者
+	public String showAuthor() {
+		PageInfo pi = null;
+		int page = 0;
+		if (request.getAttribute("pages") != null)
+			page = (int) request.getAttribute("pages");
+		else
+			page = Integer.parseInt(request.getParameter("pages"));
+		pi = admService.getPageInfo(new Book(), page);
+		if (page == admService.getPageSize(new Book()))
+			request.setAttribute("fk", 1);
+		request.setAttribute("page", page);
+		authorlist=(List<Author>) admService.getListPag(new Author(), pi.getIndex());
+		return "showAuthorOK";
+	}
+	//删除作者和其所有作品
+	public String delAuthor() {
+		int id=Integer.parseInt(request.getParameter("id"));
+		admService.del("Author", id);
+		request.setAttribute("pages", 1);
+		return "delAuthorOK";
+	}
+	//显示作者详细信息
+	public String showAuthorInfo() {
+		int id=0;
+		if(request.getParameter("id")!=null)
+			id=Integer.parseInt(request.getParameter("id"));
+		if(request.getAttribute("id")!=null)
+			id=(int) request.getAttribute("id");
+		author=(Author) admService.getOne(Author.class, id);
+		return "showAuthorInfoOK";
+	}
+	public String showUpAuthor() {
+		int id=0;
+		if(request.getParameter("id")!=null)
+			id=Integer.parseInt(request.getParameter("id"));
+		if(request.getAttribute("id")!=null)
+			id=(int) request.getAttribute("id");
+		author=(Author) admService.getOne(Author.class, id);
+		return "showUpAuthorOK";
+	}
+	public String upAuthor() {
+		Author a=new Author();
+		a.setAutid(tableid);a.setAutName(bookName);a.setAutPlace(username);
+		a.setAutSex(password);a.setAutdate(admPass);a.setAutdetail(bookDetail);
+		admService.update(a);
+		request.setAttribute("id",tableid);
+		return "upAuthorOK";
+	}
+	public String authorUpload() {
+		Author aut=new Author();
+		System.out.println("fileName:" + bookUpFileName);
+		System.out.println("contentType:" + bookUpContentType);
+		System.out.println("File:" + bookUp);
+
+		// 获取要保存文件夹的物理路径(绝对路径)
+		String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/authors");
+		File file = new File(realPath);
+		// 测试此抽象路径名表示的文件或目录是否存在。若不存在，创建此抽象路径名指定的目录，包括所有必需但不存在的父目录。
+		if (!file.exists())
+			file.mkdirs();
+		try {
+			// 保存文件
+			long dt = new Date().getTime();
+			String fileName = dt + bookUpFileName;
+			FileUtils.copyFile(bookUp, new File(file, fileName));
+			aut.setAutName(bookName);aut.setAutPlace(username);aut.setAutSex(password);
+			aut.setAutPor("Lucy/authors/"+fileName);aut.setAutdate(admPass);
+			aut.setAutdetail(bookDetail);
+			admService.add(aut);
+			request.setAttribute("pages", 1);
+			System.out.println(realPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "authorUploadOK";
 	}
 }

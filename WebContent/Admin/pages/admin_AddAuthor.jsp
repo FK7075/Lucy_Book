@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
+
 	<head>
-		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>Purple Admin</title>
@@ -12,10 +13,10 @@
 		<link rel="stylesheet" href="../css/style.css">
 		<link rel="shortcut icon" href="../images/favicon.png" />
 	</head>
+
 	<body>
 		<div class="container-scroller">
-			<!-- partial:../../partials/_navbar.html -->
-						<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+			<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 				<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
 					<a class="navbar-brand brand-logo" href="#"><img src="../images/logo.svg" alt="logo" /></a>
 					<a class="navbar-brand brand-logo-mini" href="#"><img src="../images/logo-mini.svg" alt="logo" /></a>
@@ -129,7 +130,7 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=1">库存警报</a>
-								    </li> 
+									</li>
 								</ul>
 							</div>
 						</li>
@@ -200,16 +201,52 @@
 				</nav>
 				<!-- partial -->
 				<div class="content-wrapper">
-					<p class="text-primary" style="b">Lucy_Book--书本信息</p>
+					<p class="text-primary" style="b">Lucy_Book--添加作者</p>
 					<div class="col-12 grid-margin stretch-card">
-						<img src="${pageContext.request.contextPath }/${bookInfo.bPhoto}" width="160px" height="200px">
-						<div>
-						<h3>${bookInfo.bName }</h3><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>作者</b>:&nbsp;&nbsp;${bookInfo.autName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>类型</b>:&nbsp;&nbsp;${bookInfo.stName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>价格</b>:&nbsp;&nbsp;${ bookInfo.bPrice}<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>书本简介</b>:<br>
-						${bookInfo.bdetail }
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">新来了一个作者小可爱</h4>
+								<p class="card-description">
+									让我们更了解T吧
+								</p>
+								<form class="forms-sample" enctype="multipart/form-data" method="post" action="${pageContext.request.contextPath}/Admin/pages/admin_authorUpload">
+									<div class="form-group">
+										<label for="exampleInputName1">作者姓名</label>
+										<input type="text" class="form-control" id="exampleInputName1" placeholder="作者姓名" name="bookName">
+									</div>
+									<div class="form-group">
+										<label for="exampleSelectGender">作者性别</label>
+										<select class="form-control" id="exampleSelectGender" name="password">
+											<option value="男">阳光大帅哥</option>
+											<option value="女">可爱萌妹子</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="exampleInputName1">国籍</label>
+										<input type="text" class="form-control" id="exampleInputName1" placeholder="国籍" name="username">
+									</div>
+									<div class="form-group">
+										<label for="exampleInputName1">出生日期</label>
+										<input type="text" class="form-control" id="exampleInputName1" placeholder="出生日期" name="admPass">
+									</div>
+									<div class="form-group">
+										<label>作者图片</label>
+										<input type="file" name="bookUp" class="file-upload-default">
+										<div class="input-group col-xs-12">
+											<input type="text" class="form-control file-upload-info" disabled placeholder="作者图片">
+											<span class="input-group-append">
+                          						<button class="file-upload-browse btn btn-gradient-primary" type="button">本地浏览</button>
+                        					</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="exampleTextarea1">作者描述</label>
+										<textarea class="form-control" id="exampleTextarea1" rows="4" name="bookDetail"></textarea>
+									</div>
+									<button type="submit" class="btn btn-gradient-primary mr-2">确定</button>
+									<button type="reset" class="btn btn-light">重置</button>
+								</form>
+							</div>
 						</div>
 					</div>
 					<footer class="footer">

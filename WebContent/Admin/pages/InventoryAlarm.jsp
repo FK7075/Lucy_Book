@@ -161,16 +161,10 @@
 							<div class="collapse" id="ui-basic3">
 								<ul class="nav flex-column sub-menu">
 									<li class="nav-item">
-										<a class="nav-link" href="#">所有作者</a>
+										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_showAuthor?pages=1">所有作者</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="#">新增作者</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#">编辑作者</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#">删除作者</a>
+										<a class="nav-link" href="admin_AddAuthor.jsp">新增作者</a>
 									</li>
 								</ul>
 							</div>

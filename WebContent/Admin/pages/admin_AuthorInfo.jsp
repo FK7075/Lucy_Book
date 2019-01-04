@@ -200,16 +200,16 @@
 				</nav>
 				<!-- partial -->
 				<div class="content-wrapper">
-					<p class="text-primary" style="b">Lucy_Book--书本信息</p>
+				<p class="text-primary" style="b">Lucy_Book--作者信息</p>
 					<div class="col-12 grid-margin stretch-card">
-						<img src="${pageContext.request.contextPath }/${bookInfo.bPhoto}" width="160px" height="200px">
+						<img src="${pageContext.request.contextPath }/${author.autPor}" width="160px" height="200px">
 						<div>
-						<h3>${bookInfo.bName }</h3><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>作者</b>:&nbsp;&nbsp;${bookInfo.autName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>类型</b>:&nbsp;&nbsp;${bookInfo.stName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>价格</b>:&nbsp;&nbsp;${ bookInfo.bPrice}<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>书本简介</b>:<br>
-						${bookInfo.bdetail }
+						<h3>&nbsp;&nbsp;${author.autName }</h3><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>国籍</b>:&nbsp;&nbsp;${author.autPlace}<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>性别</b>:&nbsp;&nbsp;${ author.autSex}<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>出生年月</b>:&nbsp;&nbsp;${author.autdate }<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>作者简介</b>:<br>
+						${author.autdetail }
 						</div>
 					</div>
 					<footer class="footer">
