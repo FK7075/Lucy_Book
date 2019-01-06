@@ -1,24 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 	<head>
-		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>Purple Admin</title>
+		<title>Lucy_Book-Admin</title>
 		<link rel="stylesheet" href="../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
 		<link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
 		<link rel="stylesheet" href="../css/style.css">
 		<link rel="shortcut icon" href="../images/favicon.png" />
 	</head>
+	<script type="text/javascript">
+	function click1(){
+	if(confirm("确认发货？"))
+		return true;
+	else
+		return false;
+	}
+	</script>
 	<body>
 		<div class="container-scroller">
 			<!-- partial:../../partials/_navbar.html -->
-						<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+			<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 				<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-					<a class="navbar-brand brand-logo" href="#"><img src="../images/logo.svg" alt="logo" /></a>
-					<a class="navbar-brand brand-logo-mini" href="#"><img src="../images/logo-mini.svg" alt="logo" /></a>
+					<a class="navbar-brand brand-logo" href="../index.html"><img src="../images/logo.svg" alt="logo" /></a>
+					<a class="navbar-brand brand-logo-mini" href="../index.html"><img src="../images/logo-mini.svg" alt="logo" /></a>
 				</div>
 				<div class="navbar-menu-wrapper d-flex align-items-stretch">
 					<div class="search-field d-none d-md-block">
@@ -57,7 +65,6 @@
 								<i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
 							</a>
 						</li>
-						
 						<li class="nav-item nav-logout d-none d-lg-block">
 							<a class="nav-link" href="admin_Login.jsp">
 								<i class="mdi mdi-power"></i>
@@ -71,7 +78,9 @@
 					</ul>
 				</div>
 			</nav>
+			<!-- partial -->
 			<div class="container-fluid page-body-wrapper">
+				<!-- partial:../../partials/_sidebar.html -->
 				<nav class="sidebar sidebar-offcanvas" id="sidebar">
 					<ul class="nav">
 						<li class="nav-item nav-profile">
@@ -79,6 +88,7 @@
 								<div class="nav-profile-image">
 									<img src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }" alt="profile">
 									<span class="login-status online"></span>
+									<!--change to offline or busy as needed-->
 								</div>
 								<div class="nav-profile-text d-flex flex-column">
 									<span class="font-weight-bold mb-2">${sessionScope.admin.admName }</span>
@@ -88,7 +98,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">
+							<a class="nav-link" href="../index.html">
 								<span class="menu-title">书店主页</span>
 								<i class="mdi mdi-home menu-icon"></i>
 							</a>
@@ -129,7 +139,7 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=1">库存警报</a>
-								    </li> 
+									</li>
 								</ul>
 							</div>
 						</li>
@@ -200,18 +210,74 @@
 				</nav>
 				<!-- partial -->
 				<div class="content-wrapper">
-					<p class="text-primary" style="b">Lucy_Book--书本信息</p>
-					<div class="col-12 grid-margin stretch-card">
-						<img src="${pageContext.request.contextPath }/${bookInfo.bPhoto}" width="160px" height="200px">
-						<div>
-						<h3>${bookInfo.bName }</h3><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>作者</b>:&nbsp;&nbsp;${bookInfo.autName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>类型</b>:&nbsp;&nbsp;${bookInfo.stName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>价格</b>:&nbsp;&nbsp;${ bookInfo.bPrice}<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>书本简介</b>:<br>
-						${bookInfo.bdetail }
+					<p class="text-primary" style="b">Lucy_Book--待发货账单</p>
+					<div class="content-wrapper">
+						<table class="table table-bordered">
+							<thead>
+								<tr align="center">
+									<th>订单编号</th>
+									<th>发起人</th>
+									<th>创建时间</th>
+									<th>总金额</th>
+									<th>发货状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<%
+							int i=0;
+							String color="";
+							%>
+							<tbody>
+							<c:forEach items="${orderInfolist }" var="oi">
+							<%
+							switch (i%5){
+							case 0:
+								color="table-info";break;
+							case 1:
+								color="table-warning";break;
+							case 2:
+								color="table-danger";break;
+							case 3:
+								color="table-success";break;
+							case 4:
+								color="table-primary";break;
+							}
+							i++;
+							%> 
+								<tr class=<%=color %> align="center">
+								    <td>${oi.ordid}</td>
+									<td>${oi.uName}</td>
+									<td>${oi.ordTime}</td>
+									<td>￥${oi.ordTotal}</td>
+									<td>${oi.ordSendState}</td>
+									<td>
+										<a href="${pageContext.request.contextPath}/Admin/pages/admin_showDetail?id=${oi.ordid}">查看明细</a>&nbsp;&nbsp;
+										<a href="${pageContext.request.contextPath}/Admin/pages/admin_delivery?id=${oi.ordid}" onclick="return click1()">发货</a>
+									</td>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<div class="btn-group" role="group" aria-label="Basic example">
+							<button id="bu1" type="button" class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showOrder?pages=${page-1 }';">上一页</button>
+							<button id="bu2" type="button" class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showOrder?&pages=${page+1 }';">下一页</button>
 						</div>
 					</div>
+					<!-- content-wrapper ends -->
+					<!-- partial:.g./../partials/_footer.html -->
 					<footer class="footer">
 						<div class="d-sm-flex justify-content-center justify-content-sm-between">
 							<span class="text-muted text-center text-sm-left d-block d-sm-inline-block">版权所有 © 2017 <a href="#" target="_blank">Lucy_Book</a>. 仿冒必究.</span>
@@ -222,11 +288,10 @@
 				</div>
 			</div>
 		</div>
+
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>
 		<script src="../js/off-canvas.js"></script>
 		<script src="../js/misc.js"></script>
-		<script src="../js/file-upload.js"></script>
 	</body>
-
 </html>

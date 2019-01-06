@@ -17,6 +17,8 @@
 				<result name="delAuthorOK" type="chain">admin_showAuthor</result>
 				<result name="upAuthorOK" type="chain">admin_showUpAuthor</result>
 				<result name="authorUploadOK" type="chain">admin_showAuthor</result>
+				<result name="delOrderOK" type="chain">admin_showOrder</result>
+				<result name="deliveryOK" type="chain">admin_noDelivery</result>
 				<result name="onlogin">admin_Login.jsp</result>
 				<result name="ok">admin_BookList.jsp</result>
 				<result name="showAddBookOK">admin_AddBook.jsp</result>
@@ -32,6 +34,10 @@
 				<result name="showAuthorOK">admin_AuthorList.jsp</result>
 				<result name="showAuthorInfoOK">admin_AuthorInfo.jsp</result>
 				<result name="showUpAuthorOK">admin_UpdateAuthor.jsp</result>
+				<result name="showOrderOK">admin_OrderList.jsp</result>
+				<result name="showDetailOK">admin_DetailList.jsp</result>
+				<result name="noPaymentOK">admin_NoPayment.jsp</result>
+				<result name="noDeliveryOK">admin_NoDelivery.jsp</result>
 			</action>
 		</package>
 	</struts>

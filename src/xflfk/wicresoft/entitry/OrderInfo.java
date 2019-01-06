@@ -1,9 +1,8 @@
 package xflfk.wicresoft.entitry;
 
-
-public class Orders {
+public class OrderInfo {
 	private Integer ordid;
-	private Integer uid;//创建该订单的用户
+	private String uName;//创建该订单的用户
 	private String ordTime;//创建时间
 	private String ordPayState;//付款状态
 	private String ordSendState;//发货状态
@@ -22,11 +21,11 @@ public class Orders {
 	public void setOrdid(Integer ordid) {
 		this.ordid = ordid;
 	}
-	public Integer getUid() {
-		return uid;
+	public String getuName() {
+		return uName;
 	}
-	public void setUid(Integer uid) {
-		this.uid = uid;
+	public void setuName(String uName) {
+		this.uName = uName;
 	}
 	public String getOrdTime() {
 		return ordTime;
@@ -55,8 +54,9 @@ public class Orders {
 	}
 	@Override
 	public String toString() {
-		return "Orders [ordid=" + ordid + ", uid=" + uid + ", ordTime=" + ordTime + ", ordPayState=" + ordPayState
-				+ ", ordSendState=" + ordSendState + ", ordTotal=" + ordTotal + ", userdetail=" + userdetail + "]";
+		return "OrderInfo [ordid=" + ordid + ", uName=" + uName + ", ordTime=" + ordTime + ", ordPayState="
+				+ ordPayState + ", ordSendState=" + ordSendState + ", ordTotal=" + ordTotal + ", userdetail="
+				+ userdetail + "]";
 	}
-	
+
 }

@@ -13,13 +13,15 @@ import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.sun.org.glassfish.gmbal.AMXMetadata;
 
 import xflfk.wicresoft.entitry.Admin;
 import xflfk.wicresoft.entitry.Author;
 import xflfk.wicresoft.entitry.Book;
 import xflfk.wicresoft.entitry.BookInfo;
+import xflfk.wicresoft.entitry.DetailInfo;
 import xflfk.wicresoft.entitry.LucyCfg;
+import xflfk.wicresoft.entitry.OrderInfo;
+import xflfk.wicresoft.entitry.Orders;
 import xflfk.wicresoft.entitry.PageInfo;
 import xflfk.wicresoft.entitry.Stort;
 import xflfk.wicresoft.service.AdminService;
@@ -50,8 +52,37 @@ public class AdminAction extends ActionSupport {
 	private BookInfo bookInfo=new BookInfo();
 	private Author author=new Author();
 	private List<Author> authorlist=new ArrayList<Author>();
+	private Orders order=new Orders();
+	private List<Orders> orderlist=new ArrayList<Orders>();
+	private OrderInfo orderInfo=new OrderInfo();
+	private List<DetailInfo> detailInfolist=new ArrayList<DetailInfo>(); 
+	private List<OrderInfo> orderInfolist=new ArrayList<OrderInfo>();
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession();
+
+	public List<DetailInfo> getDetailInfolist() {
+		return detailInfolist;
+	}
+
+	public void setDetailInfolist(List<DetailInfo> detailInfolist) {
+		this.detailInfolist = detailInfolist;
+	}
+
+	public OrderInfo getOrderInfo() {
+		return orderInfo;
+	}
+
+	public void setOrderInfo(OrderInfo orderInfo) {
+		this.orderInfo = orderInfo;
+	}
+
+	public List<OrderInfo> getOrderInfolist() {
+		return orderInfolist;
+	}
+
+	public void setOrderInfolist(List<OrderInfo> orderInfolist) {
+		this.orderInfolist = orderInfolist;
+	}
 
 	public Author getAuthor() {
 		return author;
@@ -63,6 +94,22 @@ public class AdminAction extends ActionSupport {
 
 	public List<Author> getAuthorlist() {
 		return authorlist;
+	}
+
+	public Orders getOrder() {
+		return order;
+	}
+
+	public void setOrder(Orders order) {
+		this.order = order;
+	}
+
+	public List<Orders> getOrderlist() {
+		return orderlist;
+	}
+
+	public void setOrderlist(List<Orders> orderlist) {
+		this.orderlist = orderlist;
 	}
 
 	public void setAuthorlist(List<Author> authorlist) {
@@ -312,8 +359,7 @@ public class AdminAction extends ActionSupport {
 			page = (int) request.getAttribute("pages");
 		else
 			page = Integer.parseInt(request.getParameter("pages"));
-		pi = admService.getPageInfo(new Book(), page);
-		String sql1 = "select *from Book where bStore<?";
+		String sql1 = "select * from Book where bStore<?";
 		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
 		pi = admService.getPageInfo(admService.getCount(Book.class, sql1, cfg.getInventory()), page);
 		request.setAttribute("page", page);
@@ -456,6 +502,7 @@ public class AdminAction extends ActionSupport {
 		author=(Author) admService.getOne(Author.class, id);
 		return "showAuthorInfoOK";
 	}
+	//更新作者信息前的数据准备
 	public String showUpAuthor() {
 		int id=0;
 		if(request.getParameter("id")!=null)
@@ -465,6 +512,7 @@ public class AdminAction extends ActionSupport {
 		author=(Author) admService.getOne(Author.class, id);
 		return "showUpAuthorOK";
 	}
+	//更新作者信息
 	public String upAuthor() {
 		Author a=new Author();
 		a.setAutid(tableid);a.setAutName(bookName);a.setAutPlace(username);
@@ -473,6 +521,7 @@ public class AdminAction extends ActionSupport {
 		request.setAttribute("id",tableid);
 		return "upAuthorOK";
 	}
+	//添加作者
 	public String authorUpload() {
 		Author aut=new Author();
 		System.out.println("fileName:" + bookUpFileName);
@@ -500,5 +549,78 @@ public class AdminAction extends ActionSupport {
 			e.printStackTrace();
 		}
 		return "authorUploadOK";
+	}
+	//分页展示订单
+	public String showOrder() {
+		PageInfo pi = null;
+		int page = 0;
+		if (request.getAttribute("pages") != null)
+			page = (int) request.getAttribute("pages");
+		else
+			page = Integer.parseInt(request.getParameter("pages"));
+		pi = admService.getPageInfo(new Orders(), page);
+		if (page == admService.getPageSize(new Orders()))
+			request.setAttribute("fk", 1);
+		request.setAttribute("page", page);
+		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid LIMIT ?,?";
+		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql, pi.getIndex(),pi.getSize());
+		return "showOrderOK";
+	}
+	//删除一条订单
+	public String delOrder() {
+		int id=Integer.parseInt(request.getParameter("id"));
+		admService.del("Orders", id);
+		request.setAttribute("pages", 1);
+		return "delOrderOK";
+	}
+	//显示订单的明细信息
+	public String showDetail() {
+		int id=Integer.parseInt(request.getParameter("id"));
+		String sql="select u.uName,u.uTel,b.bphoto,b.bName,d.number,d.money,c.consName,c.consTel,c.consAddre,o.userdetail"
+				+ " from User u,Book b,Detail d,Consigness c,Orders o "
+				+ "where d.uid=u.uid and d.consid=c.consid and d.bid=b.bid and d.ordid=o.ordid and d.ordid=? ";
+		detailInfolist=(List<DetailInfo>) admService.getList(DetailInfo.class, sql, id);
+		return "showDetailOK";
+	}
+	//分页展示"未付款"的账单
+	public String noPayment() {
+		PageInfo pi = null;
+		int page = 0;
+		if (request.getAttribute("pages") != null)
+			page = (int) request.getAttribute("pages");
+		else
+			page = Integer.parseInt(request.getParameter("pages"));
+		String sql1 = "select * from Orders where ordPayState=?";
+		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
+		pi = admService.getPageInfo(admService.getCount(Orders.class, sql1, "未付款"), page);
+		request.setAttribute("page", page);
+		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid and o.ordPayState=? LIMIT ?,?";
+		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"未付款", pi.getIndex(),pi.getSize());
+		return "noPaymentOK";
+	}
+	//分页展示"已付款"但还没发货的账单
+	public String noDelivery() {
+		PageInfo pi = null;
+		int page = 0;
+		if (request.getAttribute("pages") != null)
+			page = (int) request.getAttribute("pages");
+		else
+			page = Integer.parseInt(request.getParameter("pages"));
+		String sql1 = "select * from Orders where ordPayState=? and ordSendState=?";
+		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
+		pi = admService.getPageInfo(admService.getCount(Orders.class, sql1, "已付款","未发货"), page);
+		request.setAttribute("page", page);
+		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid and o.ordPayState=? and ordSendState=? LIMIT ?,?";
+		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"已付款","未发货", pi.getIndex(),pi.getSize());
+		System.out.println(orderInfolist);
+		return "noDeliveryOK";
+	}
+	public String delivery() {
+		int id=Integer.parseInt(request.getParameter("id"));
+		Orders o=new Orders();
+		o.setOrdid(id);o.setOrdSendState("已发货");
+		admService.update(o);
+		request.setAttribute("pages", 1);
+		return "deliveryOK";
 	}
 }

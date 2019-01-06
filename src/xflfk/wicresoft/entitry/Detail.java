@@ -8,8 +8,6 @@ public class Detail {
 	private Double money;//总金额
 	private Integer number;//购买数量
 	private Integer consid;//收货人信息
-	private String userdetail;//用户备注
-	private String detState;//状态
 	public Integer getDetid() {
 		return detid;
 	}
@@ -34,12 +32,6 @@ public class Detail {
 	public void setConsid(Integer consid) {
 		this.consid = consid;
 	}
-	public String getUserdetail() {
-		return userdetail;
-	}
-	public void setUserdetail(String userdetail) {
-		this.userdetail = userdetail;
-	}
 	public Integer getOrdid() {
 		return ordid;
 	}
@@ -52,12 +44,6 @@ public class Detail {
 	public void setMoney(Double money) {
 		this.money = money;
 	}
-	public String getDetState() {
-		return detState;
-	}
-	public void setDetState(String detState) {
-		this.detState = detState;
-	}
 	public Integer getUid() {
 		return uid;
 	}
@@ -67,8 +53,8 @@ public class Detail {
 	@Override
 	public String toString() {
 		return "Detail [detid=" + detid + ", bid=" + bid + ", uid=" + uid + ", ordid=" + ordid + ", money=" + money
-				+ ", number=" + number + ", consid=" + consid + ", userdetail=" + userdetail + ", detState=" + detState
-				+ "]";
+				+ ", number=" + number + ", consid=" + consid + "]";
 	}
+	
 
 }

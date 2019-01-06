@@ -178,13 +178,13 @@
 							<div class="collapse" id="ui-basic5">
 								<ul class="nav flex-column sub-menu">
 									<li class="nav-item">
-										<a class="nav-link" href="#">所有订单</a>
+										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_showOrder?pages=1">所有订单</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="#">待支付订单</a>
+										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_noPayment?pages=1">待支付订单</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="#">已支付订单</a>
+										<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_noDelivery?pages=1">待发货订单</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="#">账单统计</a>
