@@ -250,6 +250,13 @@
 								</tr>
 							</c:forEach>
 							</tbody>
+							<tr align="center">
+							<td colspan="7">
+							<a href="${pageContext.request.contextPath}/Admin/pages/admin_exportOrder">更新为最新</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="${pageContext.request.contextPath}/Admin/pages/download?filename=order.xls">下载订单信息</a>
+							</td>
+							</tr>
 						</table>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

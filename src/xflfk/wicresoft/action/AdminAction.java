@@ -1,6 +1,8 @@
 package xflfk.wicresoft.action;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -313,9 +318,6 @@ public class AdminAction extends ActionSupport {
 		if (admService.addAdmin(admin) == 0) {
 			request.setAttribute("addIsOk", 0);
 		} else {
-			System.out.println("fileName:" + bookUpFileName);
-			System.out.println("contentType:" + bookUpContentType);
-			System.out.println("File:" + bookUp);
 			// 获取要保存文件夹的物理路径(绝对路径)
 			String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/admins");
 			File file = new File(realPath);
@@ -615,6 +617,7 @@ public class AdminAction extends ActionSupport {
 		System.out.println(orderInfolist);
 		return "noDeliveryOK";
 	}
+	//发货
 	public String delivery() {
 		int id=Integer.parseInt(request.getParameter("id"));
 		Orders o=new Orders();
@@ -622,5 +625,111 @@ public class AdminAction extends ActionSupport {
 		admService.update(o);
 		request.setAttribute("pages", 1);
 		return "deliveryOK";
+	}
+	//导出为Excel表格
+	public String exportOrder() throws IOException {
+		List<OrderInfo> all=new ArrayList<OrderInfo>();//全部订单
+		List<OrderInfo> yes=new ArrayList<OrderInfo>();//已发货
+		List<OrderInfo> no=new ArrayList<OrderInfo>();//未发货
+		String sql="select u.uName,b.bName,o.ordTime,d.number,c.consName,c.consTel,c.consAddre,o.userdetail,o.ordSendState,o.ordPayState"
+				+ " from User u,Orders o,Book b,Detail d,Consigness c "
+				+ "where d.uid=u.uid and d.bid=b.bid and d.ordid=o.ordid and d.consid=c.consid";
+		String sql2=sql+ " and o.ordSendState=?";
+		String sql3=sql2+" and o.ordPayState=?";
+		all=(List<OrderInfo>) admService.getList(OrderInfo.class, sql);
+		yes=(List<OrderInfo>) admService.getList(OrderInfo.class, sql2,"已发货");
+		no=(List<OrderInfo>) admService.getList(OrderInfo.class, sql3,"未发货","已付款");
+		// 创建工作薄
+		HSSFWorkbook workbook = new HSSFWorkbook();
+	    // 创建工作表
+	    HSSFSheet sheet1= workbook.createSheet("全部订单");
+	    HSSFRow rows1 = sheet1.createRow(0);
+	   	rows1.createCell(0).setCellValue("订单发起人");
+	   	rows1.createCell(1).setCellValue("创建时间");
+	   	rows1.createCell(2).setCellValue("商品名称");
+	   	rows1.createCell(3).setCellValue("购买数量");
+	   	rows1.createCell(4).setCellValue("收货人姓名");
+	   	rows1.createCell(5).setCellValue("收货人电话");
+	   	rows1.createCell(6).setCellValue("收货人地址");
+	   	rows1.createCell(7).setCellValue("用户备注");
+	   	rows1.createCell(8).setCellValue("发货状态");
+	   	rows1.createCell(9).setCellValue("付款状态");
+	   	if(all.size()!=0) {
+	    for(int row=0;row<all.size();row++) {
+	    	// 向工作表中添加数据
+	    	 HSSFRow rows = sheet1.createRow(row+1);
+	    	 rows.createCell(0).setCellValue(all.get(row).getuName());
+	    	 rows.createCell(1).setCellValue(all.get(row).getOrdTime());
+	    	 rows.createCell(2).setCellValue(all.get(row).getbName());
+	    	 rows.createCell(3).setCellValue(all.get(row).getNumber());
+	    	 rows.createCell(4).setCellValue(all.get(row).getConsName());
+	    	 rows.createCell(5).setCellValue(all.get(row).getConsTel());
+	    	 rows.createCell(6).setCellValue(all.get(row).getConsAddre());
+	    	 rows.createCell(7).setCellValue(all.get(row).getUserdetail());
+	    	 rows.createCell(8).setCellValue(all.get(row).getOrdSendState());
+	    	 rows.createCell(9).setCellValue(all.get(row).getOrdPayState());
+	    }
+	   	}
+	    HSSFSheet sheet2= workbook.createSheet("已完成订单");
+	    HSSFRow rows2 = sheet2.createRow(0);
+	   	rows2.createCell(0).setCellValue("订单发起人");
+	   	rows2.createCell(1).setCellValue("创建时间");
+	   	rows2.createCell(2).setCellValue("商品名称");
+	   	rows2.createCell(3).setCellValue("购买数量");
+	   	rows2.createCell(4).setCellValue("收货人姓名");
+	   	rows2.createCell(5).setCellValue("收货人电话");
+	   	rows2.createCell(6).setCellValue("收货人地址");
+	   	rows2.createCell(7).setCellValue("用户备注");
+	   	rows2.createCell(8).setCellValue("发货状态");
+	   	rows2.createCell(9).setCellValue("付款状态");
+	   	if(yes.size()!=0) {
+	    for(int row=0;row<yes.size();row++) {
+	    	// 向工作表中添加数据
+	    	 HSSFRow rows = sheet2.createRow(row+1);
+	    	 rows.createCell(0).setCellValue(yes.get(row).getuName());
+	    	 rows.createCell(1).setCellValue(yes.get(row).getOrdTime());
+	    	 rows.createCell(2).setCellValue(yes.get(row).getbName());
+	    	 rows.createCell(3).setCellValue(yes.get(row).getNumber());
+	    	 rows.createCell(4).setCellValue(yes.get(row).getConsName());
+	    	 rows.createCell(5).setCellValue(yes.get(row).getConsTel());
+	    	 rows.createCell(6).setCellValue(yes.get(row).getConsAddre());
+	    	 rows.createCell(7).setCellValue(yes.get(row).getUserdetail());
+	    	 rows.createCell(8).setCellValue(yes.get(row).getOrdSendState());
+	    	 rows.createCell(9).setCellValue(yes.get(row).getOrdPayState());
+	    }
+	   	}
+	    HSSFSheet sheet3= workbook.createSheet("未发货订单");
+	    HSSFRow rows3 = sheet3.createRow(0);
+	   	rows3.createCell(0).setCellValue("订单发起人");
+	   	rows3.createCell(1).setCellValue("创建时间");
+	   	rows3.createCell(2).setCellValue("商品名称");
+	   	rows3.createCell(3).setCellValue("购买数量");
+	   	rows3.createCell(4).setCellValue("收货人姓名");
+	   	rows3.createCell(5).setCellValue("收货人电话");
+	   	rows3.createCell(6).setCellValue("收货人地址");
+	   	rows3.createCell(7).setCellValue("用户备注");
+	   	rows3.createCell(8).setCellValue("发货状态");
+	   	rows3.createCell(9).setCellValue("付款状态");
+	   	if(no.size()!=0) {
+	    for(int row=0;row<no.size();row++) {
+	    	// 向工作表中添加数据
+	    	 HSSFRow rows = sheet3.createRow(row+1);
+	    	 rows.createCell(0).setCellValue(no.get(row).getuName());
+	    	 rows.createCell(1).setCellValue(no.get(row).getOrdTime());
+	    	 rows.createCell(2).setCellValue(no.get(row).getbName());
+	    	 rows.createCell(3).setCellValue(no.get(row).getNumber());
+	    	 rows.createCell(4).setCellValue(no.get(row).getConsName());
+	    	 rows.createCell(5).setCellValue(no.get(row).getConsTel());
+	    	 rows.createCell(6).setCellValue(no.get(row).getConsAddre());
+	    	 rows.createCell(7).setCellValue(no.get(row).getUserdetail());
+	    	 rows.createCell(8).setCellValue(no.get(row).getOrdSendState());
+	    	 rows.createCell(9).setCellValue(no.get(row).getOrdPayState());
+	    }
+	   	}
+	      File xlsFile = new File(ServletActionContext.getServletContext().getRealPath("/order.xls"));
+	      FileOutputStream xlsStream = new FileOutputStream(xlsFile);
+	      workbook.write(xlsStream);
+	      request.setAttribute("pages", 1);
+		return "exportOrderOK";
 	}
 }

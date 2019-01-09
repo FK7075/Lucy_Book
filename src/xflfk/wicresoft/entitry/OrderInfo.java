@@ -2,6 +2,11 @@ package xflfk.wicresoft.entitry;
 
 public class OrderInfo {
 	private Integer ordid;
+	private String bName;//书名
+	private Integer number;//数量
+	private String consName;//收货人
+	private String consTel;//收货人电话
+	private String consAddre;//收货地址
 	private String uName;//创建该订单的用户
 	private String ordTime;//创建时间
 	private String ordPayState;//付款状态
@@ -9,6 +14,36 @@ public class OrderInfo {
 	private Double ordTotal;//订单总计价格
 	private String userdetail;//用户备注
 	
+	public String getbName() {
+		return bName;
+	}
+	public void setbName(String bName) {
+		this.bName = bName;
+	}
+	public Integer getNumber() {
+		return number;
+	}
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+	public String getConsName() {
+		return consName;
+	}
+	public void setConsName(String consName) {
+		this.consName = consName;
+	}
+	public String getConsTel() {
+		return consTel;
+	}
+	public void setConsTel(String consTel) {
+		this.consTel = consTel;
+	}
+	public String getConsAddre() {
+		return consAddre;
+	}
+	public void setConsAddre(String consAddre) {
+		this.consAddre = consAddre;
+	}
 	public String getUserdetail() {
 		return userdetail;
 	}
@@ -54,9 +89,11 @@ public class OrderInfo {
 	}
 	@Override
 	public String toString() {
-		return "OrderInfo [ordid=" + ordid + ", uName=" + uName + ", ordTime=" + ordTime + ", ordPayState="
-				+ ordPayState + ", ordSendState=" + ordSendState + ", ordTotal=" + ordTotal + ", userdetail="
-				+ userdetail + "]";
+		return "OrderInfo [ordid=" + ordid + ", bName=" + bName + ", number=" + number + ", consName=" + consName
+				+ ", consTel=" + consTel + ", consAddre=" + consAddre + ", uName=" + uName + ", ordTime=" + ordTime
+				+ ", ordPayState=" + ordPayState + ", ordSendState=" + ordSendState + ", ordTotal=" + ordTotal
+				+ ", userdetail=" + userdetail + "]";
 	}
+
 
 }
