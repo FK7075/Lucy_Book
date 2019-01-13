@@ -27,9 +27,8 @@ public class SqlDaoImpl implements SqlDao {
 	}
 
 	@Override
-	public <T> List<?> getPagList(T t, int index) {
-		LucyCfg cfg=(LucyCfg) sqlControl.getOne(LucyCfg.class, 1);
-		list=sqlControl.getPagList(t, index, cfg.getPagesize());
+	public <T> List<?> getPagList(T t, int index,int pageSize) {
+		list=sqlControl.getPagList(t, index, pageSize);
 		return list;
 	}
 

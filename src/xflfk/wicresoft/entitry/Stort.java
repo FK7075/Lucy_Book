@@ -19,6 +19,8 @@ public class Stort {
 	public String toString() {
 		return "Stort [stid=" + stid + ", stName=" + stName + "]";
 	}
+
+
 	
 
 }

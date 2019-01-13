@@ -39,6 +39,7 @@ public class AdminAction extends ActionSupport {
 	private List<BookInfo> booklist = new ArrayList<BookInfo>();// 要展示的所有书本信息的集合
 	private List<Author> autlist = new ArrayList<Author>();// 所有作者信息
 	private List<Stort> stlist = new ArrayList<Stort>();// 所有类型信息
+	private LucyCfg lucyCfg=new LucyCfg();
 	private String bookName;// 书名
 	private String bookDetail;// 描述
 	private String admTel;// 
@@ -51,6 +52,10 @@ public class AdminAction extends ActionSupport {
 	private File bookUp;// 文件流
 	private String bookUpContentType; // 得到文件的类型
 	private String bookUpFileName;// 文件名
+	private Integer showStort1;
+	private Integer showStort2;
+	private Integer showStort3;
+	private Integer showStort4;
 	private Book book=new Book();
 	private List<Stort> stortlist=new ArrayList<Stort>();
 	private Stort stort=new Stort();
@@ -64,6 +69,47 @@ public class AdminAction extends ActionSupport {
 	private List<OrderInfo> orderInfolist=new ArrayList<OrderInfo>();
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpSession session = request.getSession();
+	
+
+	public Integer getShowStort1() {
+		return showStort1;
+	}
+
+	public void setShowStort1(Integer showStort1) {
+		this.showStort1 = showStort1;
+	}
+
+	public Integer getShowStort2() {
+		return showStort2;
+	}
+
+	public void setShowStort2(Integer showStort2) {
+		this.showStort2 = showStort2;
+	}
+
+	public Integer getShowStort3() {
+		return showStort3;
+	}
+
+	public void setShowStort3(Integer showStort3) {
+		this.showStort3 = showStort3;
+	}
+
+	public Integer getShowStort4() {
+		return showStort4;
+	}
+
+	public void setShowStort4(Integer showStort4) {
+		this.showStort4 = showStort4;
+	}
+
+	public LucyCfg getLucyCfg() {
+		return lucyCfg;
+	}
+
+	public void setLucyCfg(LucyCfg lucyCfg) {
+		this.lucyCfg = lucyCfg;
+	}
 
 	public List<DetailInfo> getDetailInfolist() {
 		return detailInfolist;
@@ -347,8 +393,9 @@ public class AdminAction extends ActionSupport {
 	public String setting() {
 		LucyCfg cfg = new LucyCfg();
 		cfg.setCfgid(1);
-		cfg.setPagesize(bookStore);
-		cfg.setInventory(bookStort);
+		cfg.setPagesize(bookStore);cfg.setInventory(bookStort);
+		cfg.setShowStort1(showStort1);cfg.setShowStort2(showStort2);
+		cfg.setShowStort3(showStort3);cfg.setShowStort4(showStort4);
 		admService.update(cfg);
 		request.setAttribute("settingIsOk", 1);
 		return "settingOK";
@@ -435,7 +482,7 @@ public class AdminAction extends ActionSupport {
 		if (page == admService.getPageSize(new Book()))
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
-		stortlist=(List<Stort>) admService.getListPag(new Stort(), pi.getIndex());
+		stortlist=(List<Stort>) admService.getListPag(new Stort(), pi.getIndex(),pi.getSize());
 		return "showStortOK";
 	}
 	//删除类型和其下的所有书本
@@ -484,7 +531,7 @@ public class AdminAction extends ActionSupport {
 		if (page == admService.getPageSize(new Book()))
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
-		authorlist=(List<Author>) admService.getListPag(new Author(), pi.getIndex());
+		authorlist=(List<Author>) admService.getListPag(new Author(), pi.getIndex(),pi.getSize());
 		return "showAuthorOK";
 	}
 	//删除作者和其所有作品
@@ -731,5 +778,9 @@ public class AdminAction extends ActionSupport {
 	      workbook.write(xlsStream);
 	      request.setAttribute("pages", 1);
 		return "exportOrderOK";
+	}
+	public String showSetting() {
+		lucyCfg=admService.getLucyCfg();
+		return "showSettingOK";
 	}
 }

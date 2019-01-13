@@ -2,6 +2,7 @@ package xflfk.wicresoft.entitry;
 
 public class BookInfo {
 	private Integer bid;
+	private Integer autid;
 	private String bPhoto;
 	private String bName;
 	private String autName;
@@ -10,6 +11,13 @@ public class BookInfo {
 	private Double bPrice;
 	private String bdetail;
 	
+	
+	public Integer getAutid() {
+		return autid;
+	}
+	public void setAutid(Integer autid) {
+		this.autid = autid;
+	}
 	public String getBdetail() {
 		return bdetail;
 	}
@@ -62,9 +70,11 @@ public class BookInfo {
 	}
 	@Override
 	public String toString() {
-		return "BookInfo [bid=" + bid + ", bPhoto=" + bPhoto + ", bName=" + bName + ", autName=" + autName + ", stName="
-				+ stName + ", bStore=" + bStore + ", bPrice=" + bPrice + ", bdetail=" + bdetail + "]";
+		return "BookInfo [bid=" + bid + ", autid=" + autid + ", bPhoto=" + bPhoto + ", bName=" + bName + ", autName="
+				+ autName + ", stName=" + stName + ", bStore=" + bStore + ", bPrice=" + bPrice + ", bdetail=" + bdetail
+				+ "]";
 	}
+
 
 
 }

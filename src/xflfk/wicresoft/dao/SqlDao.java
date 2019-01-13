@@ -24,11 +24,14 @@ public interface SqlDao {
 	public <T> List<?> getList(T t);
 	/**
 	 * 分页查询
-	 * @param c
+	 * @param t
 	 * @param index
+	 * 起始位置
+	 * @param pageSiez
+	 * 每页条数
 	 * @return
 	 */
-	public <T> List<?> getPagList(T t,int index);
+	public <T> List<?> getPagList(T t,int index,int pageSiez);
 	/**
 	 * 预编译Sql语句查询
 	 * @param c

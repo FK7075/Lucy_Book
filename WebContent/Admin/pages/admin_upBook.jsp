@@ -97,7 +97,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">
+							<a class="nav-link" href="${pageContext.request.contextPath }/User/pages/user_homeContent">
 								<span class="menu-title">书店主页</span>
 								<i class="mdi mdi-home menu-icon"></i>
 							</a>
@@ -200,7 +200,7 @@
 							</div>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="setting.jsp">
+							<a class="nav-link" href="${pageContext.request.contextPath}/Admin/pages/admin_showSetting">
 								<span class="menu-title">设置</span>
 								<i class="mdi mdi-brightness-7 menu-icon"></i>
 							</a>

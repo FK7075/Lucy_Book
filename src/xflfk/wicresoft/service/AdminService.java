@@ -4,9 +4,9 @@ import java.util.List;
 
 import xflfk.wicresoft.dao.SqlDaoImpl;
 import xflfk.wicresoft.entitry.Admin;
-import xflfk.wicresoft.entitry.Book;
 import xflfk.wicresoft.entitry.LucyCfg;
 import xflfk.wicresoft.entitry.PageInfo;
+import xflfk.wicresoft.entitry.Stort;
 
 @SuppressWarnings("all")
 public class AdminService {
@@ -165,8 +165,8 @@ public class AdminService {
 	 * @param index
 	 * @return
 	 */
-	public <T> List<?> getListPag(T t,int index ){
-		return sqlDao.getPagList(t, index);
+	public <T> List<?> getListPag(T t,int index,int pageSize){
+		return sqlDao.getPagList(t, index,pageSize);
 	}
 	/**
 	 * 返回某个表的总记录数
@@ -251,5 +251,9 @@ public class AdminService {
 		pi.setPagenum(pagenum);// 总页数
 		pi.setIndex(cfg.getPagesize()*(nowIndex-1));
 		return pi;
+	}
+	public LucyCfg getLucyCfg(){
+		LucyCfg cfg=(LucyCfg) sqlDao.getOne(LucyCfg.class, 1);
+		return cfg;
 	}
 }
