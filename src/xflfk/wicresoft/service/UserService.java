@@ -116,4 +116,15 @@ public class UserService {
 		else 
 			return (User) sqlDao.getList(user).get(0);
 	}
+	//用户注册
+	public boolean register(User user) {
+		User u=new User();
+		u.setuName(user.getuName());
+		if(sqlDao.getList(u).size()!=0) {
+			return false;//用户名已存在
+		}else {
+			sqlDao.save(user);
+			return true;//注册成功
+		}
+	}
 }

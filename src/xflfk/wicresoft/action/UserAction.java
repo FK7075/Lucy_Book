@@ -21,6 +21,7 @@ import xflfk.wicresoft.service.UserService;
 public class UserAction extends ActionSupport {
 	private String uName;
 	private String uPass;
+	private String uTel;
 	private UserService usrService=new UserService();
 	private BookInfo bookInfo=new BookInfo();
 	private List<Notes> noteslist=new ArrayList<Notes>();
@@ -37,6 +38,12 @@ public class UserAction extends ActionSupport {
 	private HttpSession session = request.getSession();
 	
 	
+	public String getuTel() {
+		return uTel;
+	}
+	public void setuTel(String uTel) {
+		this.uTel = uTel;
+	}
 	public String getuName() {
 		return uName;
 	}
@@ -186,5 +193,17 @@ public class UserAction extends ActionSupport {
 			request.setAttribute("isOk", "isOk");
 			return "loginNO";
 			}
+	}
+	//ÓÃ»§×¢²á
+	public String register() {
+		User user=new User();
+		user.setuTel(uTel);user.setuPassword(uPass);
+		user.setuName(uName);
+		if(usrService.register(user)) {
+			request.setAttribute("isOK", 0);
+		}else {
+			request.setAttribute("isOK", 1);
+		}
+		return "register";
 	}
 }
