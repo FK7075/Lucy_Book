@@ -127,4 +127,7 @@ public class UserService {
 			return true;//×¢²á³É¹¦
 		}
 	}
+	public <T> List<?> getList(T t){
+		return sqlDao.getList(t);
+	}
 }

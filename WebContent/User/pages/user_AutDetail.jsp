@@ -1,6 +1,6 @@
 <%@ page language="java" import="xflfk.wicresoft.entitry.User"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -23,10 +23,14 @@
 <%
 	String tag1 = "登录";
 	String tag2 = "注册";
+	String href1 = "user_Login.jsp";
+	String href2 = "user_Register.jsp";
 	if (session.getAttribute("user") != null) {
 		User u = (User) session.getAttribute("user");
 		tag1 = u.getuName();
-		tag2 = "";
+		tag2 = "登出";
+		href1 = "#";
+		href2 = "user_loginOut";
 	}
 %>
 </head>
@@ -63,8 +67,8 @@
 								<p>欢迎来到Lucy_Book网上书城</p>
 							</div>
 							<div class="social-icon">
-								<a href="user_Login.jsp" class="pull-left"><%=tag1%></a> <a
-									href="user_Register.jsp" class="pull-left"><%=tag2%></a> <a
+								<a href="<%=href1%>" class="pull-left"><%=tag1%></a> <a
+									href="<%=href2%>" class="pull-left"><%=tag2%></a> <a
 									href="mailto:1814375626@qq.com" class="pull-left">联系我们</a>
 							</div>
 						</div>
@@ -86,7 +90,8 @@
 								<li><a href="blog.html">我的</a>
 									<ul>
 										<li><a href="#">个人信息</a></li>
-										<li><a href="blog.html">我的收货人</a></li>
+										<li><a
+											href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
 										<li><a href="blog.html">我的购物车</a></li>
 									</ul></li>
 								<li><a href="blog.html">订单管理</a>

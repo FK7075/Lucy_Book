@@ -21,13 +21,17 @@
 <link href="../css/responsive.css" rel="stylesheet">
 <link href="../js/dl-menu/component.css" rel="stylesheet">
 <%
-	String tag1 = "登录";
-	String tag2 = "注册";
-	if (session.getAttribute("user") != null) {
-		User u = (User) session.getAttribute("user");
-		tag1 = u.getuName();
-		tag2 = "";
-	}
+String tag1 = "登录";
+String tag2 = "注册";
+String href1="user_Login.jsp";
+String href2="user_Register.jsp";
+if (session.getAttribute("user") != null) {
+	User u = (User) session.getAttribute("user");
+	tag1 = u.getuName();
+	tag2 = "登出";
+	href1="#";
+	href2="user_loginOut";
+}
 %>
 </head>
 <body>
@@ -58,8 +62,8 @@
 								<p>欢迎来到Lucy_Book网上书城</p>
 							</div>
 							<div class="social-icon">
-								<a href="user_Login.jsp" class="pull-left"><%=tag1%></a> <a
-									href="user_Register.jsp" class="pull-left"><%=tag2%></a> <a
+								<a href="<%=href1 %>" class="pull-left"><%=tag1%></a> <a
+									href="<%=href2 %>" class="pull-left"><%=tag2%></a> <a
 									href="mailto:1814375626@qq.com" class="pull-left">联系我们</a>
 							</div>
 						</div>
@@ -81,7 +85,7 @@
 								<li><a href="blog.html">我的</a>
 									<ul>
 										<li><a href="#">个人信息</a></li>
-										<li><a href="blog.html">我的收货人</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
 										<li><a href="blog.html">我的购物车</a></li>
 									</ul></li>
 								<li><a href="blog.html">订单管理</a>

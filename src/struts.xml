@@ -78,6 +78,8 @@
 			<result name="autDetailOK">user_AutDetail.jsp</result>
 			<result name="loginNO">user_Login.jsp</result>
 			<result name="register">user_Register.jsp</result>
+			<result name="ConsignessOK">myConsigness.jsp</result>
+			<result name="ConsignessNO">user_Login.jsp</result>
 		</action>
 	</package>
 </struts>

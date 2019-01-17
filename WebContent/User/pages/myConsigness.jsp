@@ -21,14 +21,20 @@
 <link href="../css/responsive.css" rel="stylesheet">
 <link href="../js/dl-menu/component.css" rel="stylesheet">
 <%
-	String tag1 = "登录";
-	String tag2 = "注册";
-	if (session.getAttribute("user") != null) {
-		User u = (User) session.getAttribute("user");
-		tag1 = u.getuName();
-		tag2 = "";
-	}
+	String url = "../images/1.jpg";
+String tag1 = "登录";
+String tag2 = "注册";
+String href1="user_Login.jsp";
+String href2="user_Register.jsp";
+if (session.getAttribute("user") != null) {
+	User u = (User) session.getAttribute("user");
+	tag1 = u.getuName();
+	tag2 = "登出";
+	href1="#";
+	href2="user_loginOut";
+}
 %>
+
 </head>
 <body>
 	<div id="loader-wrapper">
@@ -58,8 +64,9 @@
 								<p>欢迎来到Lucy_Book网上书城</p>
 							</div>
 							<div class="social-icon">
-								<a href="user_Login.jsp" class="pull-left"><%=tag1%></a> <a
-									href="user_Register.jsp" class="pull-left"><%=tag2%></a> <a
+							<div class="social-icon">
+								<a href="<%=href1 %>" class="pull-left"><%=tag1%></a> <a
+									href="<%=href2 %>" class="pull-left"><%=tag2%></a> <a
 									href="mailto:1814375626@qq.com" class="pull-left">联系我们</a>
 							</div>
 						</div>
@@ -81,7 +88,7 @@
 								<li><a href="blog.html">我的</a>
 									<ul>
 										<li><a href="#">个人信息</a></li>
-										<li><a href="blog.html">我的收货人</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
 										<li><a href="blog.html">我的购物车</a></li>
 									</ul></li>
 								<li><a href="blog.html">订单管理</a>
@@ -103,9 +110,9 @@
 		<!--BANNER START-->
 		<div class="kode-inner-banner">
 			<div class="kode-page-heading">
-				<h2>书库</h2>
+				<h2>收货人</h2>
 				<ol class="breadcrumb">
-					<li>我们拥有你想要的</li>
+					<li>遇见你让我更美好</li>
 				</ol>
 			</div>
 		</div>
@@ -125,9 +132,24 @@
 		</div>
 		<div class="kode-content padding-tb-50">
 			<div class="container">
-				<br><br>
-				<br><br>
-				<br><br>
+				<div class="kode-comments kode-comments-2">
+					<h2>我的收货人</h2><input type="button" value="添加收货人" onclick="location.href='${pageContext.request.contextPath }/User/pages/user_'">
+					<ul>
+					<c:forEach items="${conslist }" var="cons">
+						<li>
+							<div class="kode-thumb">
+								<a href="#"><img alt="" src="<%=url %>" /></a>
+							</div>
+							<div class="kode-text">
+								<h4>${cons.consName }</h4>
+								<p class="designation">${cons.consTel }</p>
+								<p>${cons.consAddre }</p>
+								<a class="reply" href="#">删除</a>
+							</div>
+						</li>
+					</c:forEach>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -141,7 +163,6 @@
 		</div>
 	</div>
 	</footer>
-	</div>
 	<!--WRAPPER END-->
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
