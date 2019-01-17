@@ -70,6 +70,9 @@
 			method="{1}">
 			<result name="loginOK" type="chain">user_homeContent</result>
 			<result name="loginOutOK" type="chain">user_homeContent</result>
+			<result name="addConsignessOK" type="chain">user_myConsigness</result>
+			<result name="delConsignessOK" type="chain">user_myConsigness</result>
+			<result name="updateConsignessOK" type="chain">user_updConsigness</result>
 			<result name="homeContentOK">user_index.jsp</result>
 			<result name="allBookOK">user_BookList.jsp</result>
 			<result name="allAuthorOK">user_AuthorList.jsp</result>
@@ -80,6 +83,10 @@
 			<result name="register">user_Register.jsp</result>
 			<result name="ConsignessOK">myConsigness.jsp</result>
 			<result name="ConsignessNO">user_Login.jsp</result>
+			<result name="addConsignessNO">user_Login.jsp</result>
+			<result name="updConsignessOK">updConsigness.jsp</result>
+			<result name="addConsOK">addConsigness.jsp</result>
+			<result name="consToUserOK">1.jsp</result>
 		</action>
 	</package>
 </struts>

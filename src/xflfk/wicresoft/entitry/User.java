@@ -5,7 +5,7 @@ public class User {
 	private String uName;//用户名
 	private String uSex;//性别
 	private String uPassword;//密码
-	private String uPor;//头像
+	private Integer myCons;//
 	private String uTel;//用户电话
 	public Integer getUid() {
 		return uid;
@@ -31,11 +31,12 @@ public class User {
 	public void setuPassword(String uPassword) {
 		this.uPassword = uPassword;
 	}
-	public String getuPor() {
-		return uPor;
+	
+	public Integer getMyCons() {
+		return myCons;
 	}
-	public void setuPor(String uPor) {
-		this.uPor = uPor;
+	public void setMyCons(Integer myCons) {
+		this.myCons = myCons;
 	}
 	public String getuTel() {
 		return uTel;
@@ -45,9 +46,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [uid=" + uid + ", uName=" + uName + ", uSex=" + uSex + ", uPassword=" + uPassword + ", uPor="
-				+ uPor + ", uTel=" + uTel + "]";
+		return "User [uid=" + uid + ", uName=" + uName + ", uSex=" + uSex + ", uPassword=" + uPassword + ", myCons="
+				+ myCons + ", uTel=" + uTel + "]";
 	}
-	
-
 }

@@ -22,6 +22,7 @@ import xflfk.wicresoft.service.UserService;
 
 @SuppressWarnings("all")
 public class UserAction extends ActionSupport {
+	private Integer id;
 	private String uName;
 	private String uPass;
 	private String uTel;
@@ -36,11 +37,20 @@ public class UserAction extends ActionSupport {
 	private List<Stort> stortlist = new ArrayList<Stort>();
 	private List<Stort> stortlist1 = new ArrayList<Stort>();
 	private Author author = new Author();
+	private Consigness cons = new Consigness();
 	private List<Author> authorlist = new ArrayList<Author>();
 	private List<Consigness> conslist = new ArrayList<Consigness>();
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpServletResponse response = ServletActionContext.getResponse();
 	private HttpSession session = request.getSession();
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public List<Consigness> getConslist() {
 		return conslist;
@@ -148,6 +158,14 @@ public class UserAction extends ActionSupport {
 
 	public List<BookInfo> getBooklist() {
 		return booklist;
+	}
+
+	public Consigness getCons() {
+		return cons;
+	}
+
+	public void setCons(Consigness cons) {
+		this.cons = cons;
 	}
 
 	public void setBooklist(List<BookInfo> booklist) {
@@ -280,10 +298,59 @@ public class UserAction extends ActionSupport {
 			System.out.println(u);
 			con.setUid(u.getUid());
 			conslist = (List<Consigness>) usrService.getList(con);
+			stortlist1 = usrService.allStort();
 			return "ConsignessOK";
 		} 
 		else
 			return "ConsignessNO";
-
+	}
+	public String addCons() {
+		stortlist1 = usrService.allStort();
+		return "addConsOK";
+	}
+	//添加收货人
+	public String addConsigness() {
+		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			Consigness con = new Consigness();
+			con.setUid(u.getUid());con.setConsName(uName);
+			con.setConsTel(uTel);con.setConsAddre(uPass);
+			usrService.save(con);
+			stortlist1 = usrService.allStort();
+			return "addConsignessOK";
+		} 
+		else
+			return "addConsignessNO";
+	}
+	//删除收货人
+	public String delConsigness() {
+		Consigness con=new Consigness();
+		con.setConsid(Integer.parseInt(request.getParameter("id")));
+		usrService.del(con);
+		return "delConsignessOK";
+	}
+	//修改收货人数据准备
+	public String updConsigness() {
+		cons=(Consigness) usrService.getOne(Consigness.class, Integer.parseInt(request.getParameter("id")));
+		stortlist1 = usrService.allStort();
+		return "updConsignessOK";
+	}
+	public String updateConsigness() {
+			User u = (User) session.getAttribute("user");
+			Consigness con = new Consigness();
+			con.setConsid(id);;con.setConsName(uName);
+			con.setConsTel(uTel);con.setConsAddre(uPass);
+			usrService.update(con);
+			return "updateConsignessOK";
+	}
+	public String consToUser() {
+		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			u.setMyCons(Integer.parseInt(request.getParameter("id")));
+			usrService.update(u);
+			return "consToUserOK";
+		} 
+		else
+			return "consToUserNO";
 	}
 }

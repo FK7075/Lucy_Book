@@ -130,4 +130,16 @@ public class UserService {
 	public <T> List<?> getList(T t){
 		return sqlDao.getList(t);
 	}
+	public <T> boolean save(T t){
+		return sqlDao.save(t);
+	}
+	public <T> boolean del(T t){
+		return sqlDao.delete(t);
+	}
+	public Object getOne(Class c,int id) {
+		return sqlDao.getOne(c, id);
+	}
+	public <T> boolean update(T t){
+		return sqlDao.update(t);
+	}
 }

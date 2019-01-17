@@ -5,7 +5,6 @@ public class Consigness {
 	private String consName;//收货人姓名
 	private String consTel;//收货人电话
 	private String consAddre;//收获地址
-	private String isDef;//是否设置为默认收货人
 	private Integer uid;//创建该收货人的用户
 	public Integer getConsid() {
 		return consid;
@@ -31,12 +30,6 @@ public class Consigness {
 	public void setConsAddre(String consAddre) {
 		this.consAddre = consAddre;
 	}
-	public String getIsDef() {
-		return isDef;
-	}
-	public void setIsDef(String isDef) {
-		this.isDef = isDef;
-	}
 	public Integer getUid() {
 		return uid;
 	}
@@ -46,8 +39,7 @@ public class Consigness {
 	@Override
 	public String toString() {
 		return "Consigness [consid=" + consid + ", consName=" + consName + ", consTel=" + consTel + ", consAddre="
-				+ consAddre + ", isDef=" + isDef + ", uid=" + uid + "]";
+				+ consAddre + ", uid=" + uid + "]";
 	}
-	
 
 }
