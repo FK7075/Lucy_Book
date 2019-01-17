@@ -67,8 +67,9 @@
 							class="mdi mdi-cached mr-2 text-success"></i> 个人信息
 						</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="admin_Login.jsp"> <i
-							class="mdi mdi-logout mr-2 text-primary"></i> 登出
+						<a class="dropdown-item"
+							href="${pageContext.request.contextPath}/Admin/pages/admin_loginOut">
+							<i class="mdi mdi-logout mr-2 text-primary"></i> 登出
 						</a>
 					</div></li>
 				<li class="nav-item d-none d-lg-block full-screen-link"><a
@@ -77,8 +78,9 @@
 				</a></li>
 
 				<li class="nav-item nav-logout d-none d-lg-block"><a
-					class="nav-link" href="admin_Login.jsp"> <i
-						class="mdi mdi-power"></i>
+					class="nav-link"
+					href="${pageContext.request.contextPath}/Admin/pages/admin_loginOut">
+						<i class="mdi mdi-power"></i>
 				</a></li>
 				<li class="nav-item nav-settings d-none d-lg-block"><a
 					class="nav-link" href="#"> <i
@@ -164,6 +166,20 @@
 							</li>
 							<li class="nav-item"><a class="nav-link"
 								href="admin_AddAuthor.jsp">新增作者</a></li>
+						</ul>
+					</div></li>
+				<li class="nav-item"><a class="nav-link" data-toggle="collapse"
+					href="#ui-basic9" aria-expanded="false" aria-controls="ui-basic9">
+						<span class="menu-title">美文管理</span> <i class="menu-arrow"></i> <i
+						class="mdi mdi-apple-finder menu-icon"></i>
+				</a>
+					<div class="collapse" id="ui-basic9">
+						<ul class="nav flex-column sub-menu">
+							<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/Admin/pages/admin_showNotes">所有美文</a>
+							</li>
+							<li class="nav-item"><a class="nav-link"
+								href="admin_addNotes.jsp">新增美文</a></li>
 						</ul>
 					</div></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="collapse"

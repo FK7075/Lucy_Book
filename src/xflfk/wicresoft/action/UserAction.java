@@ -3,13 +3,16 @@ package xflfk.wicresoft.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import xflfk.wicresoft.entitry.Admin;
 import xflfk.wicresoft.entitry.Author;
 import xflfk.wicresoft.entitry.BookInfo;
 import xflfk.wicresoft.entitry.Notes;
@@ -35,6 +38,7 @@ public class UserAction extends ActionSupport {
 	private Author author=new Author();
 	private List<Author> authorlist=new ArrayList<Author>();
 	private HttpServletRequest request = ServletActionContext.getRequest();
+	private HttpServletResponse response = ServletActionContext.getResponse();
 	private HttpSession session = request.getSession();
 	
 	
@@ -183,6 +187,18 @@ public class UserAction extends ActionSupport {
 	}
 	//ÓÃ»§µÇÂ¼
 	public String login() {
+		String isChick=request.getParameter("checkbox");
+		Cookie userIDcookie= new Cookie("LB_userID",uName);
+		Cookie userpasscookie=new Cookie("LB_userPass",uPass);
+		if(isChick!=null) {
+			userIDcookie.setMaxAge(7*24*60*60);
+			userpasscookie.setMaxAge(7*24*60*60);
+		}else {
+			userIDcookie.setMaxAge(0);
+			userpasscookie.setMaxAge(0);
+		}
+		response.addCookie(userIDcookie);
+		response.addCookie(userpasscookie);
 		User user=new User();
 		user.setuName(uName);user.setuPassword(uPass);
 		if(usrService.login(user)!=null) {
@@ -205,5 +221,10 @@ public class UserAction extends ActionSupport {
 			request.setAttribute("isOK", 1);
 		}
 		return "register";
+	}
+	//×¢ÏúµÇÂ¼
+	public String loginOut() {
+		session.removeAttribute("user");
+		return "loginOutOK";
 	}
 }

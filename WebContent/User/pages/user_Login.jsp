@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.net.URLDecoder"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,7 +16,36 @@
 </script>
 <%
 	}
+	Cookie[] cookies = request.getCookies();
+	String ID = "";
+	String Pass = "";
+	String cookieName = "LB_userID";
+	String cookiePass = "LB_userPass";
+	String ppt = "";
+	Cookie[] cookiepp = request.getCookies();
+	if (cookiepp != null) {
+		for (int i = 0; i < cookiepp.length; i++) {
+			System.out.println(cookiepp[i].getName() + "  " + cookiepp[i].getValue());
+			if (cookiepp[i].getName().equals(cookieName)) {
+				ID = cookiepp[i].getValue();
+				ID = URLDecoder.decode(ID, "UTF-8");
+				ppt = "checked";
+			}
+			if (cookiepp[i].getName().equals(cookiePass)) {
+				Pass = cookiepp[i].getValue();
+			}
+		}
+		System.out.println("ID:" + ID + "    " + "Pass:" + Pass);
+	}
 %>
+<script type="text/javascript">
+function Click5(){
+	if (confirm("联系管理员邮箱1814375626@qq.com找回密码？"))
+		return true;
+	else
+		return false;
+}
+</script>
 </head>
 <body>
 	<div class="wrap login_wrap">
@@ -31,20 +60,25 @@
 						method="post" id="subform">
 
 						<div class="form_text_ipt">
-							<input name="uName" type="text" placeholder="用户名">
+							<input name="uName" type="text" placeholder="用户名" value="<%=ID%>">
 						</div>
 						<div class="ececk_warning">
 							<span>用户名不能为空</span>
 						</div>
 						<div class="form_text_ipt">
-							<input name="uPass" type="password" placeholder="密码">
+							<input name="uPass" type="password" placeholder="密码"
+								value="<%=Pass%>">
 						</div>
 						<div class="ececk_warning">
 							<span>密码不能为空</span>
 						</div>
 						<div class="form_check_ipt">
 							<div class="left check_left">
-								<label><input name="" type="checkbox"> 记住密码</label>
+								<label><input type="checkbox" name="checkbox" <%=ppt%>>
+									记住密码</label>
+							</div>
+							<div class="right check_right">
+								<a href="mailto:1814375626@qq.com" onclick="return Click5();">忘记密码?</a>
 							</div>
 						</div>
 						<div class="form_btn">
@@ -57,7 +91,8 @@
 					</form>
 					<div class="other_login">
 						<div class="left other_left">
-							<a href="${pageContext.request.contextPath }/User/pages/user_homeContent">返回书店主页</a>
+							<a
+								href="${pageContext.request.contextPath }/User/pages/user_homeContent">返回书店主页</a>
 						</div>
 					</div>
 				</div>

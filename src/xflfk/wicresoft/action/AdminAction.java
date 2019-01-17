@@ -1,14 +1,15 @@
 package xflfk.wicresoft.action;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -25,6 +26,7 @@ import xflfk.wicresoft.entitry.Book;
 import xflfk.wicresoft.entitry.BookInfo;
 import xflfk.wicresoft.entitry.DetailInfo;
 import xflfk.wicresoft.entitry.LucyCfg;
+import xflfk.wicresoft.entitry.Notes;
 import xflfk.wicresoft.entitry.OrderInfo;
 import xflfk.wicresoft.entitry.Orders;
 import xflfk.wicresoft.entitry.PageInfo;
@@ -66,10 +68,29 @@ public class AdminAction extends ActionSupport {
 	private List<Orders> orderlist=new ArrayList<Orders>();
 	private OrderInfo orderInfo=new OrderInfo();
 	private List<DetailInfo> detailInfolist=new ArrayList<DetailInfo>(); 
+	private List<Notes> noteslist=new ArrayList<Notes>(); 
+	private Notes notes=new Notes();
 	private List<OrderInfo> orderInfolist=new ArrayList<OrderInfo>();
 	private HttpServletRequest request = ServletActionContext.getRequest();
+	private HttpServletResponse response = ServletActionContext.getResponse();
 	private HttpSession session = request.getSession();
 	
+
+	public Notes getNotes() {
+		return notes;
+	}
+
+	public void setNotes(Notes notes) {
+		this.notes = notes;
+	}
+
+	public List<Notes> getNoteslist() {
+		return noteslist;
+	}
+
+	public void setNoteslist(List<Notes> noteslist) {
+		this.noteslist = noteslist;
+	}
 
 	public Integer getShowStort1() {
 		return showStort1;
@@ -299,9 +320,21 @@ public class AdminAction extends ActionSupport {
 
 	// 管理员登录（Admin/pages/admin_login）
 	public String login() {
+		String isChick=request.getParameter("checkbox");
 		Admin admin = new Admin();
 		admin.setAdmName(username);
 		admin.setAdmPassword(password);
+		Cookie userIDcookie= new Cookie("LB_adminID",username);
+		Cookie userpasscookie=new Cookie("LB_adminPass",password);
+		if(isChick!=null) {
+			userIDcookie.setMaxAge(7*24*60*60);
+			userpasscookie.setMaxAge(7*24*60*60);
+		}else {
+			userIDcookie.setMaxAge(0);
+			userpasscookie.setMaxAge(0);
+		}
+		response.addCookie(userIDcookie);
+		response.addCookie(userpasscookie);
 		admin = admService.login(admin);
 		if (admin != null) {
 			// 把管理员信息存入到session域对象中
@@ -312,6 +345,7 @@ public class AdminAction extends ActionSupport {
 			request.setAttribute("isOk", "on");
 			return "onlogin";
 		}
+			
 	}
 
 	// 添加书本的信息准备（Admin/pages/admin_showAddBook ）
@@ -779,8 +813,50 @@ public class AdminAction extends ActionSupport {
 	      request.setAttribute("pages", 1);
 		return "exportOrderOK";
 	}
+	//显示设置信息
 	public String showSetting() {
 		lucyCfg=admService.getLucyCfg();
 		return "showSettingOK";
+	}
+	//注销登录（清除session）
+	public String loginOut() {
+		session.removeAttribute("admin");
+		return "loginOutOK";
+	}
+	//所有美文
+	public String showNotes() {
+		noteslist=(List<Notes>) admService.getList(new Notes());
+		return "showNotrsOK";
+	}
+	//删除美文
+	public String delNotes() {
+		admService.del("Notes", Integer.parseInt(request.getParameter("id")));
+		return "delNotesOK";
+	}
+	//添加美文
+	public String addNotes() {
+		Notes n=new Notes();
+		n.setArticle1(admTel);n.setArticle2(bookDetail);
+		admService.add(n);
+		return "addNotesOK";
+	}
+	//显示美文信息
+	public String showNoteInfo() {
+		int id=0;
+		if(request.getParameter("id")!=null)
+			id=Integer.parseInt(request.getParameter("id"));
+		if(request.getAttribute("id")!=null)
+			id=(int)request.getAttribute("id");
+		notes=(Notes) admService.getOne(Notes.class, id);
+		return "showNoteInfoOK";
+	}
+	//修改美文
+	public String updateNote() {
+		Notes n=new Notes();
+		n.setBufid(tableid);
+		n.setArticle1(admTel);n.setArticle2(bookDetail);
+		admService.update(n);
+		request.setAttribute("id", tableid);
+		return "updateNoteOK";
 	}
 }

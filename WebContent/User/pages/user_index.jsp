@@ -25,10 +25,14 @@
 	int i = 1;
 	String tag1 = "登录";
 	String tag2 = "注册";
+	String href1="user_Login.jsp";
+	String href2="user_Register.jsp";
 	if (session.getAttribute("user") != null) {
 		User u = (User) session.getAttribute("user");
 		tag1 = u.getuName();
-		tag2 = "";
+		tag2 = "登出";
+		href1="#";
+		href2="user_loginOut";
 	}
 %>
 </head>
@@ -60,8 +64,8 @@
 								<p>欢迎来到Lucy_Book网上书城</p>
 							</div>
 							<div class="social-icon">
-								<a href="user_Login.jsp" class="pull-left"><%=tag1%></a> <a
-									href="user_Register.jsp" class="pull-left"><%=tag2%></a> <a
+								<a href="<%=href1 %>" class="pull-left" id="xfl"><%=tag1%></a> <a
+									href="<%=href2 %>" class="pull-left" id="fk"><%=tag2%></a> <a
 									href="mailto:1814375626@qq.com" class="pull-left">联系我们</a>
 							</div>
 						</div>

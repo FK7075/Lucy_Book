@@ -22,6 +22,9 @@
 			<result name="deliveryOK" type="chain">admin_noDelivery</result>
 			<result name="exportOrderOK" type="chain">admin_showOrder</result>
 			<result name="settingOK" type="chain">admin_showSetting</result>
+			<result name="delNotesOK" type="chain">admin_showNotes</result>
+			<result name="updateNoteOK" type="chain">admin_showNoteInfo</result>
+			<result name="addNotesOK" type="chain">admin_showNotes</result>
 			<result name="onlogin">admin_Login.jsp</result>
 			<result name="ok">admin_BookList.jsp</result>
 			<result name="showAddBookOK">admin_AddBook.jsp</result>
@@ -41,6 +44,9 @@
 			<result name="noPaymentOK">admin_NoPayment.jsp</result>
 			<result name="noDeliveryOK">admin_NoDelivery.jsp</result>
 			<result name="showSettingOK">setting.jsp</result>
+			<result name="loginOutOK">admin_Login.jsp</result>
+			<result name="showNotrsOK">admin_notes.jsp</result>
+			<result name="showNoteInfoOK">admin_updateNotes.jsp</result>
 		</action>
 		<action name="download" class="xflfk.wicresoft.action.DownloadAction"
 			method="execute">
@@ -63,6 +69,7 @@
 		<action name="user_*" class="xflfk.wicresoft.action.UserAction"
 			method="{1}">
 			<result name="loginOK" type="chain">user_homeContent</result>
+			<result name="loginOutOK" type="chain">user_homeContent</result>
 			<result name="homeContentOK">user_index.jsp</result>
 			<result name="allBookOK">user_BookList.jsp</result>
 			<result name="allAuthorOK">user_AuthorList.jsp</result>

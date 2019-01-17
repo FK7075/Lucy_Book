@@ -1,19 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
-<!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Purple Admin</title>
+<title>Lucy_Book-Admin</title>
 <link rel="stylesheet"
 	href="../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="shortcut icon" href="../images/favicon.png" />
 </head>
+<script type="text/javascript">
+	function click1() {
+		if (confirm("您将删除这两页美文？"))
+			return true;
+		else
+			return false;
+	}
+</script>
 <body>
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
@@ -21,9 +29,9 @@
 			class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 		<div
 			class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-			<a class="navbar-brand brand-logo" href="#"><img
+			<a class="navbar-brand brand-logo" href="../index.html"><img
 				src="../images/logo.svg" alt="logo" /></a> <a
-				class="navbar-brand brand-logo-mini" href="#"><img
+				class="navbar-brand brand-logo-mini" href="../index.html"><img
 				src="../images/logo-mini.svg" alt="logo" /></a>
 		</div>
 		<div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -66,7 +74,6 @@
 					class="nav-link"> <i class="mdi mdi-fullscreen"
 						id="fullscreen-button"></i>
 				</a></li>
-
 				<li class="nav-item nav-logout d-none d-lg-block"><a
 					class="nav-link"
 					href="${pageContext.request.contextPath}/Admin/pages/admin_loginOut">
@@ -79,7 +86,9 @@
 			</ul>
 		</div>
 		</nav>
+		<!-- partial -->
 		<div class="container-fluid page-body-wrapper">
+			<!-- partial:../../partials/_sidebar.html -->
 			<nav class="sidebar sidebar-offcanvas" id="sidebar">
 			<ul class="nav">
 				<li class="nav-item nav-profile"><a href="#" class="nav-link">
@@ -87,6 +96,7 @@
 							<img
 								src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }"
 								alt="profile"> <span class="login-status online"></span>
+							<!--change to offline or busy as needed-->
 						</div>
 						<div class="nav-profile-text d-flex flex-column">
 							<span class="font-weight-bold mb-2">${sessionScope.admin.admName }</span>
@@ -200,18 +210,29 @@
 			</nav>
 			<!-- partial -->
 			<div class="content-wrapper">
-				<p class="text-primary" style="">Lucy_Book--书本信息</p>
-				<div class="col-12 grid-margin stretch-card">
-					<img src="${pageContext.request.contextPath }/${bookInfo.bPhoto}"
-						width="160px" height="200px">
-					<div>
-						<h3>${bookInfo.bName }</h3>
-						<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>作者</b>:&nbsp;&nbsp;${bookInfo.autName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>类型</b>:&nbsp;&nbsp;${bookInfo.stName }<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>价格</b>:&nbsp;&nbsp;${ bookInfo.bPrice}<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;<b>书本简介</b>:<br> ${bookInfo.bdetail }
-					</div>
+				<p class="text-primary" style="">Lucy_Book--修改美文</p>
+				<div class="content-wrapper">
+					<form class="forms-sample" enctype="multipart/form-data"
+						method="post"
+						action="${pageContext.request.contextPath}/Admin/pages/admin_updateNote">
+						<input type="hidden" name="tableid" value="${notes.bufid }">
+						<div class="form-group">
+							<label for="exampleTextarea1">第一页内容</label>
+							<textarea class="form-control" id="exampleTextarea1" rows="6"
+								name="admTel">${notes.article1 }</textarea>
+						</div>
+						<div class="form-group">
+							<label for="exampleTextarea1">第二页内容</label>
+							<textarea class="form-control" id="exampleTextarea1"
+								rows="6
+								name="bookDetail">${notes.article2 }</textarea>
+						</div>
+						<button type="submit" class="btn btn-gradient-primary mr-2">确定</button>
+						<button type="reset" class="btn btn-light">重置</button>
+					</form>
 				</div>
+				<!-- content-wrapper ends -->
+				<!-- partial:.g./../partials/_footer.html -->
 				<footer class="footer">
 				<div
 					class="d-sm-flex justify-content-center justify-content-sm-between">
@@ -229,11 +250,10 @@
 			</div>
 		</div>
 	</div>
+
 	<script src="../vendors/js/vendor.bundle.base.js"></script>
 	<script src="../vendors/js/vendor.bundle.addons.js"></script>
 	<script src="../js/off-canvas.js"></script>
 	<script src="../js/misc.js"></script>
-	<script src="../js/file-upload.js"></script>
 </body>
-
 </html>
