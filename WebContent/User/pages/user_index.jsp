@@ -88,7 +88,7 @@
 									<ul>
 										<li><a href="#">个人信息</a></li>
 										<li><a href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
-										<li><a href="blog.html">我的购物车</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
 									</ul></li>
 								<li><a href="blog.html">订单管理</a>
 									<ul>
@@ -264,7 +264,7 @@
 								<p>${booklist[0].bdetail }</p>
 								<div class="lib-price">
 									<h3>￥${booklist[0].bPrice }</h3>
-									<a href="#">立即购买</a>
+									<a href="${pageContext.request.contextPath }/User/pages/user_addToCart?bid=${booklist[0].bid}">加入购物车</a>
 								</div>
 							</div>
 						</div>
@@ -285,7 +285,7 @@
 									<p>${gb.bdetail }</p>
 									<div class="lib-price">
 										<h3>￥${gb.bPrice }</h3>
-										<a href="#">立即购买</a>
+										<a href="${pageContext.request.contextPath }/User/pages/user_addToCart?bid=${gb.bid}">加入购物车</a>
 									</div>
 								</div>
 							</div>
@@ -335,7 +335,7 @@
 											</div>
 											<p>${ss1.autName  }</p>
 											<p class="price">￥${ss1.bPrice }</p>
-											<a href="#" class="add-to-cart">加入购物车</a>
+											<a href="${pageContext.request.contextPath }/User/pages/user_addToCart?bid=${ss1.bid}" class="add-to-cart">加入购物车</a>
 										</div>
 									</div>
 								</c:forEach></li>
@@ -360,7 +360,7 @@
 											</div>
 											<p>${ss2.autName }</p>
 											<p class="price">${ss2.bPrice }</p>
-											<a href="#" class="add-to-cart">加入购物车</a>
+											<a href="${pageContext.request.contextPath }/User/pages/user_addToCart?bid=${ss2.bid}" class="add-to-cart">加入购物车</a>
 										</div>
 									</div>
 								</c:forEach></li>
@@ -385,7 +385,7 @@
 											</div>
 											<p>${ss3.autName }</p>
 											<p class="price">￥${ss3.bPrice }</p>
-											<a href="#" class="add-to-cart">加入购物车</a>
+											<a href="${pageContext.request.contextPath }/User/pages/user_addToCart?bid=${ss3.bid}" class="add-to-cart">加入购物车</a>
 										</div>
 									</div>
 								</c:forEach></li>
@@ -410,7 +410,7 @@
 											</div>
 											<p>${ss4.autName }</p>
 											<p class="price">￥${ss4.bPrice }</p>
-											<a href="#" class="add-to-cart">加入购物车</a>
+											<a href="${pageContext.request.contextPath }/User/pages/user_addToCart?bid=${ss4.bid}" class="add-to-cart">加入购物车</a>
 										</div>
 									</div>
 									<!--PRODUCT GRID END-->

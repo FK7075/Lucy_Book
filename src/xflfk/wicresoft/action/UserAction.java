@@ -16,6 +16,7 @@ import xflfk.wicresoft.entitry.Author;
 import xflfk.wicresoft.entitry.BookInfo;
 import xflfk.wicresoft.entitry.Consigness;
 import xflfk.wicresoft.entitry.Notes;
+import xflfk.wicresoft.entitry.ShoppCart;
 import xflfk.wicresoft.entitry.Stort;
 import xflfk.wicresoft.entitry.User;
 import xflfk.wicresoft.service.UserService;
@@ -290,7 +291,8 @@ public class UserAction extends ActionSupport {
 		session.removeAttribute("user");
 		return "loginOutOK";
 	}
-	//收货人列表
+
+	// 收货人列表
 	public String myConsigness() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
@@ -300,57 +302,133 @@ public class UserAction extends ActionSupport {
 			conslist = (List<Consigness>) usrService.getList(con);
 			stortlist1 = usrService.allStort();
 			return "ConsignessOK";
-		} 
-		else
+		} else
 			return "ConsignessNO";
 	}
+
 	public String addCons() {
 		stortlist1 = usrService.allStort();
 		return "addConsOK";
 	}
-	//添加收货人
+
+	// 添加收货人
 	public String addConsigness() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			Consigness con = new Consigness();
-			con.setUid(u.getUid());con.setConsName(uName);
-			con.setConsTel(uTel);con.setConsAddre(uPass);
+			con.setUid(u.getUid());
+			con.setConsName(uName);
+			con.setConsTel(uTel);
+			con.setConsAddre(uPass);
 			usrService.save(con);
 			stortlist1 = usrService.allStort();
 			return "addConsignessOK";
-		} 
-		else
+		} else
 			return "addConsignessNO";
 	}
-	//删除收货人
+
+	// 删除收货人
 	public String delConsigness() {
-		Consigness con=new Consigness();
+		Consigness con = new Consigness();
 		con.setConsid(Integer.parseInt(request.getParameter("id")));
 		usrService.del(con);
 		return "delConsignessOK";
 	}
-	//修改收货人数据准备
+
+	// 修改收货人数据准备
 	public String updConsigness() {
-		cons=(Consigness) usrService.getOne(Consigness.class, Integer.parseInt(request.getParameter("id")));
+		cons = (Consigness) usrService.getOne(Consigness.class, Integer.parseInt(request.getParameter("id")));
 		stortlist1 = usrService.allStort();
 		return "updConsignessOK";
 	}
+
+	// 更新收货人信息
 	public String updateConsigness() {
-			User u = (User) session.getAttribute("user");
-			Consigness con = new Consigness();
-			con.setConsid(id);;con.setConsName(uName);
-			con.setConsTel(uTel);con.setConsAddre(uPass);
-			usrService.update(con);
-			return "updateConsignessOK";
+		User u = (User) session.getAttribute("user");
+		Consigness con = new Consigness();
+		con.setConsid(id);
+		;
+		con.setConsName(uName);
+		con.setConsTel(uTel);
+		con.setConsAddre(uPass);
+		usrService.update(con);
+		return "updateConsignessOK";
 	}
+
+	// 将该收货人加入订单信息
 	public String consToUser() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			u.setMyCons(Integer.parseInt(request.getParameter("id")));
 			usrService.update(u);
 			return "consToUserOK";
-		} 
-		else
+		} else
 			return "consToUserNO";
+	}
+
+	// 购物车信息
+	public String shoppingCart() {
+		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			String sql = "select b.bName,b.bPhoto,b.bPrice,s.state,s.shopid" + " FROM shoppcart s,book b,user u"
+					+ " where s.bid=b.bid and s.uid=u.uid and s.uid=?";
+			booklist = (List<BookInfo>) usrService.getSqlSList(BookInfo.class, sql, u.getUid());
+			stortlist1 = usrService.allStort();
+			return "shoppingCartOK";
+		} else {
+			return "shoppingCartNO";
+		}
+	}
+
+	// 单个选中或反选
+	public String changeState() {
+		ShoppCart shopping = (ShoppCart) usrService.getOne(ShoppCart.class,
+				Integer.parseInt(request.getParameter("id")));
+		if (shopping.getState().equals("未选中"))
+			shopping.setState("已选中");
+		else
+			shopping.setState("未选中");
+		usrService.update(shopping);
+		return "changeStateOK";
+	}
+
+	// 全选和反选
+	public String allChoose() {
+		String st = "";
+		if (Integer.parseInt(request.getParameter("st")) == 1)
+			st = "已选中";
+		if (Integer.parseInt(request.getParameter("st")) == 2)
+			st = "未选中";
+		String sql = "update ShoppCart set state=?";
+		usrService.update(sql, st);
+		return "allChooseOK";
+	}
+
+	// 删除购物车中的商品
+	public String delGoods() {
+		ShoppCart shopp = new ShoppCart();
+		shopp.setShopid(Integer.parseInt(request.getParameter("id")));
+		usrService.del(shopp);
+		return "delGoodsOK";
+	}
+	//将商品添加到购物车
+	public String addToCart() {
+		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			if(usrService.addToCart(u.getUid(), Integer.parseInt(request.getParameter("bid")))) {
+				stortlist1 = usrService.allStort();
+				return "addToCartOK1";
+			}else {
+				stortlist1 = usrService.allStort();
+				return "addToCartOK2";
+			}
+		}else {
+			return "addToCartNO";
+		}
+	}
+
+	// 购物车中生成订单
+	public String cartToOrder() {
+		return "cartToOrderOK";
 	}
 }

@@ -21,20 +21,26 @@
 <link href="../css/responsive.css" rel="stylesheet">
 <link href="../js/dl-menu/component.css" rel="stylesheet">
 <%
-	String url = "../images/1.jpg";
-String tag1 = "登录";
-String tag2 = "注册";
-String href1="user_Login.jsp";
-String href2="user_Register.jsp";
-if (session.getAttribute("user") != null) {
-	User u = (User) session.getAttribute("user");
-	tag1 = u.getuName();
-	tag2 = "登出";
-	href1="#";
-	href2="user_loginOut";
-}
+	String tag1 = "登录";
+	String tag2 = "注册";
+	String href1 = "user_Login.jsp";
+	String href2 = "user_Register.jsp";
+	if (session.getAttribute("user") != null) {
+		User u = (User) session.getAttribute("user");
+		tag1 = u.getuName();
+		tag2 = "登出";
+		href1 = "#";
+		href2 = "user_loginOut";
+	}
 %>
-
+<script type="text/javascript">
+	function click1() {
+		if (confirm("你将要删除购物车中的一件商品！"))
+			return true;
+		else
+			return false;
+	}
+</script>
 </head>
 <body>
 	<div id="loader-wrapper">
@@ -64,55 +70,56 @@ if (session.getAttribute("user") != null) {
 								<p>欢迎来到Lucy_Book网上书城</p>
 							</div>
 							<div class="social-icon">
-							<div class="social-icon">
-								<a href="<%=href1 %>" class="pull-left"><%=tag1%></a> <a
-									href="<%=href2 %>" class="pull-left"><%=tag2%></a> <a
-									href="mailto:1814375626@qq.com" class="pull-left">联系我们</a>
+								<div class="social-icon">
+									<a href="<%=href1%>" class="pull-left"><%=tag1%></a> <a
+										href="<%=href2%>" class="pull-left"><%=tag2%></a> <a
+										href="mailto:1814375626@qq.com" class="pull-left">联系我们</a>
+								</div>
 							</div>
-						</div>
-						<div class="kode-navigation">
-							<ul>
-								<li><a
-									href="${pageContext.request.contextPath }/User/pages/user_homeContent">主页</a></li>
-								<li><a
-									href="${pageContext.request.contextPath }/User/pages/user_allBook?pages=1">书库</a></li>
-								<li><a
-									href="${pageContext.request.contextPath }/User/pages/user_allAuthor?pages=1">作者</a></li>
-								<li><a href="blog.html">类型</a>
-									<ul>
-										<c:forEach items="${stortlist1 }" var="ast">
+							<div class="kode-navigation">
+								<ul>
+									<li><a
+										href="${pageContext.request.contextPath }/User/pages/user_homeContent">主页</a></li>
+									<li><a
+										href="${pageContext.request.contextPath }/User/pages/user_allBook?pages=1">书库</a></li>
+									<li><a
+										href="${pageContext.request.contextPath }/User/pages/user_allAuthor?pages=1">作者</a></li>
+									<li><a href="blog.html">类型</a>
+										<ul>
+											<c:forEach items="${stortlist1 }" var="ast">
+												<li><a
+													href="${pageContext.request.contextPath }/User/pages/user_stortToBooks?id=${ast.stid}">${ast.stName }</a></li>
+											</c:forEach>
+										</ul></li>
+									<li><a href="blog.html">我的</a>
+										<ul>
+											<li><a href="#">个人信息</a></li>
 											<li><a
-												href="${pageContext.request.contextPath }/User/pages/user_stortToBooks?id=${ast.stid}">${ast.stName }</a></li>
-										</c:forEach>
-									</ul></li>
-								<li><a href="blog.html">我的</a>
-									<ul>
-										<li><a href="#">个人信息</a></li>
-										<li><a href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
-										<li><a href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
-									</ul></li>
-								<li><a href="blog.html">订单管理</a>
-									<ul>
-										<li><a href="authors.html">已完成订单</a></li>
-										<li><a href="author-detail.html">待付款订单</a></li>
-										<li><a href="author-detail.html">未发货订单</a></li>
-									</ul></li>
-								<li><a
-									href="${pageContext.request.contextPath}/Admin/pages/admin_Login.jsp">书店后台</a></li>
-							</ul>
+												href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
+											<li><a href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
+										</ul></li>
+									<li><a href="blog.html">订单管理</a>
+										<ul>
+											<li><a href="authors.html">已完成订单</a></li>
+											<li><a href="author-detail.html">待付款订单</a></li>
+											<li><a href="author-detail.html">未发货订单</a></li>
+										</ul></li>
+									<li><a
+										href="${pageContext.request.contextPath}/Admin/pages/admin_Login.jsp">书店后台</a></li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</header>
 		<!--HEADER END-->
 		<!--BANNER START-->
 		<div class="kode-inner-banner">
 			<div class="kode-page-heading">
-				<h2>修改收货人信息</h2>
+				<h2>操作提示</h2>
 				<ol class="breadcrumb">
-					<li>变化乃万物之本</li>
+					<li>世界总是美好的</li>
 				</ol>
 			</div>
 		</div>
@@ -132,18 +139,7 @@ if (session.getAttribute("user") != null) {
 		</div>
 		<div class="kode-content padding-tb-50">
 			<div class="container">
-			<h2>填写收货人信息</h2>
-			<form action="${pageContext.request.contextPath }/User/pages/user_updateConsigness" method="post">
-			<input type="hidden" name="id" value="${cons.consid}">
-			<label>收货人姓名</label>
-			<input type="text" name="uName"  value="${cons.consName }">
-			<label>收货人电话</label>
-			<input type="text" name="uTel"  value="${cons.consTel }">
-			<label>收货人地址</label>
-			<input type="text" name="uPass"  value="${cons.consAddre }">
-			<input class="btn-warning" type="submit" value="修  改">
-			<input type="reset" value="还  原">
-			</form>
+			<h1>操作失败， 书店库存不足了！：（   </h1>
 			</div>
 		</div>
 	</div>

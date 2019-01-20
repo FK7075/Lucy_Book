@@ -86,7 +86,7 @@ if (session.getAttribute("user") != null) {
 									<ul>
 										<li><a href="#">个人信息</a></li>
 										<li><a href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
-										<li><a href="blog.html">我的购物车</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
 									</ul></li>
 								<li><a href="blog.html">订单管理</a>
 									<ul>
@@ -209,7 +209,7 @@ if (session.getAttribute("user") != null) {
 									</div>
 									<p>${bl.autName }</p>
 									<p class="price">￥${bl.bPrice}</p>
-									<a href="#" class="add-to-cart">加入购物车</a>
+									<a href="${pageContext.request.contextPath }/User/pages/user_addToCart?bid=${bl.bid}" class="add-to-cart">加入购物车</a>
 								</div>
 							</div>
 						</div>

@@ -10,6 +10,7 @@ import xflfk.wicresoft.entitry.BookInfo;
 import xflfk.wicresoft.entitry.LucyCfg;
 import xflfk.wicresoft.entitry.Notes;
 import xflfk.wicresoft.entitry.PageInfo;
+import xflfk.wicresoft.entitry.ShoppCart;
 import xflfk.wicresoft.entitry.Stort;
 import xflfk.wicresoft.entitry.User;
 @SuppressWarnings("all")
@@ -127,6 +128,23 @@ public class UserService {
 			return true;//注册成功
 		}
 	}
+	//添加商品到购物车
+	public boolean addToCart(int uid,int bid) {
+		Book book=(Book) sqlDao.getOne(Book.class, bid);
+		if(book.getbStore()>0) {
+			ShoppCart shop=new ShoppCart();
+			shop.setBid(bid);shop.setState("未选中");
+			shop.setUid(uid);
+			sqlDao.save(shop);
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	public int cartToOrder() {
+		return 0;
+	}
 	public <T> List<?> getList(T t){
 		return sqlDao.getList(t);
 	}
@@ -141,5 +159,11 @@ public class UserService {
 	}
 	public <T> boolean update(T t){
 		return sqlDao.update(t);
+	}
+	public List<?> getSqlSList(Class c,String sql,Object...obj) {
+		return sqlDao.getSqlList(c, sql, obj);
+	}
+	public boolean update(String sql,Object...obj) {
+		return sqlDao.update(sql, obj);
 	}
 }

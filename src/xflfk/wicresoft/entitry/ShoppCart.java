@@ -4,8 +4,8 @@ package xflfk.wicresoft.entitry;
 public class ShoppCart {
 	private Integer shopid;//id
 	private Integer bid;//书本信息
-	private Integer number;// 购书数量
-	private Double money;//价格小计
+	private Integer uid;// 购书数量
+	private String state;//价格小计
 	public Integer getShopid() {
 		return shopid;
 	}
@@ -18,21 +18,22 @@ public class ShoppCart {
 	public void setBid(Integer bid) {
 		this.bid = bid;
 	}
-	public Integer getNumber() {
-		return number;
+	public Integer getUid() {
+		return uid;
 	}
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setUid(Integer uid) {
+		this.uid = uid;
 	}
-	public Double getMoney() {
-		return money;
+	public String getState() {
+		return state;
 	}
-	public void setMoney(Double money) {
-		this.money = money;
+	public void setState(String state) {
+		this.state = state;
 	}
 	@Override
 	public String toString() {
-		return "ShoppCart [shopid=" + shopid + ", bid=" + bid + ", number=" + number + ", money=" + money + "]";
+		return "ShoppCart [shopid=" + shopid + ", bid=" + bid + ", uid=" + uid + ", state=" + state + "]";
 	}
+
 
 }

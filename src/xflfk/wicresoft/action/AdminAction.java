@@ -661,7 +661,7 @@ public class AdminAction extends ActionSupport {
 		int id=Integer.parseInt(request.getParameter("id"));
 		String sql="select u.uName,u.uTel,b.bphoto,b.bName,d.number,d.money,c.consName,c.consTel,c.consAddre,o.userdetail"
 				+ " from User u,Book b,Detail d,Consigness c,Orders o "
-				+ "where d.uid=u.uid and d.consid=c.consid and d.bid=b.bid and d.ordid=o.ordid and d.ordid=? ";
+				+ "where o.uid=u.uid and d.consid=c.consid and d.bid=b.bid and d.ordid=o.ordid and d.ordid=? ";
 		detailInfolist=(List<DetailInfo>) admService.getList(DetailInfo.class, sql, id);
 		return "showDetailOK";
 	}
@@ -714,7 +714,7 @@ public class AdminAction extends ActionSupport {
 		List<OrderInfo> no=new ArrayList<OrderInfo>();//Î´·¢»õ
 		String sql="select u.uName,b.bName,o.ordTime,d.number,c.consName,c.consTel,c.consAddre,o.userdetail,o.ordSendState,o.ordPayState"
 				+ " from User u,Orders o,Book b,Detail d,Consigness c "
-				+ "where d.uid=u.uid and d.bid=b.bid and d.ordid=o.ordid and d.consid=c.consid";
+				+ "where o.uid=u.uid and d.bid=b.bid and d.ordid=o.ordid and d.consid=c.consid";
 		String sql2=sql+ " and o.ordSendState=?";
 		String sql3=sql2+" and o.ordPayState=?";
 		all=(List<OrderInfo>) admService.getList(OrderInfo.class, sql);
