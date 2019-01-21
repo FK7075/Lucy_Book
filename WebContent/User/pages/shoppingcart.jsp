@@ -145,6 +145,7 @@
 						href="${pageContext.request.contextPath }/User/pages/user_allChoose?st=1">全选</a>
 					&nbsp;&nbsp;&nbsp;&nbsp; <a
 						href="${pageContext.request.contextPath }/User/pages/user_allChoose?st=2">反选</a>
+						<form action="${pageContext.request.contextPath }/User/pages/user_cartToOrder" method="post">
 					<ul>
 						<li><c:forEach items="${booklist }" var="bl">
 								<div class="new-arrival">
@@ -154,10 +155,11 @@
 											alt="" style="width: 119px; height: 160"></a>
 									</div>
 									<div class="kode-text">
+									<input type="hidden" name="shoppid" value="${bl.shopid }">
 										<h2>${bl.bName}</h2>
 										<h3>￥${bl.bPrice}</h3>
 										<h3>
-											数量：<input type="number"
+											数量：<input type="number" name="number"
 												style="width: 60px; height: 30px; padding: 10px;" value=1>
 										</h3>
 										<p>
@@ -171,7 +173,10 @@
 								</div>
 							</c:forEach></li>
 					</ul>
+					<label for="exampleTextarea1">还需要我们做什么？</label>
+						<textarea class="form-control" name="beizhu" rows="4" name="bookDetail"></textarea>
 					<input type="submit" value="生成订单">
+					</form>
 				</div>
 			</div>
 		</div>

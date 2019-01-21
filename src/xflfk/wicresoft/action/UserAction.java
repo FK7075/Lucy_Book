@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.core.config.Order;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -16,6 +17,7 @@ import xflfk.wicresoft.entitry.Author;
 import xflfk.wicresoft.entitry.BookInfo;
 import xflfk.wicresoft.entitry.Consigness;
 import xflfk.wicresoft.entitry.Notes;
+import xflfk.wicresoft.entitry.Orders;
 import xflfk.wicresoft.entitry.ShoppCart;
 import xflfk.wicresoft.entitry.Stort;
 import xflfk.wicresoft.entitry.User;
@@ -37,6 +39,7 @@ public class UserAction extends ActionSupport {
 	private List<BookInfo> showStort4 = new ArrayList<BookInfo>();
 	private List<Stort> stortlist = new ArrayList<Stort>();
 	private List<Stort> stortlist1 = new ArrayList<Stort>();
+	private List<Orders> ordtlist = new ArrayList<Orders>();
 	private Author author = new Author();
 	private Consigness cons = new Consigness();
 	private List<Author> authorlist = new ArrayList<Author>();
@@ -44,6 +47,14 @@ public class UserAction extends ActionSupport {
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpServletResponse response = ServletActionContext.getResponse();
 	private HttpSession session = request.getSession();
+
+	public List<Orders> getOrdtlist() {
+		return ordtlist;
+	}
+
+	public void setOrdtlist(List<Orders> ordtlist) {
+		this.ordtlist = ordtlist;
+	}
 
 	public Integer getId() {
 		return id;
@@ -347,7 +358,6 @@ public class UserAction extends ActionSupport {
 		User u = (User) session.getAttribute("user");
 		Consigness con = new Consigness();
 		con.setConsid(id);
-		;
 		con.setConsName(uName);
 		con.setConsTel(uTel);
 		con.setConsAddre(uPass);
@@ -361,6 +371,7 @@ public class UserAction extends ActionSupport {
 			User u = (User) session.getAttribute("user");
 			u.setMyCons(Integer.parseInt(request.getParameter("id")));
 			usrService.update(u);
+			stortlist1 = usrService.allStort();
 			return "consToUserOK";
 		} else
 			return "consToUserNO";
@@ -411,24 +422,142 @@ public class UserAction extends ActionSupport {
 		usrService.del(shopp);
 		return "delGoodsOK";
 	}
-	//将商品添加到购物车
+
+	// 将商品添加到购物车
 	public String addToCart() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
-			if(usrService.addToCart(u.getUid(), Integer.parseInt(request.getParameter("bid")))) {
+			if (usrService.addToCart(u.getUid(), Integer.parseInt(request.getParameter("bid")))) {
 				stortlist1 = usrService.allStort();
 				return "addToCartOK1";
-			}else {
+			} else {
 				stortlist1 = usrService.allStort();
 				return "addToCartOK2";
 			}
-		}else {
+		} else {
 			return "addToCartNO";
 		}
 	}
 
 	// 购物车中生成订单
 	public String cartToOrder() {
-		return "cartToOrderOK";
+		int[] numbers = toInt((String[]) request.getParameterValues("number"));
+		int[] shoppids = toInt((String[]) request.getParameterValues("shoppid"));
+		String beizhu = request.getParameter("beizhu");
+		User u = (User) session.getAttribute("user");
+		if (usrService.cartToOrder(u, shoppids, numbers, beizhu)) {
+			return "cartToOrderOK";
+		} else {
+			stortlist1 = usrService.allStort();
+			return "cartToOrderNO";
+		}
+	}
+
+	// 显示明细信息
+	public String ordDetail() {
+		stortlist1 = usrService.allStort();
+		int ordid = Integer.parseInt(request.getParameter("ordid"));
+		Orders or = (Orders) usrService.getOne(Orders.class, ordid);
+		cons = (Consigness) usrService.getOne(Consigness.class, or.getConsid());
+		String sql = "select b.bName,b.bPhoto,b.bPrice,d.money,d.number,o.ordid" + " FROM detail d,book b,Orders o"
+				+ " where d.bid=b.bid and d.ordid=o.ordid and o.ordid=?";
+		booklist = (List<BookInfo>) usrService.getSqlSList(BookInfo.class, sql, or.getOrdid());
+		return "ordDetailOK";
+	}
+
+	// 更换收货人页面
+	public String changeCons() {
+		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			Consigness con = new Consigness();
+			con.setUid(u.getUid());
+			conslist = (List<Consigness>) usrService.getList(con);
+			id = Integer.parseInt(request.getParameter("ord"));
+			stortlist1 = usrService.allStort();
+			return "changeConsOK";
+		} else
+			return "changeConsNO";
+	}
+
+	// 待支付订单
+	public String myOrders() {
+		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			Orders or = new Orders();
+			or.setUid(u.getUid());
+			or.setOrdPayState("未付款");
+			ordtlist = (List<Orders>) usrService.getList(or);
+			stortlist1 = usrService.allStort();
+			return "myOrdersOK";
+		} else {
+			return "myOrdersNO";
+		}
+	}
+
+	// 更换收货人操作
+	public String changeConsigess() {
+		Orders ord = (Orders) usrService.getOne(Orders.class, Integer.parseInt(request.getParameter("ordid")));
+		ord.setConsid(Integer.parseInt(request.getParameter("cosid")));
+		usrService.update(ord);
+		stortlist1 = usrService.allStort();
+		return "changeConsigessOK";
+	}
+
+	public String payOrder() {
+		Orders ord = (Orders) usrService.getOne(Orders.class, Integer.parseInt(request.getParameter("ordid")));
+		ord.setOrdPayState("已付款");
+		usrService.update(ord);
+		stortlist1 = usrService.allStort();
+		return "payOrderOK";
+	}
+	// 已付款未发货订单
+	public String payDetail() {
+		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			Orders or = new Orders();
+			or.setUid(u.getUid());
+			or.setOrdPayState("已付款");
+			or.setOrdSendState("未发货");
+			ordtlist = (List<Orders>) usrService.getList(or);
+			stortlist1 = usrService.allStort();
+			return "payDetailOK";
+		} else {
+			return "payDetailNO";
+		}
+	}
+
+	public String payOrdDetail() {
+		stortlist1 = usrService.allStort();
+		int ordid = Integer.parseInt(request.getParameter("ordid"));
+		Orders or = (Orders) usrService.getOne(Orders.class, ordid);
+		cons = (Consigness) usrService.getOne(Consigness.class, or.getConsid());
+		String sql = "select b.bName,b.bPhoto,b.bPrice,d.money,d.number,o.ordid" + " FROM detail d,book b,Orders o"
+				+ " where d.bid=b.bid and d.ordid=o.ordid and o.ordid=?";
+		booklist = (List<BookInfo>) usrService.getSqlSList(BookInfo.class, sql, or.getOrdid());
+		return "payOrdDetailOK";
+	}
+	//已完成订单
+	public String sendOrder() {
+		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			Orders or = new Orders();
+			or.setUid(u.getUid());
+			or.setOrdPayState("已付款");
+			or.setOrdSendState("已发货");
+			ordtlist = (List<Orders>) usrService.getList(or);
+			stortlist1 = usrService.allStort();
+			return "sendOrderOK";
+		} else {
+			return "sendOrderNO";
+		}
+	}
+
+	// 字符串数组转int数组
+	private int[] toInt(String[] s) {
+		int[] n = new int[s.length];
+		for (int i = 0; i < s.length; i++) {
+			n[i] = Integer.parseInt(s[i]);
+		}
+		return n;
 	}
 }

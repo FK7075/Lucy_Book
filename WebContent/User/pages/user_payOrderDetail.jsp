@@ -34,14 +34,6 @@
 		href2 = "user_loginOut";
 	}
 %>
-<script type="text/javascript">
-	function click1() {
-		if (confirm("您确定删除该收货人？"))
-			return true;
-		else
-			return false;
-	}
-</script>
 </head>
 <body>
 	<div id="loader-wrapper">
@@ -97,7 +89,8 @@
 											<li><a href="#">个人信息</a></li>
 											<li><a
 												href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
-											<li><a href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
+											<li><a
+												href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
 										</ul></li>
 									<li><a href="blog.html">订单管理</a>
 										<ul>
@@ -118,9 +111,9 @@
 		<!--BANNER START-->
 		<div class="kode-inner-banner">
 			<div class="kode-page-heading">
-				<h2>收货人</h2>
+				<h2>订单明细</h2>
 				<ol class="breadcrumb">
-					<li>遇见你让我更美好</li>
+					<li>一阴一阳之谓道</li>
 				</ol>
 			</div>
 		</div>
@@ -141,29 +134,49 @@
 		<div class="kode-content padding-tb-50">
 			<div class="container">
 				<div class="kode-comments kode-comments-2">
-					<h2>我的收货人</h2>
-					<input type="button" value="添加收货人"
-						onclick="location.href='${pageContext.request.contextPath }/User/pages/user_addCons'">
 					<ul>
-						<c:forEach items="${conslist }" var="cons">
-							<li>
-								<div class="kode-thumb">
-									<a href="#"><img alt="" src="<%=url%>" /></a>
-								</div>
-								<div class="kode-text">
-									<h4>${cons.consName }</h4>
-									<p class="designation">${cons.consTel }</p>
-									<p>${cons.consAddre }</p>
-									<a class="reply" onclick="return click1()"
-										href="${pageContext.request.contextPath }/User/pages/user_delConsigness?id=${cons.consid }">删除</a>
-									<a
-										href="${pageContext.request.contextPath }/User/pages/user_updConsigness?id=${cons.consid }">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-										href="${pageContext.request.contextPath }/User/pages/user_consToUser?id=${cons.consid }">设置为默认收货人</a>
-								</div>
-							</li>
-						</c:forEach>
+						<li>
+							<h5>收货人信息</h5>
+							<div class="kode-thumb">
+								<a href="#"><img alt="" src="<%=url%>" /></a>
+							</div>
+							<div class="kode-text">
+								<h4>${cons.consName }</h4>
+								<p class="designation">${cons.consTel }</p>
+								<p>${cons.consAddre }</p>
+							</div>
+						</li>
 					</ul>
 				</div>
+					<div class="widget widget-new-arrival">
+					<h2>订单明细</h2>
+						<form action="${pageContext.request.contextPath }/User/pages/user_cartToOrder" method="post">
+					<ul>
+						<li><c:forEach items="${booklist }" var="bl">
+								<div class="new-arrival">
+									<div class="kode-thumb">
+										<a href="#"><img
+											src="${pageContext.request.contextPath }/${bl.bPhoto }"
+											alt="" style="width: 119px; height: 160"></a>
+									</div>
+									<div class="kode-text">
+									<input type="hidden" name="shoppid" value="${bl.shopid }">
+										<h2>${bl.bName}</h2>
+										<h3>单价：￥${bl.bPrice}</h3>
+										<h3>
+											数量：${bl.number}
+										</h3>
+										<h3>
+											小计：￥${bl.money}
+										</h3>
+										<p>
+										</p>
+									</div>
+								</div>
+							</c:forEach></li>
+					</ul>
+					</form>
+					</div>
 			</div>
 		</div>
 	</div>

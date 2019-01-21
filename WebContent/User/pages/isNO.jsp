@@ -139,7 +139,7 @@
 		</div>
 		<div class="kode-content padding-tb-50">
 			<div class="container">
-			<h1>操作失败， 书店库存不足了！：（   </h1>
+			<h1>操作失败， 您没有选中任何书本或是书店库存不足！：（   </h1>
 			</div>
 		</div>
 	</div>

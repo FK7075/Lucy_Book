@@ -661,7 +661,7 @@ public class AdminAction extends ActionSupport {
 		int id=Integer.parseInt(request.getParameter("id"));
 		String sql="select u.uName,u.uTel,b.bphoto,b.bName,d.number,d.money,c.consName,c.consTel,c.consAddre,o.userdetail"
 				+ " from User u,Book b,Detail d,Consigness c,Orders o "
-				+ "where o.uid=u.uid and d.consid=c.consid and d.bid=b.bid and d.ordid=o.ordid and d.ordid=? ";
+				+ "where o.uid=u.uid and o.consid=c.consid and d.bid=b.bid and d.ordid=o.ordid and d.ordid=? ";
 		detailInfolist=(List<DetailInfo>) admService.getList(DetailInfo.class, sql, id);
 		return "showDetailOK";
 	}
@@ -714,7 +714,7 @@ public class AdminAction extends ActionSupport {
 		List<OrderInfo> no=new ArrayList<OrderInfo>();//未发货
 		String sql="select u.uName,b.bName,o.ordTime,d.number,c.consName,c.consTel,c.consAddre,o.userdetail,o.ordSendState,o.ordPayState"
 				+ " from User u,Orders o,Book b,Detail d,Consigness c "
-				+ "where o.uid=u.uid and d.bid=b.bid and d.ordid=o.ordid and d.consid=c.consid";
+				+ "where o.uid=u.uid and d.bid=b.bid and d.ordid=o.ordid and o.consid=c.consid";
 		String sql2=sql+ " and o.ordSendState=?";
 		String sql3=sql2+" and o.ordPayState=?";
 		all=(List<OrderInfo>) admService.getList(OrderInfo.class, sql);
@@ -779,7 +779,7 @@ public class AdminAction extends ActionSupport {
 	    	 rows.createCell(9).setCellValue(yes.get(row).getOrdPayState());
 	    }
 	   	}
-	    HSSFSheet sheet3= workbook.createSheet("未发货订单");
+	    HSSFSheet sheet3= workbook.createSheet("已付款未发货订单");
 	    HSSFRow rows3 = sheet3.createRow(0);
 	   	rows3.createCell(0).setCellValue("订单发起人");
 	   	rows3.createCell(1).setCellValue("创建时间");

@@ -3,6 +3,7 @@ package xflfk.wicresoft.entitry;
 
 public class Orders {
 	private Integer ordid;
+	private Integer consid;
 	private Integer uid;//创建该订单的用户
 	private String ordTime;//创建时间
 	private String ordPayState;//付款状态
@@ -10,6 +11,13 @@ public class Orders {
 	private Double ordTotal;//订单总计价格
 	private String userdetail;//用户备注
 	
+	
+	public Integer getConsid() {
+		return consid;
+	}
+	public void setConsid(Integer consid) {
+		this.consid = consid;
+	}
 	public String getUserdetail() {
 		return userdetail;
 	}
@@ -55,8 +63,8 @@ public class Orders {
 	}
 	@Override
 	public String toString() {
-		return "Orders [ordid=" + ordid + ", uid=" + uid + ", ordTime=" + ordTime + ", ordPayState=" + ordPayState
-				+ ", ordSendState=" + ordSendState + ", ordTotal=" + ordTotal + ", userdetail=" + userdetail + "]";
+		return "Orders [ordid=" + ordid + ", consid=" + consid + ", uid=" + uid + ", ordTime=" + ordTime
+				+ ", ordPayState=" + ordPayState + ", ordSendState=" + ordSendState + ", ordTotal=" + ordTotal
+				+ ", userdetail=" + userdetail + "]";
 	}
-	
 }

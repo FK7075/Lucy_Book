@@ -76,6 +76,7 @@
 			<result name="changeStateOK" type="chain">user_shoppingCart</result>
 			<result name="allChooseOK" type="chain">user_shoppingCart</result>
 			<result name="delGoodsOK" type="chain">user_shoppingCart</result>
+			<result name="cartToOrderOK" type="chain">user_myOrders</result>
 			<result name="homeContentOK">user_index.jsp</result>
 			<result name="allBookOK">user_BookList.jsp</result>
 			<result name="allAuthorOK">user_AuthorList.jsp</result>
@@ -92,9 +93,22 @@
 			<result name="shoppingCartOK">shoppingcart.jsp</result>
 			<result name="shoppingCartNO">user_Login.jsp</result>
 			<result name="addToCartNO">user_Login.jsp</result>
+			<result name="changeConsNO">user_Login.jsp</result>
+			<result name="myOrdersNO">user_Login.jsp</result>
+			<result name="payDetailNO">user_Login.jsp</result>
+			<result name="sendOrderNO">user_Login.jsp</result>
+			<result name="sendOrderOK">user_completeOrders.jsp</result>
+			<result name="payDetailOK">user_PayOrders.jsp</result>
+			<result name="myOrdersOK">user_Orders.jsp</result>
+			<result name="changeConsOK">user_OrderCons.jsp</result>
+			<result name="ordDetailOK">user_OrdDetail.jsp</result>
+			<result name="payOrdDetailOK">user_payOrderDetail.jsp</result>
+			<result name="changeConsigessOK">isOK.jsp</result>
 			<result name="addToCartOK1">isOK.jsp</result>
 			<result name="addToCartOK2">isNO.jsp</result>
-			<result name="consToUserOK">1.jsp</result>
+			<result name="cartToOrderNO">isNO.jsp</result>
+			<result name="consToUserOK">isOK.jsp</result>
+			<result name="payOrderOK">isOK.jsp</result>
 		</action>
 	</package>
 </struts>

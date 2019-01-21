@@ -36,7 +36,7 @@
 %>
 <script type="text/javascript">
 	function click1() {
-		if (confirm("您确定删除该收货人？"))
+		if (confirm("您正在更换订单的收货人"))
 			return true;
 		else
 			return false;
@@ -142,8 +142,6 @@
 			<div class="container">
 				<div class="kode-comments kode-comments-2">
 					<h2>我的收货人</h2>
-					<input type="button" value="添加收货人"
-						onclick="location.href='${pageContext.request.contextPath }/User/pages/user_addCons'">
 					<ul>
 						<c:forEach items="${conslist }" var="cons">
 							<li>
@@ -155,10 +153,7 @@
 									<p class="designation">${cons.consTel }</p>
 									<p>${cons.consAddre }</p>
 									<a class="reply" onclick="return click1()"
-										href="${pageContext.request.contextPath }/User/pages/user_delConsigness?id=${cons.consid }">删除</a>
-									<a
-										href="${pageContext.request.contextPath }/User/pages/user_updConsigness?id=${cons.consid }">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-										href="${pageContext.request.contextPath }/User/pages/user_consToUser?id=${cons.consid }">设置为默认收货人</a>
+										href="${pageContext.request.contextPath }/User/pages/user_changeConsigess?cosid=${cons.consid }&ordid=${id}">更换</a>
 								</div>
 							</li>
 						</c:forEach>

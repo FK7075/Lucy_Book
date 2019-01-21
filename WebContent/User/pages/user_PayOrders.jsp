@@ -21,7 +21,6 @@
 <link href="../css/responsive.css" rel="stylesheet">
 <link href="../js/dl-menu/component.css" rel="stylesheet">
 <%
-	String url = "../images/1.jpg";
 	String tag1 = "登录";
 	String tag2 = "注册";
 	String href1 = "user_Login.jsp";
@@ -36,7 +35,7 @@
 %>
 <script type="text/javascript">
 	function click1() {
-		if (confirm("您确定删除该收货人？"))
+		if (confirm("发送邮件给店家？"))
 			return true;
 		else
 			return false;
@@ -118,9 +117,9 @@
 		<!--BANNER START-->
 		<div class="kode-inner-banner">
 			<div class="kode-page-heading">
-				<h2>收货人</h2>
+				<h2>未发货订单</h2>
 				<ol class="breadcrumb">
-					<li>遇见你让我更美好</li>
+					<li>被偏爱的有恃无恐</li>
 				</ol>
 			</div>
 		</div>
@@ -140,30 +139,36 @@
 		</div>
 		<div class="kode-content padding-tb-50">
 			<div class="container">
-				<div class="kode-comments kode-comments-2">
-					<h2>我的收货人</h2>
-					<input type="button" value="添加收货人"
-						onclick="location.href='${pageContext.request.contextPath }/User/pages/user_addCons'">
-					<ul>
-						<c:forEach items="${conslist }" var="cons">
-							<li>
-								<div class="kode-thumb">
-									<a href="#"><img alt="" src="<%=url%>" /></a>
-								</div>
-								<div class="kode-text">
-									<h4>${cons.consName }</h4>
-									<p class="designation">${cons.consTel }</p>
-									<p>${cons.consAddre }</p>
-									<a class="reply" onclick="return click1()"
-										href="${pageContext.request.contextPath }/User/pages/user_delConsigness?id=${cons.consid }">删除</a>
-									<a
-										href="${pageContext.request.contextPath }/User/pages/user_updConsigness?id=${cons.consid }">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-										href="${pageContext.request.contextPath }/User/pages/user_consToUser?id=${cons.consid }">设置为默认收货人</a>
-								</div>
-							</li>
-						</c:forEach>
-					</ul>
-				</div>
+				<table class="table table-striped">
+	<caption>未发货订单</caption>
+	<thead>
+		<tr>
+			<th>订单编号</th>
+			<th>总金额</th>
+			<th>付款状态</th>
+			<th>发货状态</th>
+			<th>创建时间</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+	<c:forEach items="${ordtlist }" var="ol">
+		<tr>
+			<td>${ol.ordid }</td>
+			<td>${ol.ordTotal }</td>
+			<td>${ol.ordPayState }</td>
+			<td>${ol.ordSendState }</td>
+			<td>${ol.ordTime }</td>
+			<td>
+			<a href="mailto:1814375626@qq.com" onclick="return click1()">提醒发货</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="${pageContext.request.contextPath}/User/pages/user_payOrdDetail?ordid=${ol.ordid}">查看明细</a>
+			</td>
+		</tr>
+		</c:forEach>
+	</tbody>
+</table>
 			</div>
 		</div>
 	</div>

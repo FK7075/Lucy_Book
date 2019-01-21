@@ -7,9 +7,9 @@ public class Book {
 	private Integer bStore;//库存
 	private String bPhoto;//图片
 	private String bdetail;//描述
-	private String isRem;//是否加入推荐
 	private Integer stid;//书本类型
 	private Integer autid;//作者信息
+	private Integer bSales;//销量
 	public Integer getBid() {
 		return bid;
 	}
@@ -46,11 +46,12 @@ public class Book {
 	public void setBdetail(String bdetail) {
 		this.bdetail = bdetail;
 	}
-	public String getIsRem() {
-		return isRem;
+
+	public Integer getbSales() {
+		return bSales;
 	}
-	public void setIsRem(String isRem) {
-		this.isRem = isRem;
+	public void setbSales(Integer bSales) {
+		this.bSales = bSales;
 	}
 	public Integer getStid() {
 		return stid;
@@ -67,8 +68,6 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [bid=" + bid + ", bName=" + bName + ", bPrice=" + bPrice + ", bStore=" + bStore + ", bPhoto="
-				+ bPhoto + ", bdetail=" + bdetail + ", isRem=" + isRem + ", stid=" + stid + ", autid=" + autid + "]";
+				+ bPhoto + ", bdetail=" + bdetail + ", stid=" + stid + ", autid=" + autid + ", bSales=" + bSales + "]";
 	}
-	
-
 }
