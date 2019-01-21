@@ -525,7 +525,7 @@ public class UserAction extends ActionSupport {
 			return "payDetailNO";
 		}
 	}
-
+	//未发货账单和已完成订单明细
 	public String payOrdDetail() {
 		stortlist1 = usrService.allStort();
 		int ordid = Integer.parseInt(request.getParameter("ordid"));
@@ -551,7 +551,10 @@ public class UserAction extends ActionSupport {
 			return "sendOrderNO";
 		}
 	}
-
+	public String cancelOrder() {
+		usrService.cancelOrder(Integer.parseInt(request.getParameter("ordid")));
+		return "cancelOrderOK";
+	}
 	// 字符串数组转int数组
 	private int[] toInt(String[] s) {
 		int[] n = new int[s.length];

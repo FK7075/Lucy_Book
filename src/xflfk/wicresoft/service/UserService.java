@@ -219,7 +219,21 @@ public class UserService {
 		}
 		return dl;
 	}
-
+	public boolean cancelOrder(int ordid) {
+		Detail de=new Detail();
+		de.setOrdid(ordid);
+		List<Detail> dl=(List<Detail>) sqlDao.getList(de);
+		//**********还原书本库存和销量
+		for (Detail detail : dl) {
+			Book b=(Book) sqlDao.getOne(Book.class, detail.getBid());
+			b.setbStore(b.getbStore()+detail.getNumber());//更新库存
+			b.setbSales(b.getbSales()-detail.getNumber());//更新销量
+			sqlDao.update(b);
+		}
+		//****************************
+		sqlDao.deleteById("Orders", ordid);
+		return true;
+	}
 	// 判断书本库存是否够数
 	private boolean numberOk(int[] shoppids, int[] numbers) {
 		List<Detail> dl = xzCart(shoppids, numbers);

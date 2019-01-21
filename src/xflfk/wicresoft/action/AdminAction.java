@@ -312,7 +312,7 @@ public class AdminAction extends ActionSupport {
 		if (page == admService.getPageSize(new Book()))
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
-		String sql = "select b.bphoto,b.bName,a.autName,s.stName, b.bStore,b.bPrice,b.bid " + "from Book b,Author a,Stort s "
+		String sql = "select b.bphoto,b.bName,a.autName,s.stName, b.bStore,b.bPrice,b.bid,b.bSales " + "from Book b,Author a,Stort s "
 				+ "where b.stid=s.stid and b.autid=a.autid " + "LIMIT ?,?";
 		booklist = (List<BookInfo>) admService.getList(BookInfo.class, sql, pi.getIndex(), pi.getSize());
 		return "ok";

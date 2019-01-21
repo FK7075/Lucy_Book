@@ -40,6 +40,12 @@
 		else
 			return false;
 	}
+	function click2() {
+		if (confirm("您确定要取消订单？"))
+			return true;
+		else
+			return false;
+	}
 </script>
 </head>
 <body>
@@ -84,25 +90,25 @@
 										href="${pageContext.request.contextPath }/User/pages/user_allBook?pages=1">书库</a></li>
 									<li><a
 										href="${pageContext.request.contextPath }/User/pages/user_allAuthor?pages=1">作者</a></li>
-									<li><a href="blog.html">类型</a>
+									<li><a href="#">类型</a>
 										<ul>
 											<c:forEach items="${stortlist1 }" var="ast">
 												<li><a
 													href="${pageContext.request.contextPath }/User/pages/user_stortToBooks?id=${ast.stid}">${ast.stName }</a></li>
 											</c:forEach>
 										</ul></li>
-									<li><a href="blog.html">我的</a>
+									<li><a href="#">我的</a>
 										<ul>
 											<li><a href="#">个人信息</a></li>
 											<li><a
 												href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
 											<li><a href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
 										</ul></li>
-									<li><a href="blog.html">订单管理</a>
+									<li><a href="#">订单管理</a>
 										<ul>
-											<li><a href="authors.html">已完成订单</a></li>
-											<li><a href="author-detail.html">待付款订单</a></li>
-											<li><a href="author-detail.html">未发货订单</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_sendOrder">已完成订单</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_myOrders">待付款订单</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_payDetail">未发货订单</a></li>
 										</ul></li>
 									<li><a
 										href="${pageContext.request.contextPath}/Admin/pages/admin_Login.jsp">书店后台</a></li>
@@ -162,7 +168,7 @@
 			<td>
 			<a href="${pageContext.request.contextPath}/User/pages/user_payOrder?ordid=${ol.ordid}" onclick="return click1()">支付</a>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<a>取消订单</a>
+			<a href="${pageContext.request.contextPath}/User/pages/user_cancelOrder?ordid=${ol.ordid}" onclick="return click2()">取消订单</a>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="${pageContext.request.contextPath}/User/pages/user_ordDetail?ordid=${ol.ordid}">查看明细</a>
 			</td>

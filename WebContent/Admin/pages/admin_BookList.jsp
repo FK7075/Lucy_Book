@@ -218,9 +218,10 @@
 								<th>图片</th>
 								<th>书名</th>
 								<th>作者</th>
+								<th>单价</th>
 								<th>类别</th>
 								<th>库存</th>
-								<th>单价</th>
+								<th>销量</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -256,9 +257,10 @@
 										style="border-radius: 0px; width: 50px; height: 50px"></td>
 									<td>${bl.bName}</td>
 									<td>${bl.autName}</td>
+									<td>￥${bl.bPrice}</td>
 									<td>${bl.stName}</td>
 									<td>${bl.bStore}</td>
-									<td>￥${bl.bPrice}</td>
+									<td>${bl.bSales}</td>
 									<td><a
 										href="${pageContext.request.contextPath}/Admin/pages/admin_BookInfo?bid=${bl.bid}">查看</a>&nbsp;&nbsp;
 										<a

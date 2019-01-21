@@ -2,6 +2,7 @@ package xflfk.wicresoft.entitry;
 
 public class OrderInfo {
 	private Integer ordid;
+	private Integer bSales;
 	private String bName;//书名
 	private Integer number;//数量
 	private String consName;//收货人
@@ -14,6 +15,12 @@ public class OrderInfo {
 	private Double ordTotal;//订单总计价格
 	private String userdetail;//用户备注
 	
+	public Integer getbSales() {
+		return bSales;
+	}
+	public void setbSales(Integer bSales) {
+		this.bSales = bSales;
+	}
 	public String getbName() {
 		return bName;
 	}
@@ -89,11 +96,12 @@ public class OrderInfo {
 	}
 	@Override
 	public String toString() {
-		return "OrderInfo [ordid=" + ordid + ", bName=" + bName + ", number=" + number + ", consName=" + consName
-				+ ", consTel=" + consTel + ", consAddre=" + consAddre + ", uName=" + uName + ", ordTime=" + ordTime
-				+ ", ordPayState=" + ordPayState + ", ordSendState=" + ordSendState + ", ordTotal=" + ordTotal
-				+ ", userdetail=" + userdetail + "]";
+		return "OrderInfo [ordid=" + ordid + ", bSales=" + bSales + ", bName=" + bName + ", number=" + number
+				+ ", consName=" + consName + ", consTel=" + consTel + ", consAddre=" + consAddre + ", uName=" + uName
+				+ ", ordTime=" + ordTime + ", ordPayState=" + ordPayState + ", ordSendState=" + ordSendState
+				+ ", ordTotal=" + ordTotal + ", userdetail=" + userdetail + "]";
 	}
+
 
 
 }

@@ -5,6 +5,7 @@ public class BookInfo {
 	private Integer ordid;
 	private Integer shopid;
 	private Integer autid;
+	private Integer bSales;
 	private String bPhoto;
 	private String bName;
 	private String autName;
@@ -16,6 +17,12 @@ public class BookInfo {
 	private Double money;
 	private Integer number;
 	
+	public Integer getbSales() {
+		return bSales;
+	}
+	public void setbSales(Integer bSales) {
+		this.bSales = bSales;
+	}
 	public Integer getOrdid() {
 		return ordid;
 	}
@@ -104,10 +111,11 @@ public class BookInfo {
 	}
 	@Override
 	public String toString() {
-		return "BookInfo [bid=" + bid + ", ordid=" + ordid + ", shopid=" + shopid + ", autid=" + autid + ", bPhoto="
-				+ bPhoto + ", bName=" + bName + ", autName=" + autName + ", stName=" + stName + ", bStore=" + bStore
-				+ ", bPrice=" + bPrice + ", bdetail=" + bdetail + ", state=" + state + ", money=" + money + ", number="
-				+ number + "]";
+		return "BookInfo [bid=" + bid + ", ordid=" + ordid + ", shopid=" + shopid + ", autid=" + autid + ", bSales="
+				+ bSales + ", bPhoto=" + bPhoto + ", bName=" + bName + ", autName=" + autName + ", stName=" + stName
+				+ ", bStore=" + bStore + ", bPrice=" + bPrice + ", bdetail=" + bdetail + ", state=" + state + ", money="
+				+ money + ", number=" + number + "]";
 	}
+
 
 }

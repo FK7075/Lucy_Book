@@ -77,6 +77,7 @@
 			<result name="allChooseOK" type="chain">user_shoppingCart</result>
 			<result name="delGoodsOK" type="chain">user_shoppingCart</result>
 			<result name="cartToOrderOK" type="chain">user_myOrders</result>
+			<result name="cancelOrderOK" type="chain">user_myOrders</result>
 			<result name="homeContentOK">user_index.jsp</result>
 			<result name="allBookOK">user_BookList.jsp</result>
 			<result name="allAuthorOK">user_AuthorList.jsp</result>
