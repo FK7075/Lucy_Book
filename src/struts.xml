@@ -67,8 +67,11 @@
 		</action>
 		<action name="account_*" class="xflfk.wicresoft.action.AccountAction" method="{1}">
 			<result name="allUserOK">admin_userList.jsp</result>
+			<result name="allAdminOK">admin_adminList.jsp</result>
 			<result name="delUserOK" type="chain">account_allUser</result>
 			<result name="resetPassOK" type="chain">account_allUser</result>
+			<result name="delAdminOK" type="chain">account_allAdmin</result>
+			<result name="resetAdminOK" type="chain">account_allAdmin</result>
 		</action>
 	</package>
 	<package name="package2" extends="struts-default" namespace="/User/pages">

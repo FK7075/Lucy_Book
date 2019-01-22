@@ -25,19 +25,35 @@
 		}
 	}
 	function click1() {
-		if (confirm("您正在删除一名用户？"))
+		if (confirm("您正在删除一名管理员？"))
 			return true;
 		else
 			return false;
 	}
 	function click2() {
-		if (confirm("您正在重置该用户的密码？"))
+		if (confirm("您正在重置该管理员的密码？"))
 			return true;
 		else
 			return false;
 	}
 </script>
 <body>
+	<%
+		if (request.getAttribute("fk1") != null) {
+	%>
+	<script type="text/javascript">
+		alert("您无法删除超级管理员！");
+	</script>
+	<%
+		}
+		if (request.getAttribute("xfl1") != null) {
+	%>
+	<script type="text/javascript">
+		alert("您无法重置超级管理员的密码！");
+	</script>
+	<%
+		}
+	%>
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
 		<nav
@@ -230,13 +246,13 @@
 			</nav>
 			<!-- partial -->
 			<div class="content-wrapper">
-				<p class="text-primary" style="">Lucy_Book--用户管理</p>
+				<p class="text-primary" style="">Lucy_Book--管理员管理</p>
 				<div class="content-wrapper">
 					<table class="table table-bordered">
 						<thead>
 							<tr align="center">
-								<th>用户编号</th>
-								<th>用户名</th>
+								<th>管理员图片</th>
+								<th>管理员姓名</th>
 								<th>登录密码</th>
 								<th>用户电话</th>
 								<th>操作</th>
@@ -247,7 +263,7 @@
 							String color = "";
 						%>
 						<tbody>
-							<c:forEach items="${userlist }" var="ul">
+							<c:forEach items="${adminlist }" var="al">
 								<%
 									switch (i % 5) {
 										case 0:
@@ -269,14 +285,16 @@
 										i++;
 								%>
 								<tr class=<%=color%> align="center">
-									<td>${ul.uid}</td>
-									<td>${ul.uName}</td>
+									<td><img
+										src="${pageContext.request.contextPath}/${al.admPor}"
+										style="border-radius: 25px; width: 50px; height: 50px"></td>
+									<td>${al.admName}</td>
 									<td>******</td>
-									<td>${ul.uTel}</td>
+									<td>${al.admTel}</td>
 									<td><a
-										href="${pageContext.request.contextPath}/Admin/pages/account_delUser?id=${ul.uid}"
+										href="${pageContext.request.contextPath}/Admin/pages/account_delAdmin?id=${al.admid}"
 										onclick="return click1()">删除</a>&nbsp;&nbsp; <a
-										href="${pageContext.request.contextPath}/Admin/pages/account_resetPass?id=${ul.uid}"
+										href="${pageContext.request.contextPath}/Admin/pages/account_resetAdmin?id=${al.admid}"
 										onclick="return click2()">重置密码</a></td>
 								</tr>
 							</c:forEach>
@@ -297,9 +315,9 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="btn-group" role="group" aria-label="Basic example">
 						<button id="bu1" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/account_allUser?pages=${page-1 }';">上一页</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/account_allAdmin?pages=${page-1 }';">上一页</button>
 						<button id="bu2" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/account_allUser?&pages=${page+1 }';">下一页</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/account_allAdmin?&pages=${page+1 }';">下一页</button>
 					</div>
 				</div>
 				<!-- content-wrapper ends -->
