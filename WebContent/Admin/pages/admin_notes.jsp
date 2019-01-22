@@ -128,9 +128,9 @@ function Click(){
 									<li class="nav-item">
 										<a class="nav-link" href="#">管理员管理</a>
 									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#">用户管理</a>
-									</li>
+							<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/Admin/pages/account_allUser?pages=1"
+								onclick="return Click();">用户管理</a></li>
 								</ul>
 							</div>
 						</li>

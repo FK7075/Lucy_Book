@@ -65,6 +65,11 @@
 				<param name="bufferSize">2048</param>
 			</result>
 		</action>
+		<action name="account_*" class="xflfk.wicresoft.action.AccountAction" method="{1}">
+			<result name="allUserOK">admin_userList.jsp</result>
+			<result name="delUserOK" type="chain">account_allUser</result>
+			<result name="resetPassOK" type="chain">account_allUser</result>
+		</action>
 	</package>
 	<package name="package2" extends="struts-default" namespace="/User/pages">
 		<action name="user_*" class="xflfk.wicresoft.action.UserAction"

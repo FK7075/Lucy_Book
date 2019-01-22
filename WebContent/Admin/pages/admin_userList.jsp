@@ -15,19 +15,23 @@
 <link rel="shortcut icon" href="../images/favicon.png" />
 </head>
 <script type="text/javascript">
-function Click(){
-	var info="${sessionScope.admin.admid}";
-	if(info!="1"&&info!="2"){
-		alert("抱歉，您的权限不够！");
-		return false;
-	}else{
-		return true;
+	function Click() {
+		var info = "${sessionScope.admin.admid}";
+		if (info != "1" && info != "2") {
+			alert("抱歉，您的权限不够！");
+			return false;
+		} else {
+			return true;
+		}
 	}
-}
-</script>
-<script type="text/javascript">
 	function click1() {
-		if (confirm("您将删除该作者和其所有的作品！"))
+		if (confirm("您正在删除一名用户？"))
+			return true;
+		else
+			return false;
+	}
+	function click2() {
+		if (confirm("您正在重置该用户的密码？"))
 			return true;
 		else
 			return false;
@@ -126,8 +130,8 @@ function Click(){
 				</a>
 					<div class="collapse" id="ui-basic4">
 						<ul class="nav flex-column sub-menu">
-							<li class="nav-item"><a class="nav-link" href="addAdmin.jsp" onclick="return Click();">添加管理员</a>
-							</li>
+							<li class="nav-item"><a class="nav-link" href="addAdmin.jsp"
+								onclick="return Click();">添加管理员</a></li>
 							<li class="nav-item"><a class="nav-link" href="#">管理员管理</a>
 							</li>
 							<li class="nav-item"><a class="nav-link"
@@ -195,6 +199,7 @@ function Click(){
 								href="admin_addNotes.jsp">新增美文</a></li>
 						</ul>
 					</div></li>
+
 				<li class="nav-item"><a class="nav-link" data-toggle="collapse"
 					href="#ui-basic5" aria-expanded="false" aria-controls="ui-basic5">
 						<span class="menu-title">订单管理</span> <i class="menu-arrow"></i> <i
@@ -224,16 +229,15 @@ function Click(){
 			</nav>
 			<!-- partial -->
 			<div class="content-wrapper">
-				<p class="text-primary" style="">Lucy_Book--作者管理</p>
+				<p class="text-primary" style="">Lucy_Book--所有用户</p>
 				<div class="content-wrapper">
 					<table class="table table-bordered">
 						<thead>
 							<tr align="center">
-								<th>作者图片</th>
-								<th>作者名</th>
-								<th>性别</th>
-								<th>国籍</th>
-								<th>出生日期</th>
+								<th>用户编号</th>
+								<th>用户名</th>
+								<th>登录密码</th>
+								<th>用户电话</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -242,7 +246,7 @@ function Click(){
 							String color = "";
 						%>
 						<tbody>
-							<c:forEach items="${authorlist }" var="al">
+							<c:forEach items="${userlist }" var="ul">
 								<%
 									switch (i % 5) {
 										case 0:
@@ -264,20 +268,15 @@ function Click(){
 										i++;
 								%>
 								<tr class=<%=color%> align="center">
-									<td><img
-										src="${pageContext.request.contextPath}/${al.autPor}"
-										style="border-radius: 25px; width: 50px; height: 50px"></td>
-									<td>${al.autName}</td>
-									<td>${al.autSex}</td>
-									<td>${al.autPlace}</td>
-									<td>${al.autdate}</td>
+									<td>${ul.uid}</td>
+									<td>${ul.uName}</td>
+									<td>******</td>
+									<td>${ul.uTel}</td>
 									<td><a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_showAuthorInfo?id=${al.autid}">查看</a>&nbsp;&nbsp;
-										<a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_showUpAuthor?id=${al.autid}">编辑</a>&nbsp;&nbsp;
-										<a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_delAuthor?id=${al.autid}"
-										onclick="return click1()">删除</a></td>
+										href="${pageContext.request.contextPath}/Admin/pages/account_delUser?id=${ul.uid}"
+										onclick="return click1()">删除</a>&nbsp;&nbsp; <a
+										href="${pageContext.request.contextPath}/Admin/pages/account_resetPass?id=${ul.uid}"
+										onclick="return click2()">重置密码</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -297,9 +296,9 @@ function Click(){
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="btn-group" role="group" aria-label="Basic example">
 						<button id="bu1" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showAuthor?pages=${page-1 }';">上一页</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/account_allUser?pages=${page-1 }';">上一页</button>
 						<button id="bu2" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showAuthor?&pages=${page+1 }';">下一页</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/account_allUser?&pages=${page+1 }';">下一页</button>
 					</div>
 				</div>
 				<!-- content-wrapper ends -->
