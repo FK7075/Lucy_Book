@@ -77,7 +77,7 @@ alert("添加成功！");
 								<div class="mt-3">
 									<a
 										class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-										href="${pageContext.request.contextPath}/Admin/pages/admin_showBook?pages=1">返回</a>
+										href="${pageContext.request.contextPath}/Admin/pages/admin_statistical">返回</a>
 								</div>
 							</form>
 						</div>

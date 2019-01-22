@@ -26,7 +26,7 @@ alert("用户名与密码不匹配！")
 function loadHandle(){
 	var info="${sessionScope.admin}"
 	if(info!=""){
-		window.location.href="${pageContext.request.contextPath}/Admin/pages/admin_showBook?pages=1";
+		window.location.href="${pageContext.request.contextPath}/Admin/pages/admin_statistical";
 	}
 }
 function Click5(){

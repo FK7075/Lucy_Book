@@ -10,8 +10,14 @@ public class Orders {
 	private String ordSendState;//发货状态
 	private Double ordTotal;//订单总计价格
 	private String userdetail;//用户备注
+	private String consName;
 	
-	
+	public String getConsName() {
+		return consName;
+	}
+	public void setConsName(String consName) {
+		this.consName = consName;
+	}
 	public Integer getConsid() {
 		return consid;
 	}
@@ -65,6 +71,6 @@ public class Orders {
 	public String toString() {
 		return "Orders [ordid=" + ordid + ", consid=" + consid + ", uid=" + uid + ", ordTime=" + ordTime
 				+ ", ordPayState=" + ordPayState + ", ordSendState=" + ordSendState + ", ordTotal=" + ordTotal
-				+ ", userdetail=" + userdetail + "]";
+				+ ", userdetail=" + userdetail + ", consName=" + consName + "]";
 	}
 }

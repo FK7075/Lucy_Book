@@ -41,6 +41,7 @@ public class AdminAction extends ActionSupport {
 	private List<BookInfo> booklist = new ArrayList<BookInfo>();// 要展示的所有书本信息的集合
 	private List<Author> autlist = new ArrayList<Author>();// 所有作者信息
 	private List<Stort> stlist = new ArrayList<Stort>();// 所有类型信息
+	private List<Object> lolist = new ArrayList<Object>();
 	private LucyCfg lucyCfg=new LucyCfg();
 	private String bookName;// 书名
 	private String bookDetail;// 描述
@@ -75,27 +76,27 @@ public class AdminAction extends ActionSupport {
 	private HttpServletResponse response = ServletActionContext.getResponse();
 	private HttpSession session = request.getSession();
 	
-
+	public List<Object> getLolist() {
+		return lolist;
+	}
+	public void setLolist(List<Object> lolist) {
+		this.lolist = lolist;
+	}
 	public Notes getNotes() {
 		return notes;
 	}
-
 	public void setNotes(Notes notes) {
 		this.notes = notes;
 	}
-
 	public List<Notes> getNoteslist() {
 		return noteslist;
 	}
-
 	public void setNoteslist(List<Notes> noteslist) {
 		this.noteslist = noteslist;
 	}
-
 	public Integer getShowStort1() {
 		return showStort1;
 	}
-
 	public void setShowStort1(Integer showStort1) {
 		this.showStort1 = showStort1;
 	}
@@ -858,5 +859,10 @@ public class AdminAction extends ActionSupport {
 		admService.update(n);
 		request.setAttribute("id", tableid);
 		return "updateNoteOK";
+	}
+	//数据统计
+	public String statistical() {
+		lolist=admService.statistical();
+		return "statisticalOK";
 	}
 }

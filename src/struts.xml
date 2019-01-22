@@ -7,7 +7,7 @@
 	<package name="package1" extends="struts-default" namespace="/Admin/pages">
 		<action name="admin_*" class="xflfk.wicresoft.action.AdminAction"
 			method="{1}">
-			<result name="login" type="chain">admin_showBook</result>
+			<result name="login" type="chain">admin_statistical</result>
 			<result name="bookUploadOK" type="chain">admin_showBook</result>
 			<result name="upInvenOK" type="chain">sadmin_upInven</result>
 			<result name="upInvenOK" type="chain">admin_inveAlarm</result>
@@ -47,6 +47,7 @@
 			<result name="loginOutOK">admin_Login.jsp</result>
 			<result name="showNotrsOK">admin_notes.jsp</result>
 			<result name="showNoteInfoOK">admin_updateNotes.jsp</result>
+			<result name="statisticalOK">admin_statistical.jsp</result>
 		</action>
 		<action name="download" class="xflfk.wicresoft.action.DownloadAction"
 			method="execute">
@@ -80,6 +81,7 @@
 			<result name="cancelOrderOK" type="chain">user_myOrders</result>
 			<result name="homeContentOK">user_index.jsp</result>
 			<result name="allBookOK">user_BookList.jsp</result>
+			<result name="searchBookOK">user_searchBooks.jsp</result>
 			<result name="allAuthorOK">user_AuthorList.jsp</result>
 			<result name="authorToBooksOK">user_AutToBooks.jsp</result>
 			<result name="stortToBooksOK">user_StoToBooks.jsp</result>

@@ -219,6 +219,7 @@ public class UserService {
 		}
 		return dl;
 	}
+	//取消订单的具体操作
 	public boolean cancelOrder(int ordid) {
 		Detail de=new Detail();
 		de.setOrdid(ordid);
@@ -250,7 +251,15 @@ public class UserService {
 		else
 			return true;
 	}
-
+	//查询操作
+	public List<BookInfo> search(String bName,String autName,String stName){
+		String sql="select b.bid,b.bName,a.autName,b.bPrice,b.bdetail,b.bPhoto"
+				+" from Book b,Author a,Stort s"
+				+" where b.stid=s.stid and b.autid=a.autid and bName like ? and autName like ? and stName like ?";
+		String b="%"+bName+"%";String a="%"+autName+"%";String s="%"+stName+"%";
+		booklist=(List<BookInfo>) sqlDao.getSqlList(BookInfo.class, sql,b,a,s );
+		return booklist;
+	}
 	public <T> List<?> getList(T t) {
 		return sqlDao.getList(t);
 	}

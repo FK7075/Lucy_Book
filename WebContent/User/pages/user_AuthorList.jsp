@@ -133,56 +133,22 @@ if (session.getAttribute("user") != null) {
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="Basic">
 						<div class="form-container">
+						<form action="${pageContext.request.contextPath }/User/pages/user_searchBook" method="post" id="subform">
 							<div class="row">
 								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="书名">
+									<input type="text" placeholder="书名" name="bName">
 								</div>
 								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="作者">
+									<input type="text" placeholder="作者" name="aName">
 								</div>
 								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="类型">
+									<input type="text" placeholder="类型" name="sName">
 								</div>
 								<div class="col-md-3 col-sm-12">
-									<button>搜索</button>
+									<button onclick="document.getElementById('subform').submit();">搜索</button>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="Author">
-						<div class="form-container">
-							<div class="row">
-								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="F书名">
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="作者">
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="类型">
-								</div>
-								<div class="col-md-3 col-sm-12">
-									<button>搜索</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="Publications">
-						<div class="form-container">
-							<div class="row">
-								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="书名">
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="作者">
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<input type="text" placeholder="类型">
-								</div>
-								<div class="col-md-3 col-sm-12">
-									<button>搜索</button>
-								</div>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>

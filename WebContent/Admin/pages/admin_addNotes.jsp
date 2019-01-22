@@ -22,6 +22,17 @@
 			return false;
 	}
 </script>
+<script type="text/javascript">
+function Click(){
+	var info="${sessionScope.admin.admid}";
+	if(info!="1"&&info!="2"){
+		alert("抱歉，您的权限不够！");
+		return false;
+	}else{
+		return true;
+	}
+}
+</script>
 <body>
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
@@ -115,7 +126,7 @@
 				</a>
 					<div class="collapse" id="ui-basic4">
 						<ul class="nav flex-column sub-menu">
-							<li class="nav-item"><a class="nav-link" href="addAdmin.jsp">添加管理员</a>
+							<li class="nav-item"><a class="nav-link" href="addAdmin.jsp" onclick="return Click();">添加管理员</a>
 							</li>
 							<li class="nav-item"><a class="nav-link" href="#">管理员管理</a>
 							</li>
@@ -198,7 +209,8 @@
 							<li class="nav-item"><a class="nav-link"
 								href="${pageContext.request.contextPath}/Admin/pages/admin_noDelivery?pages=1">待发货订单</a>
 							</li>
-							<li class="nav-item"><a class="nav-link" href="#">账单统计</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/Admin/pages/admin_statistical">数据统计</a></li>
 						</ul>
 					</div></li>
 				<li class="nav-item"><a class="nav-link"

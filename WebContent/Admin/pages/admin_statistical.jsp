@@ -25,14 +25,6 @@ function Click(){
 	}
 }
 </script>
-<script type="text/javascript">
-	function click1() {
-		if (confirm("您将删除该作者和其所有的作品！"))
-			return true;
-		else
-			return false;
-	}
-</script>
 <body>
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
@@ -222,83 +214,62 @@ function Click(){
 			</nav>
 			<!-- partial -->
 			<div class="content-wrapper">
-				<p class="text-primary" style="">Lucy_Book--作者管理</p>
+				<p class="text-primary" style="">Lucy_Book--数据统计</p>
 				<div class="content-wrapper">
-					<table class="table table-bordered">
-						<thead>
-							<tr align="center">
-								<th>作者图片</th>
-								<th>作者名</th>
-								<th>性别</th>
-								<th>国籍</th>
-								<th>出生日期</th>
-								<th>操作</th>
-							</tr>
-						</thead>
-						<%
-							int i = 0;
-							String color = "";
-						%>
-						<tbody>
-							<c:forEach items="${authorlist }" var="al">
-								<%
-									switch (i % 5) {
-										case 0:
-											color = "table-info";
-											break;
-										case 1:
-											color = "table-warning";
-											break;
-										case 2:
-											color = "table-danger";
-											break;
-										case 3:
-											color = "table-success";
-											break;
-										case 4:
-											color = "table-primary";
-											break;
-										}
-										i++;
-								%>
-								<tr class=<%=color%> align="center">
-									<td><img
-										src="${pageContext.request.contextPath}/${al.autPor}"
-										style="border-radius: 25px; width: 50px; height: 50px"></td>
-									<td>${al.autName}</td>
-									<td>${al.autSex}</td>
-									<td>${al.autPlace}</td>
-									<td>${al.autdate}</td>
-									<td><a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_showAuthorInfo?id=${al.autid}">查看</a>&nbsp;&nbsp;
-										<a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_showUpAuthor?id=${al.autid}">编辑</a>&nbsp;&nbsp;
-										<a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_delAuthor?id=${al.autid}"
-										onclick="return click1()">删除</a></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<div class="btn-group" role="group" aria-label="Basic example">
-						<button id="bu1" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showAuthor?pages=${page-1 }';">上一页</button>
-						<button id="bu2" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showAuthor?&pages=${page+1 }';">下一页</button>
-					</div>
+				<div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-home"></i>                 
+              </span>
+              书店数据
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">
+                  <span></span>Overview
+                  <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="row">
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-danger card-img-holder text-white">
+                <div class="card-body">
+                  <img src="../images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                  <h4 class="font-weight-normal mb-3">总销量
+                    <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                  </h4>
+                  <h2 class="mb-5">${lolist[0] }</h2>
+                  <h6 class="card-text">减少 2%</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-info card-img-holder text-white">
+                <div class="card-body">
+                  <img src="../images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>                  
+                  <h4 class="font-weight-normal mb-3">总收入
+                    <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                  </h4>
+                  <h2 class="mb-5">￥${lolist[1] }</h2>
+                  <h6 class="card-text">增加 40%</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-success card-img-holder text-white">
+                <div class="card-body">
+                  <img src="../images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>                                    
+                  <h4 class="font-weight-normal mb-3">用户量
+                    <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                  </h4>
+                  <h2 class="mb-5">${lolist[2] }</h2>
+                  <h6 class="card-text">增加 5%</h6>
+                </div>
+              </div>
+            </div>
+            </div>
 				</div>
 				<!-- content-wrapper ends -->
 				<!-- partial:.g./../partials/_footer.html -->

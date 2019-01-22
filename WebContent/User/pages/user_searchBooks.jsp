@@ -107,9 +107,9 @@ if (session.getAttribute("user") != null) {
 		<!--BANNER START-->
 		<div class="kode-inner-banner">
 			<div class="kode-page-heading">
-				<h2>${booklist[0].autName }</h2>
+				<h2>检索结果</h2>
 				<ol class="breadcrumb">
-					<li>见你所想</li>
+					<li>快速找到你想要的</li>
 				</ol>
 			</div>
 		</div>

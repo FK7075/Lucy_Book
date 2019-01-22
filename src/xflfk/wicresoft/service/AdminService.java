@@ -1,12 +1,15 @@
 package xflfk.wicresoft.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import xflfk.wicresoft.dao.SqlDaoImpl;
 import xflfk.wicresoft.entitry.Admin;
+import xflfk.wicresoft.entitry.Book;
+import xflfk.wicresoft.entitry.Detail;
 import xflfk.wicresoft.entitry.LucyCfg;
 import xflfk.wicresoft.entitry.PageInfo;
-import xflfk.wicresoft.entitry.Stort;
+import xflfk.wicresoft.entitry.User;
 
 @SuppressWarnings("all")
 public class AdminService {
@@ -255,5 +258,26 @@ public class AdminService {
 	public LucyCfg getLucyCfg(){
 		LucyCfg cfg=(LucyCfg) sqlDao.getOne(LucyCfg.class, 1);
 		return cfg;
+	}
+	//Í³¼Æ
+	public List<Object> statistical(){
+		List<Object> intlist=new ArrayList<Object>();
+		List<Book> bl=(List<Book>) sqlDao.getList(new Book());
+		List<User> ul=(List<User>) sqlDao.getList(new User());
+		List<Detail> dl=(List<Detail>) sqlDao.getList(new Detail()); 
+		Long yh=(long) 0;
+		Double dd=0.0;
+		Long xl=(long) 0;
+		yh=(long) ul.size();
+		for (Book book : bl) {
+			xl+=book.getbSales();
+		}
+		for (Detail detail : dl) {
+			dd+=detail.getMoney();
+		}
+		intlist.add(xl);
+		intlist.add(dd);
+		intlist.add(yh);
+		return intlist;
 	}
 }

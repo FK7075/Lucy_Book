@@ -150,6 +150,7 @@
 	<thead>
 		<tr>
 			<th>订单编号</th>
+			<th>收货人</th>
 			<th>总金额</th>
 			<th>付款状态</th>
 			<th>发货状态</th>
@@ -161,6 +162,7 @@
 	<c:forEach items="${ordtlist }" var="ol">
 		<tr>
 			<td>${ol.ordid }</td>
+			<td>${ol.consName }</td>
 			<td>${ol.ordTotal }</td>
 			<td>${ol.ordPayState }</td>
 			<td>${ol.ordSendState }</td>

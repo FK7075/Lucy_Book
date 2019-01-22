@@ -322,7 +322,7 @@ public class UserAction extends ActionSupport {
 		return "addConsOK";
 	}
 
-	// 添加收货人
+	// 添加收货人并设置为默认
 	public String addConsigness() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
@@ -332,6 +332,9 @@ public class UserAction extends ActionSupport {
 			con.setConsTel(uTel);
 			con.setConsAddre(uPass);
 			usrService.save(con);
+			con=(Consigness) usrService.getList(con).get(0);
+			u.setMyCons(con.getConsid());
+			usrService.update(u);
 			stortlist1 = usrService.allStort();
 			return "addConsignessOK";
 		} else
@@ -483,10 +486,10 @@ public class UserAction extends ActionSupport {
 	public String myOrders() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
-			Orders or = new Orders();
-			or.setUid(u.getUid());
-			or.setOrdPayState("未付款");
-			ordtlist = (List<Orders>) usrService.getList(or);
+			String sql="select o.*,c.consName" + 
+					" from consigness c,user u,orders o" + 
+					" where o.uid=u.uid and o.consid=c.consid and u.uid=? and o.ordpaystate=?";
+			ordtlist = (List<Orders>) usrService.getSqlSList(Orders.class, sql, u.getUid(),"未付款");
 			stortlist1 = usrService.allStort();
 			return "myOrdersOK";
 		} else {
@@ -514,11 +517,10 @@ public class UserAction extends ActionSupport {
 	public String payDetail() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
-			Orders or = new Orders();
-			or.setUid(u.getUid());
-			or.setOrdPayState("已付款");
-			or.setOrdSendState("未发货");
-			ordtlist = (List<Orders>) usrService.getList(or);
+			String sql="select o.*,c.consName" + 
+					" from consigness c,user u,orders o" + 
+					" where o.uid=u.uid and o.consid=c.consid and u.uid=? and o.ordpaystate=? and o.ordsendstate=?";
+			ordtlist = (List<Orders>) usrService.getSqlSList(Orders.class, sql, u.getUid(),"已付款","未发货");
 			stortlist1 = usrService.allStort();
 			return "payDetailOK";
 		} else {
@@ -540,20 +542,25 @@ public class UserAction extends ActionSupport {
 	public String sendOrder() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
-			Orders or = new Orders();
-			or.setUid(u.getUid());
-			or.setOrdPayState("已付款");
-			or.setOrdSendState("已发货");
-			ordtlist = (List<Orders>) usrService.getList(or);
+			String sql="select o.*,c.consName" + 
+					" from consigness c,user u,orders o" + 
+					" where o.uid=u.uid and o.consid=c.consid and u.uid=? and o.ordpaystate=? and o.ordsendstate=?";
+			ordtlist = (List<Orders>) usrService.getSqlSList(Orders.class, sql, u.getUid(),"已付款","已发货");
 			stortlist1 = usrService.allStort();
 			return "sendOrderOK";
 		} else {
 			return "sendOrderNO";
 		}
 	}
+	//取消订单
 	public String cancelOrder() {
 		usrService.cancelOrder(Integer.parseInt(request.getParameter("ordid")));
 		return "cancelOrderOK";
+	}
+	public String searchBook() {
+		booklist = usrService.search(request.getParameter("bName"), request.getParameter("aName"), request.getParameter("sName"));
+		stortlist1 = usrService.allStort();
+		return "searchBookOK";
 	}
 	// 字符串数组转int数组
 	private int[] toInt(String[] s) {
