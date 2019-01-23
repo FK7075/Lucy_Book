@@ -15,36 +15,36 @@
 <link rel="shortcut icon" href="../images/favicon.png" />
 </head>
 <script type="text/javascript">
-	function Click() {
-		var info = "${sessionScope.admin.admid}";
-		if (info != "1" && info != "2") {
-			alert("抱歉，您的权限不够！");
-			return false;
-		} else {
-			return true;
-		}
+function Click(){
+	var info="${sessionScope.admin.admid}";
+	if(info!="1"&&info!="2"){
+		alert("抱歉，您的权限不够！");
+		return false;
+	}else{
+		return true;
 	}
+}
 </script>
 <script type="text/javascript">
-	var flag = 0;
-	var t;
-	function openFlag() {
-		t = setTimeout(function() {
-			flag = 1;
-			dosomething();
-		}, 2000)
+var flag = 0;
+var t;
+function openFlag() {
+	t = setTimeout(function() {
+		flag = 1;
+		dosomething();
+	}, 2000)
+}
+function closeFlag() {
+	clearTimeout(t);
+	flag = 0;
+}
+function dosomething() {
+	if (flag) {
+		document.getElementById('for1').submit();
 	}
-	function closeFlag() {
-		clearTimeout(t);
-		flag = 0;
-	}
-	function dosomething() {
-		if (flag) {
-			document.getElementById("for1").submit();
-		}
-	}
+}
 	function click1() {
-		if (confirm("您将删除该作者和其所有的作品！"))
+		if (confirm("您确定删除这本图书？"))
 			return true;
 		else
 			return false;
@@ -65,7 +65,7 @@
 		<div class="navbar-menu-wrapper d-flex align-items-stretch">
 			<div class="search-field d-none d-md-block">
 				<form class="d-flex align-items-center h-100"
-					action="${pageContext.request.contextPath}/Admin/pages/account_retrieveAuthor"
+					action="${pageContext.request.contextPath}/Admin/pages/account_retrieveBook"
 					id="for1" method="post">
 					<div class="input-group">
 						<div class="input-group-prepend bg-transparent">
@@ -146,8 +146,8 @@
 				</a>
 					<div class="collapse" id="ui-basic4">
 						<ul class="nav flex-column sub-menu">
-							<li class="nav-item"><a class="nav-link" href="addAdmin.jsp"
-								onclick="return Click();">添加管理员</a></li>
+							<li class="nav-item"><a class="nav-link" href="addAdmin.jsp" onclick="return Click();">添加管理员</a>
+							</li>
 							<li class="nav-item"><a class="nav-link"
 								href="${pageContext.request.contextPath}/Admin/pages/account_allAdmin?pages=1"
 								onclick="return Click();">管理员管理</a></li>
@@ -245,16 +245,18 @@
 			</nav>
 			<!-- partial -->
 			<div class="content-wrapper">
-				<p class="text-primary" style="">Lucy_Book--作者管理</p>
+				<p class="text-primary" style="">Lucy_Book--检索结果</p>
 				<div class="content-wrapper">
 					<table class="table table-bordered">
 						<thead>
 							<tr align="center">
-								<th>作者图片</th>
-								<th>作者名</th>
-								<th>性别</th>
-								<th>国籍</th>
-								<th>出生日期</th>
+								<th>图片</th>
+								<th>书名</th>
+								<th>作者</th>
+								<th>单价</th>
+								<th>类别</th>
+								<th>库存</th>
+								<th>销量</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -263,7 +265,7 @@
 							String color = "";
 						%>
 						<tbody>
-							<c:forEach items="${authorlist }" var="al">
+							<c:forEach items="${booklist }" var="bl">
 								<%
 									switch (i % 5) {
 										case 0:
@@ -286,42 +288,25 @@
 								%>
 								<tr class=<%=color%> align="center">
 									<td><img
-										src="${pageContext.request.contextPath}/${al.autPor}"
-										style="border-radius: 25px; width: 50px; height: 50px"></td>
-									<td>${al.autName}</td>
-									<td>${al.autSex}</td>
-									<td>${al.autPlace}</td>
-									<td>${al.autdate}</td>
+										src="${pageContext.request.contextPath}/${bl.bPhoto}"
+										style="border-radius: 0px; width: 50px; height: 50px"></td>
+									<td>${bl.bName}</td>
+									<td>${bl.autName}</td>
+									<td>￥${bl.bPrice}</td>
+									<td>${bl.stName}</td>
+									<td>${bl.bStore}</td>
+									<td>${bl.bSales}</td>
 									<td><a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_showAuthorInfo?id=${al.autid}">查看</a>&nbsp;&nbsp;
+										href="${pageContext.request.contextPath}/Admin/pages/admin_BookInfo?bid=${bl.bid}">查看</a>&nbsp;&nbsp;
 										<a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_showUpAuthor?id=${al.autid}">编辑</a>&nbsp;&nbsp;
+										href="${pageContext.request.contextPath}/Admin/pages/admin_showUpdateBook?bid=${bl.bid}">编辑</a>&nbsp;&nbsp;
 										<a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_delAuthor?id=${al.autid}"
+										href="${pageContext.request.contextPath}/Admin/pages/admin_delBook?bid=${bl.bid}"
 										onclick="return click1()">删除</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<div class="btn-group" role="group" aria-label="Basic example">
-						<button id="bu1" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showAuthor?pages=${page-1 }';">上一页</button>
-						<button id="bu2" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showAuthor?&pages=${page+1 }';">下一页</button>
-					</div>
 				</div>
 				<!-- content-wrapper ends -->
 				<!-- partial:.g./../partials/_footer.html -->

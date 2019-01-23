@@ -10,7 +10,8 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import xflfk.wicresoft.entitry.Admin;
-import xflfk.wicresoft.entitry.Book;
+import xflfk.wicresoft.entitry.Author;
+import xflfk.wicresoft.entitry.BookInfo;
 import xflfk.wicresoft.entitry.PageInfo;
 import xflfk.wicresoft.entitry.User;
 import xflfk.wicresoft.service.AdminService;
@@ -18,10 +19,38 @@ import xflfk.wicresoft.service.AdminService;
 @SuppressWarnings("all")
 public class AccountAction extends ActionSupport {
 	private int id;
+	private String ssName;
 	private AdminService admService = new AdminService();
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private List<User> userlist = new ArrayList<User>();
 	private List<Admin> adminlist = new ArrayList<Admin>();
+	private List<BookInfo> booklist = new ArrayList<BookInfo>();
+	private List<Author> authorlist = new ArrayList<Author>();
+
+
+	public List<Author> getAuthorlist() {
+		return authorlist;
+	}
+
+	public void setAuthorlist(List<Author> authorlist) {
+		this.authorlist = authorlist;
+	}
+
+	public String getSsName() {
+		return ssName;
+	}
+
+	public void setSsName(String ssName) {
+		this.ssName = ssName;
+	}
+
+	public List<BookInfo> getBooklist() {
+		return booklist;
+	}
+
+	public void setBooklist(List<BookInfo> booklist) {
+		this.booklist = booklist;
+	}
 
 	public int getId() {
 		return id;
@@ -79,7 +108,6 @@ public class AccountAction extends ActionSupport {
 		admService.update(user);
 		return "resetPassOK";
 	}
-
 	// 分页展示管理员
 	public String allAdmin() {
 		PageInfo pi = null;
@@ -105,6 +133,7 @@ public class AccountAction extends ActionSupport {
 		}
 		return "delAdminOK";
 	}
+	//初始化管理员密码
 	public String resetAdmin() {
 		request.setAttribute("pages", 1);
 		if (id != 1 && id != 2) {
@@ -117,5 +146,21 @@ public class AccountAction extends ActionSupport {
 		}
 		return "resetAdminOK";
 	}
-
+	//根据书名，作者，类型查书本
+	public String retrieveBook() {
+		String xx="%"+ssName+"%";
+		String sql = "select b.bphoto,b.bName,a.autName,s.stName, b.bStore,b.bPrice,b.bid,b.bSales"
+				+" from book b,author a,stort s"
+				+" where b.autid=a.autid and b.stid=s.stid and (a.autName like ? or b.bName like ? or s.stName like ?)";
+		booklist = (List<BookInfo>) admService.getList(BookInfo.class, sql,xx,xx,xx);
+		return "retrieveBookOK";
+	} 
+	public String retrieveAuthor() {
+		String xx="%"+ssName+"%";
+		String sql="select distinct a.*"
+				+" from book b,author a,stort s"
+				+" where a.autid=b.autid and s.stid=b.stid and (a.autName like ? or b.bName like ? or s.stName like ?)";
+		authorlist=(List<Author>) admService.getList(Author.class, sql, xx,xx,xx);
+		return "retrieveAuthorOK";
+	}
 }

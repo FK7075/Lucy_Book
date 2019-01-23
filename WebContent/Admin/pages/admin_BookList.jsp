@@ -15,17 +15,34 @@
 <link rel="shortcut icon" href="../images/favicon.png" />
 </head>
 <script type="text/javascript">
-function Click(){
-	var info="${sessionScope.admin.admid}";
-	if(info!="1"&&info!="2"){
-		alert("抱歉，您的权限不够！");
-		return false;
-	}else{
-		return true;
+	function Click() {
+		var info = "${sessionScope.admin.admid}";
+		if (info != "1" && info != "2") {
+			alert("抱歉，您的权限不够！");
+			return false;
+		} else {
+			return true;
+		}
 	}
-}
 </script>
 <script type="text/javascript">
+	var flag = 0;
+	var t;
+	function openFlag() {
+		t = setTimeout(function() {
+			flag = 1;
+			dosomething();
+		}, 2000)
+	}
+	function closeFlag() {
+		clearTimeout(t);
+		flag = 0;
+	}
+	function dosomething() {
+		if (flag) {
+			document.getElementById("for1").submit();
+		}
+	}
 	function click1() {
 		if (confirm("您确定删除这本图书？"))
 			return true;
@@ -47,13 +64,16 @@ function Click(){
 		</div>
 		<div class="navbar-menu-wrapper d-flex align-items-stretch">
 			<div class="search-field d-none d-md-block">
-				<form class="d-flex align-items-center h-100" action="#">
+				<form class="d-flex align-items-center h-100"
+					action="${pageContext.request.contextPath}/Admin/pages/account_retrieveBook"
+					id="for1" method="post">
 					<div class="input-group">
 						<div class="input-group-prepend bg-transparent">
 							<i class="input-group-text border-0 mdi mdi-magnify"></i>
 						</div>
-						<input type="text" class="form-control bg-transparent border-0"
-							placeholder="搜索">
+						<input type="text" name="ssName"
+							class="form-control bg-transparent border-0" placeholder="搜索"
+							onkeypress="openFlag()" onkeydown="closeFlag()">
 					</div>
 				</form>
 			</div>
@@ -126,8 +146,8 @@ function Click(){
 				</a>
 					<div class="collapse" id="ui-basic4">
 						<ul class="nav flex-column sub-menu">
-							<li class="nav-item"><a class="nav-link" href="addAdmin.jsp" onclick="return Click();">添加管理员</a>
-							</li>
+							<li class="nav-item"><a class="nav-link" href="addAdmin.jsp"
+								onclick="return Click();">添加管理员</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="${pageContext.request.contextPath}/Admin/pages/account_allAdmin?pages=1"
 								onclick="return Click();">管理员管理</a></li>
