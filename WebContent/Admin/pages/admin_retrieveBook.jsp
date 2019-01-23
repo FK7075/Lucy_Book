@@ -32,7 +32,7 @@ function openFlag() {
 	t = setTimeout(function() {
 		flag = 1;
 		dosomething();
-	}, 2000)
+	}, 1000)
 }
 function closeFlag() {
 	clearTimeout(t);
@@ -73,7 +73,7 @@ function dosomething() {
 						</div>
 						<input type="text" name="ssName"
 							class="form-control bg-transparent border-0" placeholder="搜索"
-							onkeypress="openFlag()" onkeydown="closeFlag()">
+							onkeyup="openFlag()" onkeydown="closeFlag()">
 					</div>
 				</form>
 			</div>
