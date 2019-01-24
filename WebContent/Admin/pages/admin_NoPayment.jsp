@@ -24,8 +24,14 @@ function Click(){
 		return true;
 	}
 }
-</script>
-<script type="text/javascript">
+function xflfk(){
+	var xfl="<%=request.getAttribute("fk")%>";
+	var fk="${requestScope.page}"
+	if(xfl=="1")
+		document.getElementById("bu2").disabled=true; 
+	if(fk=="1")
+		document.getElementById("bu1").disabled=true; 
+}
 	function click1() {
 		if (confirm("您将删除该订单以及旗下的所有明细信息！"))
 			return true;
@@ -33,7 +39,7 @@ function Click(){
 			return false;
 	}
 </script>
-<body>
+<body onload="xflfk()">
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
 		<nav
@@ -294,9 +300,9 @@ function Click(){
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="btn-group" role="group" aria-label="Basic example">
 						<button id="bu1" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showOrder?pages=${page-1 }';">上一页</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_noPayment?pages=${page-1 }';">上一页</button>
 						<button id="bu2" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showOrder?&pages=${page+1 }';">下一页</button>
+							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_noPayment?&pages=${page+1 }';">下一页</button>
 					</div>
 				</div>
 				<!-- content-wrapper ends -->

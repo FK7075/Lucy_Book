@@ -24,8 +24,14 @@ function Click(){
 		return true;
 	}
 }
-</script>
-<script type="text/javascript">
+function xflfk(){
+	var xfl="<%=request.getAttribute("fk")%>";
+	var fk="${requestScope.page}"
+	if(xfl=="1")
+		document.getElementById("bu2").disabled=true; 
+	if(fk=="1")
+		document.getElementById("bu1").disabled=true; 
+}
 	function click1() {
 		if (confirm("确认发货？"))
 			return true;
@@ -33,7 +39,7 @@ function Click(){
 			return false;
 	}
 </script>
-<body>
+<body onload="xflfk()">
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
 		<nav

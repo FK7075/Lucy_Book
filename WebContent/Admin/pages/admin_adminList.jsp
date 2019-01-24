@@ -36,8 +36,16 @@
 		else
 			return false;
 	}
+	function xflfk(){
+		var xfl="<%=request.getAttribute("fk")%>";
+		var fk="${requestScope.page}"
+		if(xfl=="1")
+			document.getElementById("bu2").disabled=true; 
+		if(fk=="1")
+			document.getElementById("bu1").disabled=true; 
+	}
 </script>
-<body>
+<body onload="xflfk()">
 	<%
 		if (request.getAttribute("fk1") != null) {
 	%>

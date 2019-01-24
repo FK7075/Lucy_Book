@@ -24,8 +24,16 @@ function Click(){
 		return true;
 	}
 }
+function xflfk(){
+	var xfl="<%=request.getAttribute("fk")%>";
+	var fk="${requestScope.page}"
+	if(xfl=="1")
+		document.getElementById("bu2").disabled=true; 
+	if(fk=="1")
+		document.getElementById("bu1").disabled=true; 
+}
 </script>
-<body>
+<body onload="xflfk()">
 	<div class="container-scroller">
 		<!-- partial:../../partials/_navbar.html -->
 		<nav
@@ -287,9 +295,9 @@ function Click(){
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="btn-group" role="group" aria-label="Basic example">
-						<button type="button" class="btn btn-primary"
+						<button type="button" class="btn btn-primary" id="bu1"
 							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=${page-1 }';">上一页</button>
-						<button type="button" class="btn btn-primary"
+						<button type="button" class="btn btn-primary" id="bu2"
 							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_inveAlarm?pages=${page+1 }';">下一页</button>
 					</div>
 				</div>

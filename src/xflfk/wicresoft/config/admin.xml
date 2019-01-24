@@ -4,8 +4,15 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<package name="package1" extends="struts-default" namespace="/Admin/pages">
+	<interceptors>
+		<interceptor name="loginfk" class="xflfk.wicresoft.factory.LoginIntercept"></interceptor>
+	</interceptors>
 		<action name="admin_*" class="xflfk.wicresoft.action.AdminAction"
 			method="{1}">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="loginfk">
+				<param name="excludeMethods">login</param>
+			</interceptor-ref>
 			<result name="login" type="chain">admin_statistical</result>
 			<result name="bookUploadOK" type="chain">admin_showBook</result>
 			<result name="upInvenOK" type="chain">sadmin_upInven</result>

@@ -448,6 +448,8 @@ public class AdminAction extends ActionSupport {
 		String sql1 = "select * from Book where bStore<?";
 		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
 		pi = admService.getPageInfo(admService.getCount(Book.class, sql1, cfg.getInventory()), page);
+		if (page == admService.getPageSize(Book.class, sql1, cfg.getInventory()))
+			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		String sql = "select b.bphoto,b.bName,a.autName,s.stName, b.bStore,b.bPrice,b.bid " + "from Book b,Author a,Stort s "
 				+ "where b.stid=s.stid and b.autid=a.autid and b.bStore<? " + "LIMIT ?,?";
@@ -516,7 +518,7 @@ public class AdminAction extends ActionSupport {
 		else
 			page = Integer.parseInt(request.getParameter("pages"));
 		pi = admService.getPageInfo(new Book(), page);
-		if (page == admService.getPageSize(new Book()))
+		if (page == admService.getPageSize(new Stort()))
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		stortlist=(List<Stort>) admService.getListPag(new Stort(), pi.getIndex(),pi.getSize());
@@ -552,8 +554,12 @@ public class AdminAction extends ActionSupport {
 	public String addStort() {
 		Stort st=new Stort();
 		st.setStName(bookName);
-		admService.add(st);
-		request.setAttribute("IsOk", 1);
+		if(admService.getList(st).size()==0) {
+			admService.add(st);
+			request.setAttribute("IsOk", 1);
+		}else {
+			request.setAttribute("IsOk", 0);
+		}
 		return "addStortOK";
 	}
 	//分页显示所有作者
@@ -565,7 +571,7 @@ public class AdminAction extends ActionSupport {
 		else
 			page = Integer.parseInt(request.getParameter("pages"));
 		pi = admService.getPageInfo(new Book(), page);
-		if (page == admService.getPageSize(new Book()))
+		if (page == admService.getPageSize(new Author()))
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		authorlist=(List<Author>) admService.getListPag(new Author(), pi.getIndex(),pi.getSize());
@@ -679,6 +685,8 @@ public class AdminAction extends ActionSupport {
 		String sql1 = "select * from Orders where ordPayState=?";
 		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
 		pi = admService.getPageInfo(admService.getCount(Orders.class, sql1, "未付款"), page);
+		if (page == admService.getPageSize(Orders.class, sql1, "未付款"))
+			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid and o.ordPayState=? LIMIT ?,?";
 		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"未付款", pi.getIndex(),pi.getSize());
@@ -695,6 +703,8 @@ public class AdminAction extends ActionSupport {
 		String sql1 = "select * from Orders where ordPayState=? and ordSendState=?";
 		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
 		pi = admService.getPageInfo(admService.getCount(Orders.class, sql1, "已付款","未发货"), page);
+		if (page == admService.getPageSize(Orders.class, sql1, "已付款","未发货"))
+			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid and o.ordPayState=? and ordSendState=? LIMIT ?,?";
 		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"已付款","未发货", pi.getIndex(),pi.getSize());

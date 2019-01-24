@@ -15,13 +15,23 @@
 <link rel="shortcut icon" href="../images/favicon.png" />
 </head>
 <%
-	if (request.getAttribute("IsOk") != null) {
+if(request.getAttribute("IsOk")!=null){
+int info=(Integer) request.getAttribute("IsOk");
+	if (info==1) {
 %>
 <script type="text/javascript">
 	alert("类型添加成功！");
 </script>
 <%
 	}
+	if(info==0){
+%>
+<script type="text/javascript">
+	alert("类型名已存在！");
+</script>
+<%
+	}
+}
 %>
 <script type="text/javascript">
 function Click(){
