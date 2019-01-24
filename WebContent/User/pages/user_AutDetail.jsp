@@ -8,6 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>User_Lucy_Book</title>
+<link rel="icon" href="3.ico" type="image/x-icon"/>
 <link href="../style.css" rel="stylesheet">
 <link href="../css/themetypo.css" rel="stylesheet">
 <link href="../css/shortcode.css" rel="stylesheet">

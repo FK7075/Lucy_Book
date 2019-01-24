@@ -5,6 +5,7 @@
 <head>
 <meta charset="utf-8">
 <title>User_Lucy_Book</title>
+<link rel="icon" href="3.ico" type="image/x-icon"/>
 <link rel="stylesheet" href="../css/reset.css" />
 <link rel="stylesheet" href="../css/common.css" />
 <link rel="stylesheet" href="../css/font-awesome.min.css" />
