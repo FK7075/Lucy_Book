@@ -32,12 +32,14 @@ import xflfk.wicresoft.entitry.Orders;
 import xflfk.wicresoft.entitry.PageInfo;
 import xflfk.wicresoft.entitry.Stort;
 import xflfk.wicresoft.service.AdminService;
+import xflfk.wicresoft.service.UserService;
 
 @SuppressWarnings("all")
 public class AdminAction extends ActionSupport {
 	private String username;// 用户名
 	private String password;// mim
 	private AdminService admService = new AdminService();
+	private UserService usrService = new UserService();
 	private List<BookInfo> booklist = new ArrayList<BookInfo>();// 要展示的所有书本信息的集合
 	private List<Author> autlist = new ArrayList<Author>();// 所有作者信息
 	private List<Stort> stlist = new ArrayList<Stort>();// 所有类型信息
@@ -653,7 +655,7 @@ public class AdminAction extends ActionSupport {
 	//删除一条订单
 	public String delOrder() {
 		int id=Integer.parseInt(request.getParameter("id"));
-		admService.del("Orders", id);
+		usrService.cancelOrder(id);
 		request.setAttribute("pages", 1);
 		return "delOrderOK";
 	}

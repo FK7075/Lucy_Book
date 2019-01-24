@@ -1,19 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
+<!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lucy_Book-Admin</title>
+<title>Purple Admin</title>
 <link rel="stylesheet"
 	href="../vendors/iconfonts/mdi/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="../vendors/css/vendor.bundle.base.css">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="shortcut icon" href="../images/favicon.png" />
 </head>
+<%
+	if (request.getAttribute("IsOk") != null) {
+%>
+<script type="text/javascript">
+	alert("类型添加成功！");
+</script>
+<%
+	}
+%>
 <script type="text/javascript">
 	function Click() {
 		var info = "${sessionScope.admin.admid}";
@@ -24,30 +33,26 @@
 			return true;
 		}
 	}
-</script>
-<script type="text/javascript">
-	var flag = 0;
-	var t;
-	function openFlag() {
-		t = setTimeout(function() {
-			flag = 1;
-			dosomething();
-		}, 1000)
-	}
-	function closeFlag() {
-		clearTimeout(t);
-		flag = 0;
-	}
-	function dosomething() {
-		if (flag) {
-			document.getElementById("for1").submit();
-		}
-	}
-	function click1() {
-		if (confirm("您确定删除这本图书？"))
-			return true;
-		else
+	function click_xfl() {
+		var old = document.getElementById('old').value;
+		var new1 = document.getElementById('new1').value;
+		var new2 = document.getElementById('new2').value;
+		if (old == "" || new1 == "" || new2 == "") {
+			alert("请将修改信息填写完整");
 			return false;
+		} else {
+			if (old != "${sessionScope.admin.admPassword}") {
+				alert("旧密码输入错误，请检查后重新输入！");
+				return false;
+			} else {
+				if (new1 != new2) {
+					alert("两次输入的密码不一致！");
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}
 	}
 </script>
 <body>
@@ -57,23 +62,20 @@
 			class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 		<div
 			class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-			<a class="navbar-brand brand-logo" href="../index.html"><img
+			<a class="navbar-brand brand-logo" href="#"><img
 				src="../images/logo.svg" alt="logo" /></a> <a
-				class="navbar-brand brand-logo-mini" href="../index.html"><img
+				class="navbar-brand brand-logo-mini" href="#"><img
 				src="../images/logo-mini.svg" alt="logo" /></a>
 		</div>
 		<div class="navbar-menu-wrapper d-flex align-items-stretch">
 			<div class="search-field d-none d-md-block">
-				<form class="d-flex align-items-center h-100"
-					action="${pageContext.request.contextPath}/Admin/pages/account_retrieveBook"
-					id="for1" method="post">
+				<form class="d-flex align-items-center h-100" action="#">
 					<div class="input-group">
 						<div class="input-group-prepend bg-transparent">
 							<i class="input-group-text border-0 mdi mdi-magnify"></i>
 						</div>
-						<input type="text" name="ssName"
-							class="form-control bg-transparent border-0" placeholder="搜索"
-							onkeypress="openFlag()" onkeydown="closeFlag()">
+						<input type="text" class="form-control bg-transparent border-0"
+							placeholder="搜索">
 					</div>
 				</form>
 			</div>
@@ -105,6 +107,7 @@
 					class="nav-link"> <i class="mdi mdi-fullscreen"
 						id="fullscreen-button"></i>
 				</a></li>
+
 				<li class="nav-item nav-logout d-none d-lg-block"><a
 					class="nav-link"
 					href="${pageContext.request.contextPath}/Admin/pages/admin_loginOut">
@@ -117,9 +120,7 @@
 			</ul>
 		</div>
 		</nav>
-		<!-- partial -->
 		<div class="container-fluid page-body-wrapper">
-			<!-- partial:../../partials/_sidebar.html -->
 			<nav class="sidebar sidebar-offcanvas" id="sidebar">
 			<ul class="nav">
 				<li class="nav-item nav-profile"><a href="#" class="nav-link">
@@ -127,7 +128,6 @@
 							<img
 								src="${pageContext.request.contextPath }/${sessionScope.admin.admPor }"
 								alt="profile"> <span class="login-status online"></span>
-							<!--change to offline or busy as needed-->
 						</div>
 						<div class="nav-profile-text d-flex flex-column">
 							<span class="font-weight-bold mb-2">${sessionScope.admin.admName }</span>
@@ -245,90 +245,41 @@
 			</nav>
 			<!-- partial -->
 			<div class="content-wrapper">
-				<p class="text-primary" style="">Lucy_Book--书本管理</p>
-				<div class="content-wrapper">
-					<table class="table table-bordered">
-						<thead>
-							<tr align="center">
-								<th>图片</th>
-								<th>书名</th>
-								<th>作者</th>
-								<th>单价</th>
-								<th>类别</th>
-								<th>库存</th>
-								<th>销量</th>
-								<th>操作</th>
-							</tr>
-						</thead>
-						<%
-							int i = 0;
-							String color = "";
-						%>
-						<tbody>
-							<c:forEach items="${booklist }" var="bl">
-								<%
-									switch (i % 5) {
-										case 0:
-											color = "table-info";
-											break;
-										case 1:
-											color = "table-warning";
-											break;
-										case 2:
-											color = "table-danger";
-											break;
-										case 3:
-											color = "table-success";
-											break;
-										case 4:
-											color = "table-primary";
-											break;
-										}
-										i++;
-								%>
-								<tr class=<%=color%> align="center">
-									<td><img
-										src="${pageContext.request.contextPath}/${bl.bPhoto}"
-										style="border-radius: 0px; width: 50px; height: 50px"></td>
-									<td>${bl.bName}</td>
-									<td>${bl.autName}</td>
-									<td>￥${bl.bPrice}</td>
-									<td>${bl.stName}</td>
-									<td>${bl.bStore}</td>
-									<td>${bl.bSales}</td>
-									<td><a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_BookInfo?bid=${bl.bid}">查看</a>&nbsp;&nbsp;
-										<a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_showUpdateBook?bid=${bl.bid}">编辑</a>&nbsp;&nbsp;
-										<a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_delBook?bid=${bl.bid}"
-										onclick="return click1()">删除</a></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<div class="btn-group" role="group" aria-label="Basic example">
-						<button id="bu1" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showBook?pages=${page-1 }';">上一页</button>
-						<button id="bu2" type="button" class="btn btn-primary"
-							onclick="window.location.href='${pageContext.request.contextPath}/Admin/pages/admin_showBook?&pages=${page+1 }';">下一页</button>
+				<p class="text-primary" style="">Lucy_Book--修改密码</p>
+				<div class="col-12 grid-margin stretch-card">
+					<div class="card-body">
+						<h4 class="card-title">修改密码</h4>
+						<form class="forms-sample"
+							action="${pageContext.request.contextPath}/Admin/pages/account_a_newPassword"
+							method="post">
+							<div class="form-group row">
+								<label for="exampleInputUsername2"
+									class="col-sm-3 col-form-label">旧密码</label>
+								<div class="col-sm-9">
+									<input type="password" class="form-control"
+										id="old" placeholder="输入您的旧密码"
+										name="bookName">
+								</div>
+								<label for="exampleInputUsername2"
+									class="col-sm-3 col-form-label">新密码</label>
+								<div class="col-sm-9">
+									<input type="password" class="form-control"
+										id="new1" placeholder="输入您的新密码"
+										name="uSex">
+								</div>
+								<label for="exampleInputUsername2"
+									class="col-sm-3 col-form-label">确认密码</label>
+								<div class="col-sm-9">
+									<input type="password" class="form-control"
+										id="new2" placeholder="再此输入"
+										name="bookName">
+								</div>
+							</div>
+							<button onclick="return click_xfl();" type="submit" class="btn btn-gradient-primary mr-2">修改</button>
+							<button type="reset" class="btn btn-light">重置</button>
+						</form>
 					</div>
 				</div>
-				<!-- content-wrapper ends -->
-				<!-- partial:.g./../partials/_footer.html -->
 				<footer class="footer">
 				<div
 					class="d-sm-flex justify-content-center justify-content-sm-between">
@@ -346,10 +297,11 @@
 			</div>
 		</div>
 	</div>
-
 	<script src="../vendors/js/vendor.bundle.base.js"></script>
 	<script src="../vendors/js/vendor.bundle.addons.js"></script>
 	<script src="../js/off-canvas.js"></script>
 	<script src="../js/misc.js"></script>
+	<script src="../js/file-upload.js"></script>
 </body>
+
 </html>

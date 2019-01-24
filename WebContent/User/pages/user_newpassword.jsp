@@ -35,6 +35,29 @@
 	}
 %>
 </head>
+<script type="text/javascript">
+	function click_xfl() {
+		var old = document.getElementById('old').value;
+		var new1 = document.getElementById('new1').value;
+		var new2 = document.getElementById('new2').value;
+		if (old == "" || new1 == "" || new2 == "") {
+			alert("请将修改信息填写完整");
+			return false;
+		} else {
+			if (old != "${sessionScope.user.uPassword}") {
+				alert("旧密码输入错误，请检查后重新输入！");
+				return false;
+			} else {
+				if (new1 != new2) {
+					alert("两次输入的密码不一致！");
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}
+	}
+</script>
 <body>
 	<div id="loader-wrapper">
 		<div id="loader"></div>
@@ -94,9 +117,12 @@
 										</ul></li>
 									<li><a href="#">订单管理</a>
 										<ul>
-										<li><a href="${pageContext.request.contextPath }/User/pages/user_sendOrder">已完成订单</a></li>
-										<li><a href="${pageContext.request.contextPath }/User/pages/user_myOrders">待付款订单</a></li>
-										<li><a href="${pageContext.request.contextPath }/User/pages/user_payDetail">未发货订单</a></li>
+											<li><a
+												href="${pageContext.request.contextPath }/User/pages/user_sendOrder">已完成订单</a></li>
+											<li><a
+												href="${pageContext.request.contextPath }/User/pages/user_myOrders">待付款订单</a></li>
+											<li><a
+												href="${pageContext.request.contextPath }/User/pages/user_payDetail">未发货订单</a></li>
 										</ul></li>
 									<li><a
 										href="${pageContext.request.contextPath}/Admin/pages/admin_Login.jsp">书店后台</a></li>
@@ -111,9 +137,9 @@
 		<!--BANNER START-->
 		<div class="kode-inner-banner">
 			<div class="kode-page-heading">
-				<h2>订单明细</h2>
+				<h2>修改密码</h2>
 				<ol class="breadcrumb">
-					<li>一阴一阳之谓道</li>
+					<li>唯一不变的就是变化本身</li>
 				</ol>
 			</div>
 		</div>
@@ -133,50 +159,18 @@
 		</div>
 		<div class="kode-content padding-tb-50">
 			<div class="container">
-				<div class="kode-comments kode-comments-2">
-					<ul>
-						<li>
-							<h5>收货人信息</h5>
-							<div class="kode-thumb">
-								<a href="#"><img alt="" src="<%=url%>" /></a>
-							</div>
-							<div class="kode-text">
-								<h4>${cons.consName }</h4>
-								<p class="designation">${cons.consTel }</p>
-								<p>${cons.consAddre }</p>
-							</div>
-						</li>
-					</ul>
-				</div>
-					<div class="widget widget-new-arrival">
-					<h2>订单明细</h2>
-						<form action="${pageContext.request.contextPath }/User/pages/user_cartToOrder" method="post">
-					<ul>
-						<li><c:forEach items="${booklist }" var="bl">
-								<div class="new-arrival">
-									<div class="kode-thumb">
-										<a href="#"><img
-											src="${pageContext.request.contextPath }/${bl.bPhoto }"
-											alt="" style="width: 119px; height: 160"></a>
-									</div>
-									<div class="kode-text">
-									<input type="hidden" name="shoppid" value="${bl.shopid }">
-										<h2>${bl.bName}</h2>
-										<h3>单价：￥${bl.bPrice}</h3>
-										<h3>
-											数量：${bl.number}
-										</h3>
-										<h3>
-											小计：￥${bl.money}
-										</h3>
-										<p>
-										</p>
-									</div>
-								</div>
-							</c:forEach></li>
-					</ul>
-					</form>
-					</div>
+				<h3>填写关键信息</h3>
+				<form
+					action="${pageContext.request.contextPath }/User/pages/account_newPassword"
+					method="post">
+					<label>旧密码</label> <input type="password" id="old" name="uName"">
+					<label>新密码</label> <input type="password" id="new1" name="uSex"">
+					<label>再次输入</label> <input type="password" id="new2" name="uTel">
+					<input type="submit" onclick="return click_xfl();"
+						class="btn btn-primary" value="修 改"
+						style="width: 90px; height: 40px"> <input type="reset"
+						class="btn btn-info" value="还 原" style="width: 90px; height: 40px">
+				</form>
 			</div>
 		</div>
 	</div>

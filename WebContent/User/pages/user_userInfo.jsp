@@ -22,18 +22,19 @@
 <link href="../js/dl-menu/component.css" rel="stylesheet">
 <%
 	String url = "../images/1.jpg";
-	String tag1 = "登录";
-	String tag2 = "注册";
-	String href1 = "user_Login.jsp";
-	String href2 = "user_Register.jsp";
-	if (session.getAttribute("user") != null) {
-		User u = (User) session.getAttribute("user");
-		tag1 = u.getuName();
-		tag2 = "登出";
-		href1 = "#";
-		href2 = "user_loginOut";
-	}
+String tag1 = "登录";
+String tag2 = "注册";
+String href1="user_Login.jsp";
+String href2="user_Register.jsp";
+if (session.getAttribute("user") != null) {
+	User u = (User) session.getAttribute("user");
+	tag1 = u.getuName();
+	tag2 = "登出";
+	href1="#";
+	href2="user_loginOut";
+}
 %>
+
 </head>
 <body>
 	<div id="loader-wrapper">
@@ -63,57 +64,55 @@
 								<p>欢迎来到Lucy_Book网上书城</p>
 							</div>
 							<div class="social-icon">
-								<div class="social-icon">
-									<a href="<%=href1%>" class="pull-left"><%=tag1%></a> <a
-										href="<%=href2%>" class="pull-left"><%=tag2%></a> <a
-										href="mailto:1814375626@qq.com" class="pull-left">联系我们</a>
-								</div>
+							<div class="social-icon">
+								<a href="<%=href1 %>" class="pull-left"><%=tag1%></a> <a
+									href="<%=href2 %>" class="pull-left"><%=tag2%></a> <a
+									href="mailto:1814375626@qq.com" class="pull-left">联系我们</a>
 							</div>
-							<div class="kode-navigation">
-								<ul>
-									<li><a
-										href="${pageContext.request.contextPath }/User/pages/user_homeContent">主页</a></li>
-									<li><a
-										href="${pageContext.request.contextPath }/User/pages/user_allBook?pages=1">书库</a></li>
-									<li><a
-										href="${pageContext.request.contextPath }/User/pages/user_allAuthor?pages=1">作者</a></li>
-									<li><a href="#">类型</a>
-										<ul>
-											<c:forEach items="${stortlist1 }" var="ast">
-												<li><a
-													href="${pageContext.request.contextPath }/User/pages/user_stortToBooks?id=${ast.stid}">${ast.stName }</a></li>
-											</c:forEach>
-										</ul></li>
-									<li><a href="#">我的</a>
-										<ul>
+						</div>
+						<div class="kode-navigation">
+							<ul>
+								<li><a
+									href="${pageContext.request.contextPath }/User/pages/user_homeContent">主页</a></li>
+								<li><a
+									href="${pageContext.request.contextPath }/User/pages/user_allBook?pages=1">书库</a></li>
+								<li><a
+									href="${pageContext.request.contextPath }/User/pages/user_allAuthor?pages=1">作者</a></li>
+								<li><a href="#">类型</a>
+									<ul>
+										<c:forEach items="${stortlist1 }" var="ast">
+											<li><a
+												href="${pageContext.request.contextPath }/User/pages/user_stortToBooks?id=${ast.stid}">${ast.stName }</a></li>
+										</c:forEach>
+									</ul></li>
+								<li><a href="#">我的</a>
+									<ul>
 										<li><a href="${pageContext.request.contextPath }/User/pages/account_zbUserInfo">个人信息</a></li>
-											<li><a
-												href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
-											<li><a
-												href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
-										</ul></li>
-									<li><a href="#">订单管理</a>
-										<ul>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
+									</ul></li>
+								<li><a href="#">订单管理</a>
+									<ul>
 										<li><a href="${pageContext.request.contextPath }/User/pages/user_sendOrder">已完成订单</a></li>
 										<li><a href="${pageContext.request.contextPath }/User/pages/user_myOrders">待付款订单</a></li>
 										<li><a href="${pageContext.request.contextPath }/User/pages/user_payDetail">未发货订单</a></li>
-										</ul></li>
-									<li><a
-										href="${pageContext.request.contextPath}/Admin/pages/admin_Login.jsp">书店后台</a></li>
-								</ul>
-							</div>
+									</ul></li>
+								<li><a
+									href="${pageContext.request.contextPath}/Admin/pages/admin_Login.jsp">书店后台</a></li>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 		</header>
 		<!--HEADER END-->
 		<!--BANNER START-->
 		<div class="kode-inner-banner">
 			<div class="kode-page-heading">
-				<h2>订单明细</h2>
+				<h2>个人信息</h2>
 				<ol class="breadcrumb">
-					<li>一阴一阳之谓道</li>
+					<li>了解自己便了解了一切</li>
 				</ol>
 			</div>
 		</div>
@@ -133,50 +132,19 @@
 		</div>
 		<div class="kode-content padding-tb-50">
 			<div class="container">
-				<div class="kode-comments kode-comments-2">
-					<ul>
-						<li>
-							<h5>收货人信息</h5>
-							<div class="kode-thumb">
-								<a href="#"><img alt="" src="<%=url%>" /></a>
-							</div>
-							<div class="kode-text">
-								<h4>${cons.consName }</h4>
-								<p class="designation">${cons.consTel }</p>
-								<p>${cons.consAddre }</p>
-							</div>
-						</li>
-					</ul>
-				</div>
-					<div class="widget widget-new-arrival">
-					<h2>订单明细</h2>
-						<form action="${pageContext.request.contextPath }/User/pages/user_cartToOrder" method="post">
-					<ul>
-						<li><c:forEach items="${booklist }" var="bl">
-								<div class="new-arrival">
-									<div class="kode-thumb">
-										<a href="#"><img
-											src="${pageContext.request.contextPath }/${bl.bPhoto }"
-											alt="" style="width: 119px; height: 160"></a>
-									</div>
-									<div class="kode-text">
-									<input type="hidden" name="shoppid" value="${bl.shopid }">
-										<h2>${bl.bName}</h2>
-										<h3>单价：￥${bl.bPrice}</h3>
-										<h3>
-											数量：${bl.number}
-										</h3>
-										<h3>
-											小计：￥${bl.money}
-										</h3>
-										<p>
-										</p>
-									</div>
-								</div>
-							</c:forEach></li>
-					</ul>
-					</form>
-					</div>
+			<h3>我的个人信息</h3>
+			<form action="${pageContext.request.contextPath }/User/pages/account_setUserInfo" method="post">
+			<label>用户名</label>
+			<input type="text" name="uName" disabled="disabled" value="${sessionScope.user.uName}">
+			<label>性别</label>
+			<input type="text" name="uSex" value="${sessionScope.user.uSex}">
+			<label>联系方式</label>
+			<input type="text" name="uTel" value="${sessionScope.user.uTel}">
+			<br>
+			<a class="reply" href="${pageContext.request.contextPath }/User/pages/account_zbNewPass">修改密码</a><br><br>
+			<input type="submit" class="btn btn-primary" value="修 改" style="width: 90px; height: 40px">
+			<input type="reset" class="btn btn-info" value="还 原" style="width: 90px; height: 40px">
+			</form>
 			</div>
 		</div>
 	</div>

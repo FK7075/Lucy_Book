@@ -10,10 +10,21 @@
 			<result name="allAdminOK">admin_adminList.jsp</result>
 			<result name="retrieveBookOK">admin_retrieveBook.jsp</result>
 			<result name="retrieveAuthorOK">admin_retrieveAuthor.jsp</result>
+			<result name="a_newPasswordOK">admin_Login.jsp</result>
 			<result name="delUserOK" type="chain">account_allUser</result>
 			<result name="resetPassOK" type="chain">account_allUser</result>
 			<result name="delAdminOK" type="chain">account_allAdmin</result>
 			<result name="resetAdminOK" type="chain">account_allAdmin</result>
+		</action>
+	</package>
+		<package name="package31" extends="struts-default" namespace="/User/pages">
+		<action name="account_*" class="xflfk.wicresoft.action.AccountAction"
+			method="{1}">
+			<result name="setUserInfoOK" >account_zbUserInfo</result>
+			<result name="setUserInfoNO">user_Login.jsp</result>
+			<result name="newPasswordOK">user_Login.jsp</result>
+			<result name="zbUserInfoOK">user_userInfo.jsp</result>
+			<result name="zbNewPassOK">user_newpassword.jsp</result>
 		</action>
 	</package>
 </struts>

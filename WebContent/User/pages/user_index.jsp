@@ -86,7 +86,7 @@
 									</ul></li>
 								<li><a href="#">我的</a>
 									<ul>
-										<li><a href="#">个人信息</a></li>
+										<li><a href="${pageContext.request.contextPath }/User/pages/account_zbUserInfo">个人信息</a></li>
 										<li><a href="${pageContext.request.contextPath }/User/pages/user_myConsigness">我的收货人</a></li>
 										<li><a href="${pageContext.request.contextPath }/User/pages/user_shoppingCart">我的购物车</a></li>
 									</ul></li>
@@ -325,7 +325,7 @@
 												<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
 											</div>
 											<p>${ss2.autName }</p>
-											<p class="price">${ss2.bPrice }</p>
+											<p class="price">￥${ss2.bPrice }</p>
 											<a href="${pageContext.request.contextPath }/User/pages/user_addToCart?bid=${ss2.bid}" class="add-to-cart">加入购物车</a>
 										</div>
 									</div>

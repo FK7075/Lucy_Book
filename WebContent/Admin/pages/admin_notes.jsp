@@ -62,9 +62,9 @@ function Click(){
 								</div>
 							</a>
 							<div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-								<a class="dropdown-item" href="#">
-									<i class="mdi mdi-cached mr-2 text-success"></i> 个人信息
-								</a>
+						<a class="dropdown-item" href="admin_newpass.jsp"> <i
+							class="mdi mdi-cached mr-2 text-success"></i> 修改密码
+						</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="${pageContext.request.contextPath}/Admin/pages/admin_loginOut">
 									<i class="mdi mdi-logout mr-2 text-primary"></i> 登出
