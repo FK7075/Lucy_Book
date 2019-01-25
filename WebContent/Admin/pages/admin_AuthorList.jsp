@@ -32,8 +32,6 @@
 		if(fk=="1")
 			document.getElementById("bu1").disabled=true; 
 	}
-</script>
-<script type="text/javascript">
 	var flag = 0;
 	var t;
 	function openFlag() {
