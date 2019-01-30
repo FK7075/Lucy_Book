@@ -307,7 +307,6 @@ public class UserAction extends ActionSupport {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			Consigness con = new Consigness();
-			System.out.println(u);
 			con.setUid(u.getUid());
 			conslist = (List<Consigness>) usrService.getList(con);
 			stortlist1 = usrService.allStort();

@@ -363,10 +363,6 @@ public class AdminAction extends ActionSupport {
 	// 添加图书（Admin/pages/admin_bookUpload）
 	public String bookUpload() {
 		Book book = new Book();
-		System.out.println("fileName:" + bookUpFileName);
-		System.out.println("contentType:" + bookUpContentType);
-		System.out.println("File:" + bookUp);
-
 		// 获取要保存文件夹的物理路径(绝对路径)
 		String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/books");
 		File file = new File(realPath);
@@ -387,7 +383,6 @@ public class AdminAction extends ActionSupport {
 			book.setStid(bookStort);
 			admService.add(book);
 			request.setAttribute("pages", 1);
-			System.out.println(realPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -418,7 +413,6 @@ public class AdminAction extends ActionSupport {
 				admin.setAdmPor("Lucy/admins/" + fileName);
 				admService.update(admin);
 				request.setAttribute("addIsOk", 1);
-				System.out.println(realPath);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -616,10 +610,6 @@ public class AdminAction extends ActionSupport {
 	//添加作者
 	public String authorUpload() {
 		Author aut=new Author();
-		System.out.println("fileName:" + bookUpFileName);
-		System.out.println("contentType:" + bookUpContentType);
-		System.out.println("File:" + bookUp);
-
 		// 获取要保存文件夹的物理路径(绝对路径)
 		String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/authors");
 		File file = new File(realPath);
@@ -636,7 +626,6 @@ public class AdminAction extends ActionSupport {
 			aut.setAutdetail(bookDetail);
 			admService.add(aut);
 			request.setAttribute("pages", 1);
-			System.out.println(realPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -708,7 +697,6 @@ public class AdminAction extends ActionSupport {
 		request.setAttribute("page", page);
 		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid and o.ordPayState=? and ordSendState=? LIMIT ?,?";
 		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"已付款","未发货", pi.getIndex(),pi.getSize());
-		System.out.println(orderInfolist);
 		return "noDeliveryOK";
 	}
 	//发货
