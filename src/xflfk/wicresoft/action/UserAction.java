@@ -203,7 +203,6 @@ public class UserAction extends ActionSupport {
 		stortlist1 = usrService.allStort();
 		// 得要到展示得所有类型对应的所有书本
 		showStort1 = usrService.showBookByStort(stortlist.get(0).getStid());
-		System.out.println(showStort1);
 		showStort2 = usrService.showBookByStort(stortlist.get(1).getStid());
 		showStort3 = usrService.showBookByStort(stortlist.get(2).getStid());
 		showStort4 = usrService.showBookByStort(stortlist.get(3).getStid());
