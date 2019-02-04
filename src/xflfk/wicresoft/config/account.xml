@@ -27,7 +27,7 @@
 		<package name="package31" extends="struts-default" namespace="/User/pages">
 		<action name="account_*" class="xflfk.wicresoft.action.AccountAction"
 			method="{1}">
-			<result name="setUserInfoOK" >account_zbUserInfo</result>
+			<result name="setUserInfoOK" type="chain">account_zbUserInfo</result>
 			<result name="setUserInfoNO">user_Login.jsp</result>
 			<result name="newPasswordOK">user_Login.jsp</result>
 			<result name="zbUserInfoOK">user_userInfo.jsp</result>

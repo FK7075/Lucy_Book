@@ -31,7 +31,7 @@
 			return false;
 	}
 	function click2() {
-		if (confirm("您正在重置该用户的密码？"))
+		if (confirm("您正在将该用户的密码重置为'123456'?"))
 			return true;
 		else
 			return false;
