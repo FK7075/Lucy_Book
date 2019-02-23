@@ -382,7 +382,7 @@ public class UserAction extends ActionSupport {
 	public String shoppingCart() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
-			String sql = "select b.bName,b.bPhoto,b.bPrice,s.state,s.shopid" + " FROM shoppcart s,book b,user u"
+			String sql = "select b.bName,b.bPhoto,b.bPrice,s.state,s.shopid" + " FROM ShoppCart s,Book b,User u"
 					+ " where s.bid=b.bid and s.uid=u.uid and s.uid=?";
 			booklist = (List<BookInfo>) usrService.getSqlSList(BookInfo.class, sql, u.getUid());
 			stortlist1 = usrService.allStort();
@@ -460,7 +460,7 @@ public class UserAction extends ActionSupport {
 		int ordid = Integer.parseInt(request.getParameter("ordid"));
 		Orders or = (Orders) usrService.getOne(Orders.class, ordid);
 		cons = (Consigness) usrService.getOne(Consigness.class, or.getConsid());
-		String sql = "select b.bName,b.bPhoto,b.bPrice,d.money,d.number,o.ordid" + " FROM detail d,book b,Orders o"
+		String sql = "select b.bName,b.bPhoto,b.bPrice,d.money,d.number,o.ordid" + " FROM Detail d,Book b,Orders o"
 				+ " where d.bid=b.bid and d.ordid=o.ordid and o.ordid=?";
 		booklist = (List<BookInfo>) usrService.getSqlSList(BookInfo.class, sql, or.getOrdid());
 		return "ordDetailOK";
@@ -485,7 +485,7 @@ public class UserAction extends ActionSupport {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			String sql="select o.*,c.consName" + 
-					" from consigness c,user u,orders o" + 
+					" from Consigness c,User u,Orders o" + 
 					" where o.uid=u.uid and o.consid=c.consid and u.uid=? and o.ordpaystate=?";
 			ordtlist = (List<Orders>) usrService.getSqlSList(Orders.class, sql, u.getUid(),"未付款");
 			stortlist1 = usrService.allStort();
@@ -516,7 +516,7 @@ public class UserAction extends ActionSupport {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			String sql="select o.*,c.consName" + 
-					" from consigness c,user u,orders o" + 
+					" from Consigness c,User u,Orders o" + 
 					" where o.uid=u.uid and o.consid=c.consid and u.uid=? and o.ordpaystate=? and o.ordsendstate=?";
 			ordtlist = (List<Orders>) usrService.getSqlSList(Orders.class, sql, u.getUid(),"已付款","未发货");
 			stortlist1 = usrService.allStort();
@@ -531,7 +531,7 @@ public class UserAction extends ActionSupport {
 		int ordid = Integer.parseInt(request.getParameter("ordid"));
 		Orders or = (Orders) usrService.getOne(Orders.class, ordid);
 		cons = (Consigness) usrService.getOne(Consigness.class, or.getConsid());
-		String sql = "select b.bName,b.bPhoto,b.bPrice,d.money,d.number,o.ordid" + " FROM detail d,book b,Orders o"
+		String sql = "select b.bName,b.bPhoto,b.bPrice,d.money,d.number,o.ordid" + " FROM Detail d,Book b,Orders o"
 				+ " where d.bid=b.bid and d.ordid=o.ordid and o.ordid=?";
 		booklist = (List<BookInfo>) usrService.getSqlSList(BookInfo.class, sql, or.getOrdid());
 		return "payOrdDetailOK";
@@ -541,7 +541,7 @@ public class UserAction extends ActionSupport {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			String sql="select o.*,c.consName" + 
-					" from consigness c,user u,orders o" + 
+					" from Consigness c,User u,Orders o" + 
 					" where o.uid=u.uid and o.consid=c.consid and u.uid=? and o.ordpaystate=? and o.ordsendstate=?";
 			ordtlist = (List<Orders>) usrService.getSqlSList(Orders.class, sql, u.getUid(),"已付款","已发货");
 			stortlist1 = usrService.allStort();

@@ -188,7 +188,7 @@ public class AccountAction extends ActionSupport {
 	public String retrieveBook() {
 		String xx = "%" + ssName + "%";
 		String sql = "select b.bphoto,b.bName,a.autName,s.stName, b.bStore,b.bPrice,b.bid,b.bSales"
-				+ " from book b,author a,stort s"
+				+ " from Book b,Author a,Stort s"
 				+ " where b.autid=a.autid and b.stid=s.stid and (a.autName like ? or b.bName like ? or s.stName like ?)";
 		booklist = (List<BookInfo>) admService.getList(BookInfo.class, sql, xx, xx, xx);
 		ssName=Conversion.toF(ssName);
@@ -198,7 +198,7 @@ public class AccountAction extends ActionSupport {
 	// 根据书名，类型名，作者姓名，作者国籍，作者性别，作者出生日期查作者
 	public String retrieveAuthor() {
 		String xx = "%" + ssName + "%";
-		String sql = "select distinct a.*" + " from book b,author a,stort s"
+		String sql = "select distinct a.*" + " from Book b,Author a,Stort s"
 				+ " where a.autid=b.autid and s.stid=b.stid and (a.autName like ? or b.bName like ? or s.stName like ? or autPlace like ? or autSex like ? or autdate like ?)";
 		authorlist = (List<Author>) admService.getList(Author.class, sql, xx, xx, xx, xx, xx, xx);
 		ssName=Conversion.toF(ssName);
