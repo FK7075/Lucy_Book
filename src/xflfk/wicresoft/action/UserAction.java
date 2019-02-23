@@ -503,7 +503,8 @@ public class UserAction extends ActionSupport {
 		stortlist1 = usrService.allStort();
 		return "changeConsigessOK";
 	}
-
+	
+	//模拟付款
 	public String payOrder() {
 		Orders ord = (Orders) usrService.getOne(Orders.class, Integer.parseInt(request.getParameter("ordid")));
 		ord.setOrdPayState("已付款");
@@ -555,6 +556,7 @@ public class UserAction extends ActionSupport {
 		usrService.cancelOrder(Integer.parseInt(request.getParameter("ordid")));
 		return "cancelOrderOK";
 	}
+	//多条件联合查询
 	public String searchBook() {
 		booklist = usrService.search(request.getParameter("bName"), request.getParameter("aName"), request.getParameter("sName"));
 		stortlist1 = usrService.allStort();
