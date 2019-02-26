@@ -1,11 +1,16 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 实体类——管理员
+ * @author fk-7075
+ *
+ */
 public class Admin {
 	private Integer admid;//id
 	private String admName;//登录名
 	private String admPassword;//密码
 	private String admPor;//头像
-	private String admTel;
+	private String admTel;//联系电话
 	
 	public String getAdmTel() {
 		return admTel;

@@ -1,5 +1,10 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 实体类——书本类型
+ * @author fk-7075
+ *
+ */
 public class Stort {
 	private Integer stid;
 	private String stName;//书本类型

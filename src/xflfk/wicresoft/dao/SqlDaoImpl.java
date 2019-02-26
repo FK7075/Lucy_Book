@@ -7,6 +7,11 @@ import xfl.fk.sqldao.SqlControl;
 import xflfk.wicresoft.entitry.LucyCfg;
 import xflfk.wicresoft.factory.LuckyFactory;
 
+/**
+ * 使用Lucky直接操作数据库的数据持久层
+ * @author fk-7075
+ *
+ */
 @SuppressWarnings("all")
 public class SqlDaoImpl implements SqlDao {
 	private SqlControl sqlControl=LuckyFactory.getSqlControl();

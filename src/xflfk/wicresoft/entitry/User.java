@@ -1,5 +1,10 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 实体类——用户
+ * @author fk-7075
+ *
+ */
 public class User {
 	private Integer uid;
 	private String uName;//用户名

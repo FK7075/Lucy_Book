@@ -1,5 +1,10 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 实体类——订单明细
+ * @author fk-7075
+ *
+ */
 public class Detail {
 	private Integer detid;//
 	private Integer bid;//书本信息

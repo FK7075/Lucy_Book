@@ -1,9 +1,14 @@
 package xflfk.wicresoft.entitry;
 
-public class Notes {//美文类
+/**
+ * 实体类——美文
+ * @author fk-7075
+ *
+ */
+public class Notes {
 	private Integer bufid;
-	private String article1;//内容1
-	private String article2;//内容2
+	private String article1;//左边内容
+	private String article2;//右边内容
 	public Integer getBufid() {
 		return bufid;
 	}

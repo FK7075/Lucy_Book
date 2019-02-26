@@ -1,5 +1,10 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 辅助类——为分页操作提供数据
+ * @author fk-7075
+ *
+ */
 public class PageInfo {
 	private int count;//总记录数
 	private int index;//当前页的第一条记录的位置

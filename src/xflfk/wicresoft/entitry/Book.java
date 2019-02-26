@@ -1,5 +1,10 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 实体类——书本
+ * @author fk-7075
+ *
+ */
 public class Book {
 	private Integer bid;
 	private String bName;//书名

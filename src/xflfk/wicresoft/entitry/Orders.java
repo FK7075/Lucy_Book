@@ -1,6 +1,10 @@
 package xflfk.wicresoft.entitry;
 
-
+/**
+ * 实体类——订单
+ * @author fk-7075
+ *
+ */
 public class Orders {
 	private Integer ordid;
 	private Integer consid;

@@ -1,5 +1,9 @@
 package xflfk.wicresoft.entitry;
-
+/**
+ * 包装类——订单的所有信息
+ * @author fk-7075
+ *
+ */
 public class OrderInfo {
 	private Integer ordid;
 	private Integer bSales;

@@ -1,13 +1,18 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 实体类——网站配置
+ * @author fk-7075
+ *
+ */
 public class LucyCfg {
 	private Integer cfgid;
-	private Integer pagesize;
-	private Integer inventory;
-	private Integer showStort1;
-	private Integer showStort2;
-	private Integer showStort3;
-	private Integer showStort4;
+	private Integer pagesize;//分页页数
+	private Integer inventory;//库存警报数
+	private Integer showStort1;//前台展示类型1
+	private Integer showStort2;//前台展示类型2
+	private Integer showStort3;//前台展示类型3
+	private Integer showStort4;//前台展示类型4
 
 	public Integer getShowStort1() {
 		return showStort1;

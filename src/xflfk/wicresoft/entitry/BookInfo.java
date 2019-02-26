@@ -1,5 +1,10 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 包装类——有关书本的所有信息
+ * @author fk-7075
+ *
+ */
 public class BookInfo {
 	private Integer bid;
 	private Integer ordid;

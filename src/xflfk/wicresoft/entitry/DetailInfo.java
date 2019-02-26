@@ -1,5 +1,10 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 包装类——订单明细的详细信息
+ * @author fk-7075
+ *
+ */
 public class DetailInfo {
 	private String uName;
 	private String uTel;

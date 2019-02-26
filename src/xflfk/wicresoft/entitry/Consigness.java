@@ -1,5 +1,10 @@
 package xflfk.wicresoft.entitry;
 
+/**
+ * 实体类——收货人
+ * @author fk-7075
+ *
+ */
 public class Consigness {
 	private Integer consid;//
 	private String consName;//收货人姓名

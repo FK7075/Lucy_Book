@@ -1,6 +1,10 @@
 package xflfk.wicresoft.entitry;
 
-
+/**
+ * 实体类——购物车
+ * @author fk-7075
+ *
+ */
 public class ShoppCart {
 	private Integer shopid;//id
 	private Integer bid;//书本信息
