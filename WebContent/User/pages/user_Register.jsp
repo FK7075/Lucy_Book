@@ -30,16 +30,18 @@
 %>
 <script type="text/javascript">
 	function click1() {
-		if (document.getElementById("Uname") == ""
-				|| document.getElementById("Tel") == ""
-				|| document.getElementById("uPass") == ""
-				|| document.getElementById("uPass1")==""){
+		if (document.getElementById("Uname").value== ""
+				|| document.getElementById("Tel").value == ""
+				|| document.getElementById("uPass").value == ""
+				|| document.getElementById("uPass1").value==""){
 			alert("您的注册信息似乎没有填写完整！");
-		}else if(document.getElementById("uPass").value != document
-				.getElementById("uPass1").value){
-			alert("两次输入的密码不一致，请重新输入！");
-		}else{
-			document.getElementById('subform').submit();
+		}else {
+			if(document.getElementById("uPass").value != document
+					.getElementById("uPass1").value){
+				alert("两次输入的密码不一致，请重新输入！");
+			}else{
+				document.getElementById('subform').submit();
+			}
 		}
 	}
 </script>
@@ -59,26 +61,26 @@
 						method="post" id="subform">
 
 						<div class="form_text_ipt">
-							<input name="uName" type="text" placeholder="用户名" id="Uname">
+							<input name="uName" type="text" placeholder="用户名" id="Uname" value="">
 						</div>
 						<div class="ececk_warning">
 							<span>用户名不能为空</span>
 						</div>
 						<div class="form_text_ipt">
-							<input name="uTel" type="text" placeholder="手机号" id="Tel">
+							<input name="uTel" type="text" placeholder="手机号" id="Tel" value="">
 						</div>
 						<div class="ececk_warning">
 							<span>手机号不能为空</span>
 						</div>
 						<div class="form_text_ipt">
-							<input name="uPass" type="password" placeholder="密码" id="uPass">
+							<input name="uPass" type="password" placeholder="密码" id="uPass" value="">
 						</div>
 						<div class="ececk_warning">
 							<span>密码不能为空</span>
 						</div>
 						<div class="form_text_ipt">
 							<input name="uPass1" type="password" placeholder="重复密码"
-								id="uPass1">
+								id="uPass1" value="">
 						</div>
 						<div class="ececk_warning">
 							<span>密码不能为空</span>

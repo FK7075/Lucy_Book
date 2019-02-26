@@ -406,13 +406,14 @@ public class UserAction extends ActionSupport {
 
 	// 全选和反选
 	public String allChoose() {
+		User user=(User)session.getAttribute("user");
 		String st = "";
 		if (Integer.parseInt(request.getParameter("st")) == 1)
 			st = "已选中";
 		if (Integer.parseInt(request.getParameter("st")) == 2)
 			st = "未选中";
-		String sql = "update ShoppCart set state=?";
-		usrService.update(sql, st);
+		String sql = "UPDATE ShoppCart SET state=? where uid=?";
+		usrService.update(sql, st,user.getUid());
 		return "allChooseOK";
 	}
 
