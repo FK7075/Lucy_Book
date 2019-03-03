@@ -12,6 +12,14 @@ public class User {
 	private String uPassword;//密码
 	private Integer myCons;//
 	private String uTel;//用户电话
+	private Integer changenum;
+	
+	public Integer getChangenum() {
+		return changenum;
+	}
+	public void setChangenum(Integer changenum) {
+		this.changenum = changenum;
+	}
 	public Integer getUid() {
 		return uid;
 	}
@@ -52,6 +60,6 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [uid=" + uid + ", uName=" + uName + ", uSex=" + uSex + ", uPassword=" + uPassword + ", myCons="
-				+ myCons + ", uTel=" + uTel + "]";
+				+ myCons + ", uTel=" + uTel + ", changenum=" + changenum + "]";
 	}
 }

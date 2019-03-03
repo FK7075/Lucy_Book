@@ -239,7 +239,7 @@ function Click(){
 								<div class="col-sm-9">
 									<input type="text" class="form-control"
 										id="exampleInputUsername2" name="bookStore"
-										value="${lucyCfg.pagesize }">
+										value="${admCfg.pagesize }">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -247,44 +247,8 @@ function Click(){
 									class="col-sm-3 col-form-label">库存警报设置</label>
 								<div class="col-sm-9">
 									<input type="text" class="form-control"
-										id="exampleInputUsername3" value="${lucyCfg.inventory}"
+										id="exampleInputUsername3" value="${admCfg.inventory}"
 										name="bookStort">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label for="exampleInputUsername2"
-									class="col-sm-3 col-form-label">设置展示类型1</label>
-								<div class="col-sm-9">
-									<input type="text" class="form-control"
-										id="exampleInputUsername3" value="${lucyCfg.showStort1}"
-										name="showStort1">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label for="exampleInputUsername2"
-									class="col-sm-3 col-form-label">设置展示类型2</label>
-								<div class="col-sm-9">
-									<input type="text" class="form-control"
-										id="exampleInputUsername3" value="${lucyCfg.showStort2}"
-										name="showStort2">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label for="exampleInputUsername2"
-									class="col-sm-3 col-form-label">设置展示类型3</label>
-								<div class="col-sm-9">
-									<input type="text" class="form-control"
-										id="exampleInputUsername3" value="${lucyCfg.showStort3}"
-										name="showStort3">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label for="exampleInputUsername2"
-									class="col-sm-3 col-form-label">设置展示类型4</label>
-								<div class="col-sm-9">
-									<input type="text" class="form-control"
-										id="exampleInputUsername3" value="${lucyCfg.showStort4}"
-										name="showStort4">
 								</div>
 							</div>
 							<button type="submit" class="btn btn-gradient-primary mr-2">修改</button>

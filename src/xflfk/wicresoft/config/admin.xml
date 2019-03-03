@@ -31,6 +31,7 @@
 			<result name="delNotesOK" type="chain">admin_showNotes</result>
 			<result name="updateNoteOK" type="chain">admin_showNoteInfo</result>
 			<result name="addNotesOK" type="chain">admin_showNotes</result>
+			<result name="isShowStrotOK" type="chain">admin_showStort</result>
 			<result name="onlogin">admin_Login.jsp</result>
 			<result name="ok">admin_BookList.jsp</result>
 			<result name="showAddBookOK">admin_AddBook.jsp</result>

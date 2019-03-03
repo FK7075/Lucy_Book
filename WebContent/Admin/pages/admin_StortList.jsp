@@ -32,8 +32,6 @@ function xflfk(){
 	if(fk=="1")
 		document.getElementById("bu1").disabled=true; 
 }
-</script>
-<script type="text/javascript">
 	function click1() {
 		if (confirm("您将删除该类型和其所对应的所有书本！"))
 			return true;
@@ -238,9 +236,10 @@ function xflfk(){
 					<table class="table table-bordered">
 						<thead>
 							<tr align="center">
-								<th>类型编号</th>
-								<th>类型名称</th>
-								<th>操作</th>
+								<th width=30%>类型编号</th>
+								<th width=30%>类型名称</th>
+								<th width=20%>是否展示(☢:✔=4)</th>
+								<th width=20%>操作</th>
 							</tr>
 						</thead>
 						<%
@@ -272,6 +271,7 @@ function xflfk(){
 								<tr class=<%=color%> align="center">
 									<td>${sl.stid}</td>
 									<td>${sl.stName}</td>
+									<td><a href="${pageContext.request.contextPath}/Admin/pages/admin_isShowStrot?stid=${sl.stid}">${sl.isShow }</a></td>
 									<td><a
 										href="${pageContext.request.contextPath}/Admin/pages/admin_showUpStort?stid=${sl.stid}">编辑</a>&nbsp;&nbsp;
 										<a

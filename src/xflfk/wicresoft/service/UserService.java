@@ -6,7 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -14,8 +17,8 @@ import xflfk.wicresoft.dao.SqlDaoImpl;
 import xflfk.wicresoft.entitry.Author;
 import xflfk.wicresoft.entitry.Book;
 import xflfk.wicresoft.entitry.BookInfo;
+import xflfk.wicresoft.entitry.Consigness;
 import xflfk.wicresoft.entitry.Detail;
-import xflfk.wicresoft.entitry.LucyCfg;
 import xflfk.wicresoft.entitry.Notes;
 import xflfk.wicresoft.entitry.Orders;
 import xflfk.wicresoft.entitry.PageInfo;
@@ -26,17 +29,21 @@ import xflfk.wicresoft.entitry.User;
 @SuppressWarnings("all")
 public class UserService {
 	private SqlDaoImpl sqlDao = new SqlDaoImpl();
-	private AdminService admService = new AdminService();
 	private List<Notes> noteslist = new ArrayList<Notes>();
 	private BookInfo bookInfo = new BookInfo();
 	private List<Stort> stortlist = new ArrayList<Stort>();
 	private List<BookInfo> booklist = new ArrayList<BookInfo>();
 	private List<Author> authorlist = new ArrayList<Author>();
 	private HttpServletRequest request = ServletActionContext.getRequest();
+	private HttpSession session = request.getSession();
+	private User sessionUser=new User();
+	private HttpServletResponse response = ServletActionContext.getResponse();
 
+	public UserService() {
+		sessionUser=(User) session.getAttribute("user");
+	}
 	/**
-	 * ÏÔÊ¾×îÊÜ»¶Ó­µÄÊé±¾ĞÅÏ¢
-	 * 
+	 * æ˜¾ç¤ºæœ€å—æ¬¢è¿çš„ä¹¦æœ¬ä¿¡æ¯
 	 * @return
 	 */
 	public List<BookInfo> getPopularBook() {
@@ -47,8 +54,7 @@ public class UserService {
 	}
 
 	/**
-	 * ÏÔÊ¾ÃÀÎÄ
-	 * 
+	 * æ˜¾ç¤ºç¾æ–‡
 	 * @return
 	 */
 	public List<Notes> getNotes() {
@@ -57,23 +63,18 @@ public class UserService {
 	}
 
 	/**
-	 * µÃµ½ËùÓĞ±ê¼ÇÕ¹Ê¾µÄÀàĞÍ
-	 * 
+	 * å¾—åˆ°æ‰€æœ‰æ ‡è®°å±•ç¤ºçš„ç±»å‹
 	 * @return
 	 */
 	public List<Stort> getShowStort() {
-		LucyCfg cfg = (LucyCfg) sqlDao.getOne(LucyCfg.class, 1);
-		Stort st = new Stort();
-		stortlist.add((Stort) sqlDao.getOne(Stort.class, cfg.getShowStort1()));
-		stortlist.add((Stort) sqlDao.getOne(Stort.class, cfg.getShowStort2()));
-		stortlist.add((Stort) sqlDao.getOne(Stort.class, cfg.getShowStort3()));
-		stortlist.add((Stort) sqlDao.getOne(Stort.class, cfg.getShowStort4()));
+		Stort st=new Stort();
+		st.setIsShow("âœ”");
+		stortlist=(List<Stort>) sqlDao.getList(st);
 		return stortlist;
 	}
 
 	/**
-	 * µÃµ½¸Ãid¶ÔÓ¦ÀàĞÍÏÂÏúÁ¿×îºÃµÄËÄ±¾ÊéµÄĞÅÏ¢
-	 * 
+	 * å¾—åˆ°è¯¥idå¯¹åº”ç±»å‹ä¸‹é”€é‡æœ€å¥½çš„å››æœ¬ä¹¦çš„ä¿¡æ¯
 	 * @param id
 	 * @return
 	 */
@@ -84,28 +85,51 @@ public class UserService {
 		return booklist;
 	}
 
-	// ·ÖÒ³ÄÃÊé
+	/**
+	 * åˆ†é¡µè·å¾—æ‰€æœ‰ä¹¦æœ¬
+	 * @param page
+	 * å½“å‰é¡µç 
+	 * @return
+	 */
 	public List<BookInfo> showAllBook(int page) {
-		PageInfo pi = admService.getPageInfo(new Book(), page);
 		String sql = "select b.bid,b.bName,a.autName,b.bPrice,b.bdetail,b.bPhoto" + " from Book b,Author a"
 				+ " where b.autid=a.autid" + " LIMIT ?,12";
-		booklist = (List<BookInfo>) admService.getList(BookInfo.class, sql, pi.getIndex());
+		if(sessionUser!=null)
+			booklist = (List<BookInfo>) sqlDao.getSqlList(BookInfo.class, sql, (page-1)*sessionUser.getChangenum());
+		else
+			booklist = (List<BookInfo>) sqlDao.getSqlList(BookInfo.class, sql, (page-1)*6);
 		return booklist;
 	}
 
-	// ·ÖÒ³ÄÃ×÷Õß
+	/**
+	 * åˆ†é¡µå¾—åˆ°æ‰€æœ‰ä½œè€…
+	 * @param page
+	 * å½“å‰é¡µç 
+	 * @return
+	 */
 	public List<Author> showAllAuthor(int page) {
-		PageInfo pi = admService.getPageInfo(new Book(), page);
-		authorlist = (List<Author>) sqlDao.getPagList(new Author(), pi.getIndex(), 9);
+		if(sessionUser!=null)
+			authorlist = (List<Author>) sqlDao.getPagList(new Author(),(page-1)*sessionUser.getChangenum(), 9);
+		else
+			authorlist = (List<Author>) sqlDao.getPagList(new Author(),(page-1)*5, 9);
 		return authorlist;
 	}
 
-	// ÄÃµ½ËùÓĞÀàĞÍ
+	/**
+	 * æ‹¿åˆ°ä¹¦åº“åœ¨æ‰€æœ‰çš„ç±»å‹
+	 * @return
+	 */
 	public List<Stort> allStort() {
 		return (List<Stort>) sqlDao.getList(new Stort());
+		
 	}
 
-	// ÄÃµ½autid¶ÔÓ¦×÷ÕßÏÂµÄËùÓĞÊé±¾
+	/**
+	 * æ‹¿åˆ°è¯¥ä½œè€…çš„æ‰€æœ‰å›¾ä¹¦
+	 * @param autid
+	 * ä½œè€…ID
+	 * @return
+	 */
 	public List<BookInfo> autToBooks(int autid) {
 		String sql = "select b.bid,b.bName,a.autName,b.bPrice,b.bPhoto,a.autid" + " from Book b,Author a ,Stort s"
 				+ " where b.autid=a.autid and b.stid=s.stid and a.autid=?";
@@ -113,7 +137,12 @@ public class UserService {
 		return booklist;
 	}
 
-	// ÄÃµ½stid¶ÔÓ¦ÀàĞÍÏÂµÄËùÓĞÊé±¾
+	/**
+	 * æ‹¿åˆ°è¯¥ç±»å‹ä¸‹çš„æ‰€æœ‰å›¾ä¹¦
+	 * @param stid
+	 * ç±»å‹ID
+	 * @return
+	 */
 	public List<BookInfo> stoToBooks(int stid) {
 		String sql = "select b.bid,b.bName,a.autName,b.bPrice,b.bPhoto,s.stName" + " from Book b,Author a ,Stort s"
 				+ " where b.autid=a.autid and b.stid=s.stid and s.stid=?";
@@ -121,12 +150,22 @@ public class UserService {
 		return booklist;
 	}
 
-	// idÄÃ×÷ÕßĞÅÏ¢
+	/**
+	 * æ ¹æ®IDå¾—åˆ°è¯¥ä½œè€…çš„è¯¦ç»†ä¿¡æ¯
+	 * @param autid
+	 * ä½œè€…ID
+	 * @return
+	 */
 	public Author getAuthorById(int autid) {
 		return (Author) sqlDao.getOne(Author.class, autid);
 	}
 
-	// ÓÃ»§µÇÂ¼
+	/**
+	 * ç”¨æˆ·ç™»å½•ï¼ˆæˆåŠŸè¿”å›Userå¯¹è±¡ï¼Œå¦åˆ™è¿”å›nullï¼‰
+	 * @param user
+	 * åŒ…å«ç”¨æˆ·åå’Œå¯†ç çš„Userå¯¹è±¡
+	 * @return
+	 */
 	public User login(User user) {
 		if (sqlDao.getList(user).size() == 0)
 			return null;
@@ -134,25 +173,85 @@ public class UserService {
 			return (User) sqlDao.getList(user).get(0);
 	}
 
-	// ÓÃ»§×¢²á
+	/**
+	 * ç”¨æˆ·æ³¨å†Œï¼ˆæˆåŠŸè¿”å›trueï¼Œç”¨æˆ·åå­˜åœ¨è¿”å›falseï¼‰
+	 * @param user
+	 * åŒ…å«ç”¨æˆ·æ³¨å†Œä¿¡æ¯çš„Userå¯¹è±¡
+	 * @return
+	 */
 	public boolean register(User user) {
 		User u = new User();
 		u.setuName(user.getuName());
 		if (sqlDao.getList(u).size() != 0) {
-			return false;// ÓÃ»§ÃûÒÑ´æÔÚ
+			return false;// ç”¨æˆ·åå·²å­˜åœ¨
 		} else {
 			sqlDao.save(user);
-			return true;// ×¢²á³É¹¦
+			return true;// æ³¨å†ŒæˆåŠŸ
 		}
 	}
-
-	// Ìí¼ÓÉÌÆ·µ½¹ºÎï³µ
+	
+	/**
+	 * å¾—åˆ°è¯¥ç”¨æˆ·çš„æ‰€æœ‰æ”¶è´§äºº
+	 * @param uid
+	 * ç”¨æˆ·ID
+	 * @return
+	 */
+	public List<Consigness> getConsigness(int uid) {
+		Consigness con=new Consigness();
+		con.setUid(uid);
+		return (List<Consigness>) sqlDao.getList(con);
+	}
+	
+	/**
+	 * å¾—åˆ°è¯¥ç”¨æˆ·çš„è´­ç‰©è½¦ä¿¡æ¯
+	 * @param uid
+	 * ç”¨æˆ·ID
+	 * @return
+	 */
+	public List<BookInfo> shoppCart(int uid){
+		String sql = "select b.bName,b.bPhoto,b.bPrice,s.state,s.shopid" + " FROM ShoppCart s,Book b,User u"
+				+ " where s.bid=b.bid and s.uid=u.uid and s.uid=?";
+		return (List<BookInfo>) sqlDao.getSqlList(BookInfo.class, sql, uid);
+	}
+	
+	/**
+	 * å•ä¸ªé€‰ä¸­æˆ–åé€‰
+	 * @param shopid
+	 * è´­ç‰©è½¦ID
+	 */
+	public void changeState(int shopid) {
+		ShoppCart shopping=(ShoppCart) sqlDao.getOne(ShoppCart.class, shopid);
+		if (shopping.getState().equals("æœªé€‰ä¸­"))
+			shopping.setState("å·²é€‰ä¸­");
+		else
+			shopping.setState("æœªé€‰ä¸­");
+		sqlDao.update(shopping);
+	}
+	
+	/**
+	 * å…¨é€‰å’Œåé€‰
+	 * @param start
+	 */
+	public void allChoose(String start) {
+		String sql = "UPDATE ShoppCart SET state=? where uid=?";
+		sqlDao.update(sql, start,sessionUser.getUid());
+		
+	}
+	
+	/**
+	 * æ·»åŠ ä¹¦æœ¬åˆ°è´­ç‰©è½¦ï¼ˆä¹¦æœ¬åº“å­˜ä¸º0åˆ™æ— æ³•æ·»åŠ ï¼‰
+	 * @param uid
+	 * ç”¨æˆ·ID
+	 * @param bid
+	 * ä¹¦æœ¬ID
+	 * @return
+	 */
 	public boolean addToCart(int uid, int bid) {
 		Book book = (Book) sqlDao.getOne(Book.class, bid);
 		if (book.getbStore() > 0) {
 			ShoppCart shop = new ShoppCart();
 			shop.setBid(bid);
-			shop.setState("Î´Ñ¡ÖĞ");
+			shop.setState("æœªé€‰ä¸­");
 			shop.setUid(uid);
 			sqlDao.save(shop);
 			return true;
@@ -161,7 +260,7 @@ public class UserService {
 		}
 
 	}
-	//¹ºÎï³µÉú³É¶©µ¥
+	//è´­ç‰©è½¦ç”Ÿæˆè®¢å•
 	public boolean cartToOrder(User u, int[] shoppids, int[] numbers,String beizhu) {
 		if (numberOk(shoppids, numbers)) {
 			List<Detail> dl = xzCart(shoppids, numbers);
@@ -169,73 +268,73 @@ public class UserService {
 				return false;
 			Orders or=new Orders();
 			Double S=0.0;
-			SimpleDateFormat df = new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ HH:mm:ss");//ÉèÖÃÈÕÆÚ¸ñÊ½
+			SimpleDateFormat df = new SimpleDateFormat("yyyyå¹´MMæœˆddæ—¥ HH:mm:ss");//è®¾ç½®æ—¥æœŸæ ¼å¼
 			String date=df.format(new Date());
 			for (Detail det : dl) {
 				Book b = (Book) sqlDao.getOne(Book.class, det.getBid());
-				b.setbStore(b.getbStore()-det.getNumber());//¸üĞÂ¿â´æ
-				b.setbSales(b.getbSales()+det.getNumber());//¸üĞÂÏúÁ¿
+				b.setbStore(b.getbStore()-det.getNumber());//æ›´æ–°åº“å­˜
+				b.setbSales(b.getbSales()+det.getNumber());//æ›´æ–°é”€é‡
 				sqlDao.update(b);
-				det.setMoney(b.getbPrice() * det.getNumber());// Ğ¡¼Æ
+				det.setMoney(b.getbPrice() * det.getNumber());// å°è®¡
 				S+=det.getMoney();
 			}
-			//**********Éú³É¶©µ¥
+			//**********ç”Ÿæˆè®¢å•
 			or.setConsid(u.getMyCons());
-			or.setUid(u.getUid());or.setOrdPayState("Î´¸¶¿î");
-			or.setOrdSendState("Î´·¢»õ");or.setOrdTime(date);
+			or.setUid(u.getUid());or.setOrdPayState("æœªä»˜æ¬¾");
+			or.setOrdSendState("æœªå‘è´§");or.setOrdTime(date);
 			or.setOrdTotal(S);or.setUserdetail(beizhu);
 			sqlDao.save(or);
 			//******************
 			or=(Orders) sqlDao.getList(or).get(0);
 			request.setAttribute("ordid", or.getOrdid());
-			//*********Éú³É¶©µ¥Ã÷Ï¸²¢ÇÒÉ¾³ı¹ºÎï³µÖĞ¶ÔÓ¦µÄĞÅÏ¢
+			//*********ç”Ÿæˆè®¢å•æ˜ç»†å¹¶ä¸”åˆ é™¤è´­ç‰©è½¦ä¸­å¯¹åº”çš„ä¿¡æ¯
 			for (Detail det : dl) {
 				det.setOrdid(or.getOrdid());
-				sqlDao.save(det);//Éú³ÉÃ÷Ï¸
+				sqlDao.save(det);//ç”Ÿæˆæ˜ç»†
 				ShoppCart shop=new ShoppCart();
 				shop.setShopid(det.getShoppid());
-				sqlDao.delete(shop);//É¾³ı¹ºÎï³µ
+				sqlDao.delete(shop);//åˆ é™¤è´­ç‰©è½¦
 			}
 			//********************************************
 			return true;
 		} else {
-			System.out.println("Êé±¾ÊıÁ¿²»¹»");
+			System.out.println("ä¹¦æœ¬æ•°é‡ä¸å¤Ÿ");
 			return false;
 		}
 	}
 
-	// ¹ºÎï³µÉ¸Ñ¡
+	// è´­ç‰©è½¦ç­›é€‰
 	private List<Detail> xzCart(int[] shoppids, int[] numbers) {
 		List<Detail> dl = new ArrayList<Detail>();
 		for (int i = 0; i < shoppids.length; i++) {
 			ShoppCart sc = (ShoppCart) sqlDao.getOne(ShoppCart.class, shoppids[i]);
-			if (sc.getState().equals("ÒÑÑ¡ÖĞ")) {
+			if (sc.getState().equals("å·²é€‰ä¸­")) {
 				Detail det = new Detail();
-				det.setBid(sc.getBid());// Êé±¾id
-				det.setNumber(numbers[i]);// ÊıÁ¿
+				det.setBid(sc.getBid());// ä¹¦æœ¬id
+				det.setNumber(numbers[i]);// æ•°é‡
 				det.setShoppid(sc.getShopid());
 				dl.add(det);
 			}
 		}
 		return dl;
 	}
-	//È¡Ïû¶©µ¥µÄ¾ßÌå²Ù×÷
+	//å–æ¶ˆè®¢å•çš„å…·ä½“æ“ä½œ
 	public boolean cancelOrder(int ordid) {
 		Detail de=new Detail();
 		de.setOrdid(ordid);
 		List<Detail> dl=(List<Detail>) sqlDao.getList(de);
-		//**********»¹Ô­Êé±¾¿â´æºÍÏúÁ¿
+		//**********è¿˜åŸä¹¦æœ¬åº“å­˜å’Œé”€é‡
 		for (Detail detail : dl) {
 			Book b=(Book) sqlDao.getOne(Book.class, detail.getBid());
-			b.setbStore(b.getbStore()+detail.getNumber());//¸üĞÂ¿â´æ
-			b.setbSales(b.getbSales()-detail.getNumber());//¸üĞÂÏúÁ¿
+			b.setbStore(b.getbStore()+detail.getNumber());//æ›´æ–°åº“å­˜
+			b.setbSales(b.getbSales()-detail.getNumber());//æ›´æ–°é”€é‡
 			sqlDao.update(b);
 		}
 		//****************************
 		sqlDao.deleteById("Orders", ordid);
 		return true;
 	}
-	// ÅĞ¶ÏÊé±¾¿â´æÊÇ·ñ¹»Êı
+	// åˆ¤æ–­ä¹¦æœ¬åº“å­˜æ˜¯å¦å¤Ÿæ•°
 	private boolean numberOk(int[] shoppids, int[] numbers) {
 		List<Detail> dl = xzCart(shoppids, numbers);
 		int i = 1;
@@ -251,7 +350,7 @@ public class UserService {
 		else
 			return true;
 	}
-	//²éÑ¯²Ù×÷
+	//æŸ¥è¯¢æ“ä½œ
 	public List<BookInfo> search(String bName,String autName,String stName){
 		String sql="select b.bid,b.bName,a.autName,b.bPrice,b.bdetail,b.bPhoto"
 				+" from Book b,Author a,Stort s"
@@ -259,6 +358,24 @@ public class UserService {
 		String b="%"+bName+"%";String a="%"+autName+"%";String s="%"+stName+"%";
 		booklist=(List<BookInfo>) sqlDao.getSqlList(BookInfo.class, sql,b,a,s );
 		return booklist;
+	}
+	
+	/**
+	 * è®¾ç½®Cookiesç”Ÿå‘½å‘¨æœŸ
+	 * @param name
+	 * cookieå
+	 * @param value
+	 * cookieå€¼
+	 * @param isOK
+	 * æ˜¯å¦å­˜å…¥
+	 */
+	public void setCookie(String name,String value,boolean isOK) {
+		Cookie cookie = new Cookie(name, value);
+		if(isOK) 
+			cookie.setMaxAge(7 * 24 * 60 * 60);
+		else
+			cookie.setMaxAge(0);
+		response.addCookie(cookie);
 	}
 	public <T> List<?> getList(T t) {
 		return sqlDao.getList(t);

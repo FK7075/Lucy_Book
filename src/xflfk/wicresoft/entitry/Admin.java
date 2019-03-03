@@ -11,7 +11,21 @@ public class Admin {
 	private String admPassword;//密码
 	private String admPor;//头像
 	private String admTel;//联系电话
+	private Integer pagesize;
+	private Integer inventory;
 	
+	public Integer getInventory() {
+		return inventory;
+	}
+	public void setInventory(Integer inventory) {
+		this.inventory = inventory;
+	}
+	public Integer getPagesize() {
+		return pagesize;
+	}
+	public void setPagesize(Integer pagesize) {
+		this.pagesize = pagesize;
+	}
 	public String getAdmTel() {
 		return admTel;
 	}
@@ -45,7 +59,7 @@ public class Admin {
 	@Override
 	public String toString() {
 		return "Admin [admid=" + admid + ", admName=" + admName + ", admPassword=" + admPassword + ", admPor=" + admPor
-				+ ", admTel=" + admTel + "]";
+				+ ", admTel=" + admTel + ", pagesize=" + pagesize + ", inventory=" + inventory + "]";
 	}
 
 }

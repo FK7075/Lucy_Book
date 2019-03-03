@@ -10,6 +10,11 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * 文件下载相关的Action
+ * @author fk-7075
+ *
+ */
 @SuppressWarnings("all")
 public class DownloadAction extends ActionSupport {
 	private HttpServletRequest request = ServletActionContext.getRequest();
@@ -37,7 +42,7 @@ public class DownloadAction extends ActionSupport {
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
 	}  
-    
+	
     public InputStream getTargetFile() throws FileNotFoundException  
     {  
     	String ip=ServletActionContext.getServletContext().getRealPath("/"+filename);

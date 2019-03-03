@@ -8,6 +8,14 @@ package xflfk.wicresoft.entitry;
 public class Stort {
 	private Integer stid;
 	private String stName;//书本类型
+	private String isShow;
+	
+	public String getIsShow() {
+		return isShow;
+	}
+	public void setIsShow(String isShow) {
+		this.isShow = isShow;
+	}
 	public Integer getStid() {
 		return stid;
 	}
@@ -22,10 +30,7 @@ public class Stort {
 	}
 	@Override
 	public String toString() {
-		return "Stort [stid=" + stid + ", stName=" + stName + "]";
+		return "Stort [stid=" + stid + ", stName=" + stName + ", isShow=" + isShow + "]";
 	}
-
-
-	
 
 }

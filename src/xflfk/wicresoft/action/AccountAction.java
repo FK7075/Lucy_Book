@@ -1,7 +1,5 @@
 package xflfk.wicresoft.action;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +13,12 @@ import com.opensymphony.xwork2.ActionSupport;
 import xflfk.wicresoft.entitry.Admin;
 import xflfk.wicresoft.entitry.Author;
 import xflfk.wicresoft.entitry.BookInfo;
+import xflfk.wicresoft.entitry.Conversion;
 import xflfk.wicresoft.entitry.PageInfo;
 import xflfk.wicresoft.entitry.Stort;
 import xflfk.wicresoft.entitry.User;
 import xflfk.wicresoft.service.AdminService;
 import xflfk.wicresoft.service.UserService;
-import xflfk.wicresoft.test.Conversion;
 
 @SuppressWarnings("all")
 public class AccountAction extends ActionSupport {
@@ -28,6 +26,7 @@ public class AccountAction extends ActionSupport {
 	private String ssName;
 	private String uSex;
 	private String uTel;
+	private Integer fy;
 	private AdminService admService = new AdminService();
 	private UserService usrService = new UserService();
 	private HttpServletRequest request = ServletActionContext.getRequest();
@@ -37,6 +36,15 @@ public class AccountAction extends ActionSupport {
 	private List<Author> authorlist = new ArrayList<Author>();
 	private List<Stort> stortlist1 = new ArrayList<Stort>();
 	private HttpSession session = request.getSession();
+	private Admin sessionAdmin=new Admin();
+
+	public Integer getFy() {
+		return fy;
+	}
+
+	public void setFy(Integer fy) {
+		this.fy = fy;
+	}
 
 	public List<Stort> getStortlist1() {
 		return stortlist1;
@@ -110,16 +118,19 @@ public class AccountAction extends ActionSupport {
 		this.userlist = userlist;
 	}
 
+	public AccountAction()
+	{
+		this.sessionAdmin=(Admin) session.getAttribute("admin");
+	}
 	// 分页展示用户
 	public String allUser() {
-		PageInfo pi = null;
 		int page = 0;
 		if (request.getAttribute("pages") != null)
 			page = (int) request.getAttribute("pages");
 		else
 			page = Integer.parseInt(request.getParameter("pages"));
-		pi = admService.getPageInfo(new User(), page);
-		if (page == admService.getPageSize(new User()))
+		PageInfo pi =new PageInfo(User.class,new User(),page,sessionAdmin.getPagesize());
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		userlist = (List<User>) admService.getListPag(new User(), pi.getIndex(), pi.getSize());
@@ -129,7 +140,7 @@ public class AccountAction extends ActionSupport {
 	// 删除用户
 	public String delUser() {
 		admService.del("User", id);
-		request.setAttribute("pages", 1);
+		request.setAttribute("pages", 1);//删完之后回到第一页
 		return "delUserOK";
 	}
 
@@ -145,14 +156,13 @@ public class AccountAction extends ActionSupport {
 
 	// 分页展示管理员
 	public String allAdmin() {
-		PageInfo pi = null;
 		int page = 0;
 		if (request.getAttribute("pages") != null)
 			page = (int) request.getAttribute("pages");
 		else
 			page = Integer.parseInt(request.getParameter("pages"));
-		pi = admService.getPageInfo(new Admin(), page);
-		if (page == admService.getPageSize(new Admin()))
+		PageInfo pi =new PageInfo(Admin.class, new Admin(), page, sessionAdmin.getPagesize());
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		adminlist = (List<Admin>) admService.getListPag(new Admin(), pi.getIndex(), pi.getSize());
@@ -161,7 +171,7 @@ public class AccountAction extends ActionSupport {
 
 	// 删除一名管理员
 	public String delAdmin() {
-		request.setAttribute("pages", 1);
+		request.setAttribute("pages", 1);  //
 		if (id != 1 && id != 2) {
 			admService.del("Admin", id);
 		} else {
@@ -223,6 +233,7 @@ public class AccountAction extends ActionSupport {
 			User u1 = (User) session.getAttribute("user");
 			u1.setuSex(uSex);
 			u1.setuTel(uTel);
+			u1.setChangenum(fy);
 			admService.update(u1);
 			session.setAttribute("user", u1);
 			return "setUserInfoOK";

@@ -194,14 +194,11 @@ public class UserAction extends ActionSupport {
 
 	// 主页信息获取
 	public String homeContent() {
-		// 最畅销的书本
-		booklist = usrService.getPopularBook();
-		// 美文内容
-		noteslist = usrService.getNotes();
-		// 要展示的所有类型
-		stortlist = usrService.getShowStort();
-		stortlist1 = usrService.allStort();
-		// 得要到展示得所有类型对应的所有书本
+		booklist = usrService.getPopularBook();// 最畅销的书本
+		noteslist = usrService.getNotes();// 美文内容
+		stortlist = usrService.getShowStort();//得到标记要展示的所有类型
+		stortlist1 = usrService.allStort();//得到书库中的所有类型
+		// 得标记要到展示的所有类型对应的所有书本
 		showStort1 = usrService.showBookByStort(stortlist.get(0).getStid());
 		showStort2 = usrService.showBookByStort(stortlist.get(1).getStid());
 		showStort3 = usrService.showBookByStort(stortlist.get(2).getStid());
@@ -211,11 +208,7 @@ public class UserAction extends ActionSupport {
 
 	// 分页获取所有书本信息
 	public String allBook() {
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
+		int page=getPage("pages");//判断Url中是否有页码，有则拿，无则当做第一页处理
 		request.setAttribute("page", page);
 		booklist = usrService.showAllBook(page);
 		stortlist1 = usrService.allStort();
@@ -224,25 +217,21 @@ public class UserAction extends ActionSupport {
 
 	// 分页显示所有作者
 	public String allAuthor() {
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
+		int page=getPage("pages");//判断Url中是否有页码，有则拿，无则当做第一页处理
 		request.setAttribute("page", page);
 		authorlist = usrService.showAllAuthor(page);
 		stortlist1 = usrService.allStort();
 		return "allAuthorOK";
 	}
 
-	// 根据作者查图书
+	//得到该作者名下的所有图书
 	public String authorToBooks() {
 		booklist = usrService.autToBooks(Integer.parseInt(request.getParameter("id")));
 		stortlist1 = usrService.allStort();
 		return "authorToBooksOK";
 	}
 
-	// 根据类型查图书
+	// 得到该类型下的所有图书
 	public String stortToBooks() {
 		booklist = usrService.stoToBooks(Integer.parseInt(request.getParameter("id")));
 		stortlist1 = usrService.allStort();
@@ -259,18 +248,9 @@ public class UserAction extends ActionSupport {
 	// 用户登录
 	public String login() {
 		String isChick = request.getParameter("checkbox");
-		Cookie userIDcookie = new Cookie("LB_userID", uName);
-		Cookie userpasscookie = new Cookie("LB_userPass", uPass);
-		if (isChick != null) {
-			userIDcookie.setMaxAge(7 * 24 * 60 * 60);
-			userpasscookie.setMaxAge(7 * 24 * 60 * 60);
-		} else {
-			userIDcookie.setMaxAge(0);
-			userpasscookie.setMaxAge(0);
-		}
-		response.addCookie(userIDcookie);
-		response.addCookie(userpasscookie);
-		User user = new User();
+		usrService.setCookie("LB_userID", uName, isChick != null);
+		usrService.setCookie("LB_userPass", uPass, isChick != null);
+		User user = new User();  
 		user.setuName(uName);
 		user.setuPassword(uPass);
 		if (usrService.login(user) != null) {
@@ -288,6 +268,7 @@ public class UserAction extends ActionSupport {
 		user.setuTel(uTel);
 		user.setuPassword(uPass);
 		user.setuName(uName);
+		user.setChangenum(6);
 		if (usrService.register(user)) {
 			request.setAttribute("isOK", 0);
 		} else {
@@ -306,15 +287,13 @@ public class UserAction extends ActionSupport {
 	public String myConsigness() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
-			Consigness con = new Consigness();
-			con.setUid(u.getUid());
-			conslist = (List<Consigness>) usrService.getList(con);
+			conslist = (List<Consigness>) usrService.getConsigness(u.getUid());
 			stortlist1 = usrService.allStort();
 			return "ConsignessOK";
 		} else
 			return "ConsignessNO";
 	}
-
+	//到添加收货人页面
 	public String addCons() {
 		stortlist1 = usrService.allStort();
 		return "addConsOK";
@@ -366,7 +345,7 @@ public class UserAction extends ActionSupport {
 		return "updateConsignessOK";
 	}
 
-	// 将该收货人加入订单信息
+	// 更换默认收货人
 	public String consToUser() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
@@ -382,9 +361,7 @@ public class UserAction extends ActionSupport {
 	public String shoppingCart() {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
-			String sql = "select b.bName,b.bPhoto,b.bPrice,s.state,s.shopid" + " FROM ShoppCart s,Book b,User u"
-					+ " where s.bid=b.bid and s.uid=u.uid and s.uid=?";
-			booklist = (List<BookInfo>) usrService.getSqlSList(BookInfo.class, sql, u.getUid());
+			booklist =usrService.shoppCart(u.getUid());
 			stortlist1 = usrService.allStort();
 			return "shoppingCartOK";
 		} else {
@@ -394,26 +371,18 @@ public class UserAction extends ActionSupport {
 
 	// 单个选中或反选
 	public String changeState() {
-		ShoppCart shopping = (ShoppCart) usrService.getOne(ShoppCart.class,
-				Integer.parseInt(request.getParameter("id")));
-		if (shopping.getState().equals("未选中"))
-			shopping.setState("已选中");
-		else
-			shopping.setState("未选中");
-		usrService.update(shopping);
+		usrService.changeState(Integer.parseInt(request.getParameter("id")));
 		return "changeStateOK";
 	}
 
 	// 全选和反选
 	public String allChoose() {
-		User user=(User)session.getAttribute("user");
 		String st = "";
 		if (Integer.parseInt(request.getParameter("st")) == 1)
 			st = "已选中";
 		if (Integer.parseInt(request.getParameter("st")) == 2)
 			st = "未选中";
-		String sql = "UPDATE ShoppCart SET state=? where uid=?";
-		usrService.update(sql, st,user.getUid());
+		usrService.allChoose(st);
 		return "allChooseOK";
 	}
 
@@ -431,10 +400,10 @@ public class UserAction extends ActionSupport {
 			User u = (User) session.getAttribute("user");
 			if (usrService.addToCart(u.getUid(), Integer.parseInt(request.getParameter("bid")))) {
 				stortlist1 = usrService.allStort();
-				return "addToCartOK1";
+				return "addToCartOK1";//添加成功
 			} else {
 				stortlist1 = usrService.allStort();
-				return "addToCartOK2";
+				return "addToCartOK2";//书本库存为0，添加失败
 			}
 		} else {
 			return "addToCartNO";
@@ -571,4 +540,19 @@ public class UserAction extends ActionSupport {
 		}
 		return n;
 	}
+	
+	/**
+	 * 获得当前页码（从Url中拿到页码，出现异常则默认为第一页）
+	 * @param message
+	 * 页码在request域中的name值
+	 * @return
+	 */
+	private int getPage(String message) {
+		try {
+			return Integer.parseInt(request.getParameter(message));
+		}catch (Exception e) {
+			return 1;
+		}
+	}
+	
 }

@@ -267,7 +267,6 @@
 			<!--BOOK GUIDE SECTION START-->
 			<section class="lib-categories-section">
 			<div class="container">
-				<!--SECTION CONTENT START-->
 				<div class="section-heading-1 dark-sec">
 					<h2>我们的热门类别</h2>
 					<p>以下是本店的一些顶级类别</p>
@@ -275,14 +274,12 @@
 						<i class="fa fa-book"></i>
 					</div>
 				</div>
-				<!--SECTION CONTENT END-->
 				<ul class="nav nav-tabs" role="tablist">
 					<c:forEach items="${stortlist }" var="stl">
 						<li role="presentation"><a href="#Stort${stl.stid }"
 							role="tab" data-toggle="tab">${stl.stName }</a></li>
 					</c:forEach>
 				</ul>
-				<!-- Tab panes -->
 				<div class="tab-content">
 					<div role="tabpanel" class="tab-pane fade in active"
 						id="Stort${stortlist[0].stid }">

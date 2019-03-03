@@ -141,6 +141,8 @@ if (session.getAttribute("user") != null) {
 			<input type="text" name="uSex" value="${sessionScope.user.uSex}">
 			<label>联系方式</label>
 			<input type="text" name="uTel" value="${sessionScope.user.uTel}">
+			<label>翻页设置</label>
+			<input type="text" name="fy" value="${sessionScope.user.changenum}">
 			<br>
 			<a class="reply" href="${pageContext.request.contextPath }/User/pages/account_zbNewPass">修改密码</a><br><br>
 			<input type="submit" class="btn btn-primary" value="修 改" style="width: 90px; height: 40px">

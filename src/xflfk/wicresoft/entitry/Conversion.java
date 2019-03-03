@@ -1,9 +1,14 @@
-package xflfk.wicresoft.test;
+package xflfk.wicresoft.entitry;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+/**
+ * ×Ö·û´®±àÂë×ª»»Àà
+ * @author fk-7075
+ *
+ */
 public class Conversion {
 	public static String toGBK(String str) {
 		 String strGBK;
@@ -11,7 +16,6 @@ public class Conversion {
 			strGBK = URLEncoder.encode(str, "GBK");
 			return strGBK;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "";
 		}  

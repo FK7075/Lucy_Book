@@ -4,7 +4,6 @@ import java.util.List;
 
 
 import xfl.fk.sqldao.SqlControl;
-import xflfk.wicresoft.entitry.LucyCfg;
 import xflfk.wicresoft.factory.LuckyFactory;
 
 /**

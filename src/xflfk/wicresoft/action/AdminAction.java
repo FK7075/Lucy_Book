@@ -25,7 +25,6 @@ import xflfk.wicresoft.entitry.Author;
 import xflfk.wicresoft.entitry.Book;
 import xflfk.wicresoft.entitry.BookInfo;
 import xflfk.wicresoft.entitry.DetailInfo;
-import xflfk.wicresoft.entitry.LucyCfg;
 import xflfk.wicresoft.entitry.Notes;
 import xflfk.wicresoft.entitry.OrderInfo;
 import xflfk.wicresoft.entitry.Orders;
@@ -36,27 +35,28 @@ import xflfk.wicresoft.service.UserService;
 
 @SuppressWarnings("all")
 public class AdminAction extends ActionSupport {
-	private String username;// ÓÃ»§Ãû
+	private String username;// ç”¨æˆ·å
 	private String password;// mim
 	private AdminService admService = new AdminService();
 	private UserService usrService = new UserService();
-	private List<BookInfo> booklist = new ArrayList<BookInfo>();// ÒªÕ¹Ê¾µÄËùÓĞÊé±¾ĞÅÏ¢µÄ¼¯ºÏ
-	private List<Author> autlist = new ArrayList<Author>();// ËùÓĞ×÷ÕßĞÅÏ¢
-	private List<Stort> stlist = new ArrayList<Stort>();// ËùÓĞÀàĞÍĞÅÏ¢
+	private List<BookInfo> booklist = new ArrayList<BookInfo>();// è¦å±•ç¤ºçš„æ‰€æœ‰ä¹¦æœ¬ä¿¡æ¯çš„é›†åˆ
+	private List<Author> autlist = new ArrayList<Author>();// æ‰€æœ‰ä½œè€…ä¿¡æ¯
+	private List<Stort> stlist = new ArrayList<Stort>();// æ‰€æœ‰ç±»å‹ä¿¡æ¯
 	private List<Object> lolist = new ArrayList<Object>();
-	private LucyCfg lucyCfg=new LucyCfg();
-	private String bookName;// ÊéÃû
-	private String bookDetail;// ÃèÊö
+	private Admin sessionAdmin=new Admin();
+	private Admin admCfg=new Admin();
+	private String bookName;// ä¹¦å
+	private String bookDetail;// æè¿°
 	private String admTel;// 
 	private String admPass;// 
 	private Integer tableid;
-	private Integer bookStore;// ¿â´æ
-	private Integer bookStort;// ÀàĞÍ
-	private Integer bookAuthor;// ×÷Õß
-	private Double bookPrice;// µ¥¼Û
-	private File bookUp;// ÎÄ¼şÁ÷
-	private String bookUpContentType; // µÃµ½ÎÄ¼şµÄÀàĞÍ
-	private String bookUpFileName;// ÎÄ¼şÃû
+	private Integer bookStore;// åº“å­˜
+	private Integer bookStort;// ç±»å‹
+	private Integer bookAuthor;// ä½œè€…
+	private Double bookPrice;// å•ä»·
+	private File bookUp;// æ–‡ä»¶æµ
+	private String bookUpContentType; // å¾—åˆ°æ–‡ä»¶çš„ç±»å‹
+	private String bookUpFileName;// æ–‡ä»¶å
 	private Integer showStort1;
 	private Integer showStort2;
 	private Integer showStort3;
@@ -77,6 +77,19 @@ public class AdminAction extends ActionSupport {
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpServletResponse response = ServletActionContext.getResponse();
 	private HttpSession session = request.getSession();
+	
+	
+	public Admin getAdmCfg() {
+		return admCfg;
+	}
+
+	public void setAdmCfg(Admin admCfg) {
+		this.admCfg = admCfg;
+	}
+
+	public AdminAction() {
+		sessionAdmin=(Admin) session.getAttribute("admin");
+	}
 	
 	public List<Object> getLolist() {
 		return lolist;
@@ -125,14 +138,6 @@ public class AdminAction extends ActionSupport {
 
 	public void setShowStort4(Integer showStort4) {
 		this.showStort4 = showStort4;
-	}
-
-	public LucyCfg getLucyCfg() {
-		return lucyCfg;
-	}
-
-	public void setLucyCfg(LucyCfg lucyCfg) {
-		this.lucyCfg = lucyCfg;
 	}
 
 	public List<DetailInfo> getDetailInfolist() {
@@ -303,16 +308,11 @@ public class AdminAction extends ActionSupport {
 		this.booklist = booklist;
 	}
 
-	// ·ÖÒ³ÏÔÊ¾ËùÓĞÍ¼Êéurl(Admin/pages/admin_showBook)
+	// åˆ†é¡µæ˜¾ç¤ºæ‰€æœ‰å›¾ä¹¦url(Admin/pages/admin_showBook)
 	public String showBook() {
-		PageInfo pi = null;
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
-		pi = admService.getPageInfo(new Book(), page);
-		if (page == admService.getPageSize(new Book()))
+		int page=getPage("pages");
+		PageInfo pi = new PageInfo(Book.class,new Book(),page,sessionAdmin.getPagesize());
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		String sql = "select b.bphoto,b.bName,a.autName,s.stName, b.bStore,b.bPrice,b.bid,b.bSales " + "from Book b,Author a,Stort s "
@@ -321,28 +321,18 @@ public class AdminAction extends ActionSupport {
 		return "ok";
 	}
 
-	// ¹ÜÀíÔ±µÇÂ¼£¨Admin/pages/admin_login£©
+	// ç®¡ç†å‘˜ç™»å½•ï¼ˆAdmin/pages/admin_loginï¼‰
 	public String login() {
 		String isChick=request.getParameter("checkbox");
+		usrService.setCookie("LB_adminID", username, isChick != null);
+		usrService.setCookie("LB_adminPass", password, isChick != null);
 		Admin admin = new Admin();
 		admin.setAdmName(username);
 		admin.setAdmPassword(password);
-		Cookie userIDcookie= new Cookie("LB_adminID",username);
-		Cookie userpasscookie=new Cookie("LB_adminPass",password);
-		if(isChick!=null) {
-			userIDcookie.setMaxAge(7*24*60*60);
-			userpasscookie.setMaxAge(7*24*60*60);
-		}else {
-			userIDcookie.setMaxAge(0);
-			userpasscookie.setMaxAge(0);
-		}
-		response.addCookie(userIDcookie);
-		response.addCookie(userpasscookie);
 		admin = admService.login(admin);
 		if (admin != null) {
-			// °Ñ¹ÜÀíÔ±ĞÅÏ¢´æÈëµ½sessionÓò¶ÔÏóÖĞ
+			// æŠŠç®¡ç†å‘˜ä¿¡æ¯å­˜å…¥åˆ°sessionåŸŸå¯¹è±¡ä¸­
 			session.setAttribute("admin", admin);
-			request.setAttribute("pages", 1);
 			return "login";
 		} else {
 			request.setAttribute("isOk", "on");
@@ -351,7 +341,7 @@ public class AdminAction extends ActionSupport {
 			
 	}
 
-	// Ìí¼ÓÊé±¾µÄĞÅÏ¢×¼±¸£¨Admin/pages/admin_showAddBook £©
+	// æ·»åŠ ä¹¦æœ¬çš„ä¿¡æ¯å‡†å¤‡ï¼ˆAdmin/pages/admin_showAddBook ï¼‰
 	public String showAddBook() {
 		Author a = new Author();
 		Stort s = new Stort();
@@ -360,20 +350,21 @@ public class AdminAction extends ActionSupport {
 		return "showAddBookOK";
 	}
 
-	// Ìí¼ÓÍ¼Êé£¨Admin/pages/admin_bookUpload£©
+	// æ·»åŠ å›¾ä¹¦ï¼ˆAdmin/pages/admin_bookUploadï¼‰
 	public String bookUpload() {
 		Book book = new Book();
-		// »ñÈ¡Òª±£´æÎÄ¼ş¼ĞµÄÎïÀíÂ·¾¶(¾ø¶ÔÂ·¾¶)
+		// è·å–è¦ä¿å­˜æ–‡ä»¶å¤¹çš„ç‰©ç†è·¯å¾„(ç»å¯¹è·¯å¾„)
 		String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/books");
 		File file = new File(realPath);
-		// ²âÊÔ´Ë³éÏóÂ·¾¶Ãû±íÊ¾µÄÎÄ¼ş»òÄ¿Â¼ÊÇ·ñ´æÔÚ¡£Èô²»´æÔÚ£¬´´½¨´Ë³éÏóÂ·¾¶ÃûÖ¸¶¨µÄÄ¿Â¼£¬°üÀ¨ËùÓĞ±ØĞèµ«²»´æÔÚµÄ¸¸Ä¿Â¼¡£
+		// æµ‹è¯•æ­¤æŠ½è±¡è·¯å¾„åè¡¨ç¤ºçš„æ–‡ä»¶æˆ–ç›®å½•æ˜¯å¦å­˜åœ¨ã€‚è‹¥ä¸å­˜åœ¨ï¼Œåˆ›å»ºæ­¤æŠ½è±¡è·¯å¾„åæŒ‡å®šçš„ç›®å½•ï¼ŒåŒ…æ‹¬æ‰€æœ‰å¿…éœ€ä½†ä¸å­˜åœ¨çš„çˆ¶ç›®å½•ã€‚
 		if (!file.exists())
-			file.mkdirs();
+			file.mkdirs();//åˆ›å»º
+		
 		try {
-			// ±£´æÎÄ¼ş
-			long dt = new Date().getTime();
+			// ä¿å­˜æ–‡ä»¶
+			long dt = new Date().getTime();//è·å¾—ç³»ç»Ÿæ—¶é—´
 			String fileName = dt + bookUpFileName;
-			FileUtils.copyFile(bookUp, new File(file, fileName));
+			FileUtils.copyFile(bookUp, new File(file, fileName));//æŠŠæµå†™åˆ°æ–‡ä»¶å¤¹é‡Œ     å›¾ç‰‡ä»æœ¬æœºä¸Šä¼ åˆ°æœåŠ¡å™¨
 			book.setAutid(bookAuthor);
 			book.setBdetail(bookDetail);
 			book.setbName(bookName);
@@ -381,35 +372,37 @@ public class AdminAction extends ActionSupport {
 			book.setbPrice(bookPrice);
 			book.setbStore(bookStore);
 			book.setStid(bookStort);
+			book.setbSales(0);
 			admService.add(book);
-			request.setAttribute("pages", 1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return "bookUploadOK";
 	}
 
-	// Ìí¼ÓÒ»Ãû¹ÜÀíÔ±£¨Admin/pages/admin_adminUpload£©
+	// æ·»åŠ ä¸€åç®¡ç†å‘˜ï¼ˆAdmin/pages/admin_adminUploadï¼‰
 	public String adminUpload() {
 		Admin admin = new Admin();
 		admin.setAdmName(bookName);
 		if (admService.addAdmin(admin) == 0) {
 			request.setAttribute("addIsOk", 0);
 		} else {
-			// »ñÈ¡Òª±£´æÎÄ¼ş¼ĞµÄÎïÀíÂ·¾¶(¾ø¶ÔÂ·¾¶)
+			// è·å–è¦ä¿å­˜æ–‡ä»¶å¤¹çš„ç‰©ç†è·¯å¾„(ç»å¯¹è·¯å¾„)
 			String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/admins");
 			File file = new File(realPath);
-			// ²âÊÔ´Ë³éÏóÂ·¾¶Ãû±íÊ¾µÄÎÄ¼ş»òÄ¿Â¼ÊÇ·ñ´æÔÚ¡£Èô²»´æÔÚ£¬´´½¨´Ë³éÏóÂ·¾¶ÃûÖ¸¶¨µÄÄ¿Â¼£¬°üÀ¨ËùÓĞ±ØĞèµ«²»´æÔÚµÄ¸¸Ä¿Â¼¡£
+			// æµ‹è¯•æ­¤æŠ½è±¡è·¯å¾„åè¡¨ç¤ºçš„æ–‡ä»¶æˆ–ç›®å½•æ˜¯å¦å­˜åœ¨ã€‚è‹¥ä¸å­˜åœ¨ï¼Œåˆ›å»ºæ­¤æŠ½è±¡è·¯å¾„åæŒ‡å®šçš„ç›®å½•ï¼ŒåŒ…æ‹¬æ‰€æœ‰å¿…éœ€ä½†ä¸å­˜åœ¨çš„çˆ¶ç›®å½•ã€‚
 			if (!file.exists())
 				file.mkdirs();
 			try {
-				// ±£´æÎÄ¼ş
+				// ä¿å­˜æ–‡ä»¶
 				long dt = new Date().getTime();
 				String fileName = dt + bookUpFileName;
 				FileUtils.copyFile(bookUp, new File(file, fileName));
 				admin.setAdmName(bookName);
 				admin.setAdmPassword(admPass);
 				admin.setAdmTel(admTel);
+				admin.setPagesize(4);
+				admin.setInventory(100);
 				admin.setAdmPor("Lucy/admins/" + fileName);
 				admService.update(admin);
 				request.setAttribute("addIsOk", 1);
@@ -420,60 +413,49 @@ public class AdminAction extends ActionSupport {
 		return "adminUploadOK";
 	}
 
-	// ÉèÖÃ¹¦ÄÜ
+	// è®¾ç½®åŠŸèƒ½
 	public String setting() {
-		LucyCfg cfg = new LucyCfg();
-		cfg.setCfgid(1);
-		cfg.setPagesize(bookStore);cfg.setInventory(bookStort);
-		cfg.setShowStort1(showStort1);cfg.setShowStort2(showStort2);
-		cfg.setShowStort3(showStort3);cfg.setShowStort4(showStort4);
-		admService.update(cfg);
+		sessionAdmin.setInventory(bookStort);
+		sessionAdmin.setPagesize(bookStore);
+		admService.update(sessionAdmin);
 		request.setAttribute("settingIsOk", 1);
 		return "settingOK";
 	}
-    //¿â´æ¾¯±¨¼°·ÖÒ³
+    //åº“å­˜è­¦æŠ¥åŠåˆ†é¡µ
 	public String inveAlarm() {
-		PageInfo pi = null;
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
+		int page=getPage("pages");
 		String sql1 = "select * from Book where bStore<?";
-		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
-		pi = admService.getPageInfo(admService.getCount(Book.class, sql1, cfg.getInventory()), page);
-		if (page == admService.getPageSize(Book.class, sql1, cfg.getInventory()))
+		PageInfo pi = new PageInfo(Book.class,page,sessionAdmin.getPagesize(),sql1,sessionAdmin.getInventory());
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		String sql = "select b.bphoto,b.bName,a.autName,s.stName, b.bStore,b.bPrice,b.bid " + "from Book b,Author a,Stort s "
 				+ "where b.stid=s.stid and b.autid=a.autid and b.bStore<? " + "LIMIT ?,?";
-		booklist = (List<BookInfo>) admService.getList(BookInfo.class, sql, cfg.getInventory(), pi.getIndex(),
+		booklist = (List<BookInfo>) admService.getList(BookInfo.class, sql, sessionAdmin.getInventory(), pi.getIndex(),
 				pi.getSize());
 		return "inveAlarmOK";
 	}
-	//ĞŞ¸Ä¿â´æµÄ×¼±¸ĞÅÏ¢
+	//ä¿®æ”¹åº“å­˜çš„å‡†å¤‡ä¿¡æ¯
 	public String showUpInven() {
 		int bid=Integer.parseInt(request.getParameter("bid"));
 		book=(Book) admService.getOne(Book.class, bid);
 		return "showUpInvenOK";
 	}
-	//ĞŞ¸Ä¿â´æ
+	//ä¿®æ”¹åº“å­˜
 	public String upInven() {
 		Book b=new Book();
 		b.setBid(bookStort);
 		b.setbStore(bookStore);
 		admService.update(b);
-		request.setAttribute("pages", 1);
 		return "upInvenOK";
 	}
-	//É¾³ıÊé±¾
+	//åˆ é™¤ä¹¦æœ¬
 	public String delBook() {
 		int id=Integer.parseInt(request.getParameter("bid"));
 		admService.del("Book", id);
-		request.setAttribute("pages", 1);
 		return "bookStoreOK";
 	}
-	//ĞŞ¸ÄÊé±¾ĞÅÏ¢Ç°µÄÊı¾İ×¼±¸
+	//ä¿®æ”¹ä¹¦æœ¬ä¿¡æ¯å‰çš„æ•°æ®å‡†å¤‡
 	public String showUpdateBook() {
 		int id=0;
 		if(request.getParameter("bid")!=null)
@@ -483,7 +465,7 @@ public class AdminAction extends ActionSupport {
 		book=(Book) admService.getOne(Book.class, id);
 		return "showUpdateBookOK";
 	}
-	//ĞŞ¸ÄÊé±¾ĞÅÏ¢
+	//ä¿®æ”¹ä¹¦æœ¬ä¿¡æ¯
 	public String updateBook() {
 		book.setBid(tableid);book.setbName(bookName);book.setBdetail(bookDetail);book.setbPrice(bookPrice);
 		book.setbStore(bookStore);
@@ -491,7 +473,7 @@ public class AdminAction extends ActionSupport {
 		request.setAttribute("bid", tableid);
 		return "updateBookOK";
 	}
-	//²é¿´Êé±¾µÄÏêÏ¸ĞÅÏ¢
+	//æŸ¥çœ‹ä¹¦æœ¬çš„è¯¦ç»†ä¿¡æ¯
 	public String BookInfo() {
 		int id=0;
 		if(request.getParameter("bid")!=null)
@@ -503,29 +485,23 @@ public class AdminAction extends ActionSupport {
 		this.bookInfo=(BookInfo) admService.getList(BookInfo.class, sql, id).get(0);
 		return "BookInfoOK";
 	}
-	//·ÖÒ³²é¿´ËùÓĞÀàĞÍ
+	//åˆ†é¡µæŸ¥çœ‹æ‰€æœ‰ç±»å‹
 	public String showStort() {
-		PageInfo pi = null;
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
-		pi = admService.getPageInfo(new Book(), page);
-		if (page == admService.getPageSize(new Stort()))
+		int page=getPage("pages");
+		PageInfo pi = new PageInfo(Stort.class,new Stort(),page,sessionAdmin.getPagesize());//åˆ†é¡µæ‰€éœ€è¦çš„ä¿¡æ¯
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
-		stortlist=(List<Stort>) admService.getListPag(new Stort(), pi.getIndex(),pi.getSize());
+		stortlist=(List<Stort>) admService.getListPag(new Stort(), pi.getIndex(),pi.getSize());//
 		return "showStortOK";
 	}
-	//É¾³ıÀàĞÍºÍÆäÏÂµÄËùÓĞÊé±¾
+	//åˆ é™¤ç±»å‹å’Œå…¶ä¸‹çš„æ‰€æœ‰ä¹¦æœ¬
 	public String delStort() {
 		int id=Integer.parseInt(request.getParameter("stid"));
 		admService.del("Stort", id);
-		request.setAttribute("pages", 1);
 		return "delStortOK";
 	}
-	//ĞŞ¸ÄÀàĞÍĞÅÏ¢
+	//ä¿®æ”¹ç±»å‹ä¿¡æ¯
 	public String upStort() {
 		Stort s=new Stort();
 		s.setStid(tableid);
@@ -534,7 +510,7 @@ public class AdminAction extends ActionSupport {
 		request.setAttribute("stid",tableid);
 		return "upStortOK";
 	}
-	//ĞŞ¸ÄÀàĞÍĞÅÏ¢Ç°µÄÊı¾İ×¼±¸
+	//ä¿®æ”¹ç±»å‹ä¿¡æ¯å‰çš„æ•°æ®å‡†å¤‡
 	public String showUpStort() {
 		int id=0;
 		if(request.getParameter("stid")!=null)
@@ -544,11 +520,12 @@ public class AdminAction extends ActionSupport {
 		stort=(Stort) admService.getOne(Stort.class, id);
 		return "showUpStortOK";
 	}
-	//Ìí¼ÓÀàĞÍ
+	//æ·»åŠ ç±»å‹
 	public String addStort() {
 		Stort st=new Stort();
 		st.setStName(bookName);
 		if(admService.getList(st).size()==0) {
+			st.setIsShow("__");
 			admService.add(st);
 			request.setAttribute("IsOk", 1);
 		}else {
@@ -556,39 +533,48 @@ public class AdminAction extends ActionSupport {
 		}
 		return "addStortOK";
 	}
-	//·ÖÒ³ÏÔÊ¾ËùÓĞ×÷Õß
+	//æ˜¯å¦å±•ç¤ºç±»å‹
+	public String isShowStrot() {
+		Stort s1=new Stort();
+		s1.setIsShow("âœ”");
+		int stid=Integer.parseInt(request.getParameter("stid"));
+		Stort st=(Stort) admService.getOne(Stort.class, stid);
+		if("âœ”".equals(st.getIsShow())) {
+			st.setIsShow("__");
+			admService.update(st);
+		}else if(admService.getList(s1).size()<4) {
+			st.setIsShow("âœ”");
+			admService.update(st);
+		}
+		return "isShowStrotOK";
+	}
+	//åˆ†é¡µæ˜¾ç¤ºæ‰€æœ‰ä½œè€…
 	public String showAuthor() {
-		PageInfo pi = null;
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
-		pi = admService.getPageInfo(new Book(), page);
-		if (page == admService.getPageSize(new Author()))
+		int page=getPage("pages");
+		PageInfo pi = new PageInfo(Author.class,new Author(),page,sessionAdmin.getPagesize());
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		authorlist=(List<Author>) admService.getListPag(new Author(), pi.getIndex(),pi.getSize());
 		return "showAuthorOK";
 	}
-	//É¾³ı×÷ÕßºÍÆäËùÓĞ×÷Æ·
+	//åˆ é™¤ä½œè€…å’Œå…¶æ‰€æœ‰ä½œå“
 	public String delAuthor() {
 		int id=Integer.parseInt(request.getParameter("id"));
 		admService.del("Author", id);
-		request.setAttribute("pages", 1);
 		return "delAuthorOK";
 	}
-	//ÏÔÊ¾×÷ÕßÏêÏ¸ĞÅÏ¢
+	//æ˜¾ç¤ºä½œè€…è¯¦ç»†ä¿¡æ¯
 	public String showAuthorInfo() {
-		int id=0;
-		if(request.getParameter("id")!=null)
+		int id=0; // 
+		if(request.getParameter("id")!=null) //æ‹¿åˆ°stringç±»å‹çš„id
 			id=Integer.parseInt(request.getParameter("id"));
 		if(request.getAttribute("id")!=null)
-			id=(int) request.getAttribute("id");
+			id=(int) request.getAttribute("id"); //æ‹¿åˆ°objectç±»å‹id
 		author=(Author) admService.getOne(Author.class, id);
 		return "showAuthorInfoOK";
 	}
-	//¸üĞÂ×÷ÕßĞÅÏ¢Ç°µÄÊı¾İ×¼±¸
+	//æ›´æ–°ä½œè€…ä¿¡æ¯å‰çš„æ•°æ®å‡†å¤‡
 	public String showUpAuthor() {
 		int id=0;
 		if(request.getParameter("id")!=null)
@@ -598,7 +584,7 @@ public class AdminAction extends ActionSupport {
 		author=(Author) admService.getOne(Author.class, id);
 		return "showUpAuthorOK";
 	}
-	//¸üĞÂ×÷ÕßĞÅÏ¢
+	//æ›´æ–°ä½œè€…ä¿¡æ¯
 	public String upAuthor() {
 		Author a=new Author();
 		a.setAutid(tableid);a.setAutName(bookName);a.setAutPlace(username);
@@ -607,17 +593,17 @@ public class AdminAction extends ActionSupport {
 		request.setAttribute("id",tableid);
 		return "upAuthorOK";
 	}
-	//Ìí¼Ó×÷Õß
+	//æ·»åŠ ä½œè€…
 	public String authorUpload() {
 		Author aut=new Author();
-		// »ñÈ¡Òª±£´æÎÄ¼ş¼ĞµÄÎïÀíÂ·¾¶(¾ø¶ÔÂ·¾¶)
+		// è·å–è¦ä¿å­˜æ–‡ä»¶å¤¹çš„ç‰©ç†è·¯å¾„(ç»å¯¹è·¯å¾„)
 		String realPath = ServletActionContext.getServletContext().getRealPath("/Lucy/authors");
 		File file = new File(realPath);
-		// ²âÊÔ´Ë³éÏóÂ·¾¶Ãû±íÊ¾µÄÎÄ¼ş»òÄ¿Â¼ÊÇ·ñ´æÔÚ¡£Èô²»´æÔÚ£¬´´½¨´Ë³éÏóÂ·¾¶ÃûÖ¸¶¨µÄÄ¿Â¼£¬°üÀ¨ËùÓĞ±ØĞèµ«²»´æÔÚµÄ¸¸Ä¿Â¼¡£
+		// æµ‹è¯•æ­¤æŠ½è±¡è·¯å¾„åè¡¨ç¤ºçš„æ–‡ä»¶æˆ–ç›®å½•æ˜¯å¦å­˜åœ¨ã€‚è‹¥ä¸å­˜åœ¨ï¼Œåˆ›å»ºæ­¤æŠ½è±¡è·¯å¾„åæŒ‡å®šçš„ç›®å½•ï¼ŒåŒ…æ‹¬æ‰€æœ‰å¿…éœ€ä½†ä¸å­˜åœ¨çš„çˆ¶ç›®å½•ã€‚
 		if (!file.exists())
 			file.mkdirs();
 		try {
-			// ±£´æÎÄ¼ş
+			// ä¿å­˜æ–‡ä»¶
 			long dt = new Date().getTime();
 			String fileName = dt + bookUpFileName;
 			FileUtils.copyFile(bookUp, new File(file, fileName));
@@ -625,36 +611,29 @@ public class AdminAction extends ActionSupport {
 			aut.setAutPor("Lucy/authors/"+fileName);aut.setAutdate(admPass);
 			aut.setAutdetail(bookDetail);
 			admService.add(aut);
-			request.setAttribute("pages", 1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return "authorUploadOK";
 	}
-	//·ÖÒ³Õ¹Ê¾¶©µ¥
+	//åˆ†é¡µå±•ç¤ºè®¢å•
 	public String showOrder() {
-		PageInfo pi = null;
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
-		pi = admService.getPageInfo(new Orders(), page);
-		if (page == admService.getPageSize(new Orders()))
+		int page=getPage("pages");
+		PageInfo pi = new PageInfo(Orders.class,new Orders(),page,sessionAdmin.getPagesize());
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid LIMIT ?,?";
 		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql, pi.getIndex(),pi.getSize());
 		return "showOrderOK";
 	}
-	//É¾³ıÒ»Ìõ¶©µ¥
+	//åˆ é™¤ä¸€æ¡è®¢å•
 	public String delOrder() {
 		int id=Integer.parseInt(request.getParameter("id"));
 		usrService.cancelOrder(id);
-		request.setAttribute("pages", 1);
 		return "delOrderOK";
 	}
-	//ÏÔÊ¾¶©µ¥µÄÃ÷Ï¸ĞÅÏ¢
+	//æ˜¾ç¤ºè®¢å•çš„æ˜ç»†ä¿¡æ¯
 	public String showDetail() {
 		int id=Integer.parseInt(request.getParameter("id"));
 		String sql="select u.uName,u.uTel,b.bphoto,b.bName,d.number,d.money,c.consName,c.consTel,c.consAddre,o.userdetail"
@@ -663,82 +642,69 @@ public class AdminAction extends ActionSupport {
 		detailInfolist=(List<DetailInfo>) admService.getList(DetailInfo.class, sql, id);
 		return "showDetailOK";
 	}
-	//·ÖÒ³Õ¹Ê¾"Î´¸¶¿î"µÄÕËµ¥
+	//åˆ†é¡µå±•ç¤º"æœªä»˜æ¬¾"çš„è´¦å•
 	public String noPayment() {
-		PageInfo pi = null;
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
+		int page=getPage("pages");
 		String sql1 = "select * from Orders where ordPayState=?";
-		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
-		pi = admService.getPageInfo(admService.getCount(Orders.class, sql1, "Î´¸¶¿î"), page);
-		if (page == admService.getPageSize(Orders.class, sql1, "Î´¸¶¿î"))
+		PageInfo pi = new PageInfo(Orders.class,page,sessionAdmin.getPagesize(),sql1,"æœªä»˜æ¬¾");
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid and o.ordPayState=? LIMIT ?,?";
-		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"Î´¸¶¿î", pi.getIndex(),pi.getSize());
+		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"æœªä»˜æ¬¾", pi.getIndex(),pi.getSize());
 		return "noPaymentOK";
 	}
-	//·ÖÒ³Õ¹Ê¾"ÒÑ¸¶¿î"µ«»¹Ã»·¢»õµÄÕËµ¥
+	//åˆ†é¡µå±•ç¤º"å·²ä»˜æ¬¾"ä½†è¿˜æ²¡å‘è´§çš„è´¦å•
 	public String noDelivery() {
-		PageInfo pi = null;
-		int page = 0;
-		if (request.getAttribute("pages") != null)
-			page = (int) request.getAttribute("pages");
-		else
-			page = Integer.parseInt(request.getParameter("pages"));
+		int page=getPage("pages");
 		String sql1 = "select * from Orders where ordPayState=? and ordSendState=?";
-		LucyCfg cfg = (LucyCfg) admService.getOne(LucyCfg.class, 1);
-		pi = admService.getPageInfo(admService.getCount(Orders.class, sql1, "ÒÑ¸¶¿î","Î´·¢»õ"), page);
-		if (page == admService.getPageSize(Orders.class, sql1, "ÒÑ¸¶¿î","Î´·¢»õ"))
+		PageInfo pi = new PageInfo(Orders.class,page,sessionAdmin.getPagesize(),sql1,"å·²ä»˜æ¬¾","æœªå‘è´§");
+		if (page == pi.getPagenum())
 			request.setAttribute("fk", 1);
 		request.setAttribute("page", page);
 		String sql="select u.uName,o.* from Orders o,User u where o.uid=u.uid and o.ordPayState=? and ordSendState=? LIMIT ?,?";
-		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"ÒÑ¸¶¿î","Î´·¢»õ", pi.getIndex(),pi.getSize());
+		orderInfolist= (List<OrderInfo>) admService.getList(OrderInfo.class, sql,"å·²ä»˜æ¬¾","æœªå‘è´§", pi.getIndex(),pi.getSize());
 		return "noDeliveryOK";
 	}
-	//·¢»õ
+	//å‘è´§
 	public String delivery() {
 		int id=Integer.parseInt(request.getParameter("id"));
 		Orders o=new Orders();
-		o.setOrdid(id);o.setOrdSendState("ÒÑ·¢»õ");
+		o.setOrdid(id);o.setOrdSendState("å·²å‘è´§");
 		admService.update(o);
-		request.setAttribute("pages", 1);
 		return "deliveryOK";
 	}
-	//µ¼³öÎªExcel±í¸ñ
+	//å¯¼å‡ºä¸ºExcelè¡¨æ ¼
 	public String exportOrder() throws IOException {
-		List<OrderInfo> all=new ArrayList<OrderInfo>();//È«²¿¶©µ¥
-		List<OrderInfo> yes=new ArrayList<OrderInfo>();//ÒÑ·¢»õ
-		List<OrderInfo> no=new ArrayList<OrderInfo>();//Î´·¢»õ
+		List<OrderInfo> all=new ArrayList<OrderInfo>();//å…¨éƒ¨è®¢å•
+		List<OrderInfo> yes=new ArrayList<OrderInfo>();//å·²å‘è´§
+		List<OrderInfo> no=new ArrayList<OrderInfo>();//æœªå‘è´§
 		String sql="select u.uName,b.bName,o.ordTime,d.number,c.consName,c.consTel,c.consAddre,o.userdetail,o.ordSendState,o.ordPayState"
 				+ " from User u,Orders o,Book b,Detail d,Consigness c "
 				+ "where o.uid=u.uid and d.bid=b.bid and d.ordid=o.ordid and o.consid=c.consid";
 		String sql2=sql+ " and o.ordSendState=?";
 		String sql3=sql2+" and o.ordPayState=?";
 		all=(List<OrderInfo>) admService.getList(OrderInfo.class, sql);
-		yes=(List<OrderInfo>) admService.getList(OrderInfo.class, sql2,"ÒÑ·¢»õ");
-		no=(List<OrderInfo>) admService.getList(OrderInfo.class, sql3,"Î´·¢»õ","ÒÑ¸¶¿î");
-		// ´´½¨¹¤×÷±¡
+		yes=(List<OrderInfo>) admService.getList(OrderInfo.class, sql2,"å·²å‘è´§");
+		no=(List<OrderInfo>) admService.getList(OrderInfo.class, sql3,"æœªå‘è´§","å·²ä»˜æ¬¾");
+		// åˆ›å»ºå·¥ä½œè–„
 		HSSFWorkbook workbook = new HSSFWorkbook();
-	    // ´´½¨¹¤×÷±í
-	    HSSFSheet sheet1= workbook.createSheet("È«²¿¶©µ¥");
+	    // åˆ›å»ºå·¥ä½œè¡¨
+	    HSSFSheet sheet1= workbook.createSheet("å…¨éƒ¨è®¢å•");
 	    HSSFRow rows1 = sheet1.createRow(0);
-	   	rows1.createCell(0).setCellValue("¶©µ¥·¢ÆğÈË");
-	   	rows1.createCell(1).setCellValue("´´½¨Ê±¼ä");
-	   	rows1.createCell(2).setCellValue("ÉÌÆ·Ãû³Æ");
-	   	rows1.createCell(3).setCellValue("¹ºÂòÊıÁ¿");
-	   	rows1.createCell(4).setCellValue("ÊÕ»õÈËĞÕÃû");
-	   	rows1.createCell(5).setCellValue("ÊÕ»õÈËµç»°");
-	   	rows1.createCell(6).setCellValue("ÊÕ»õÈËµØÖ·");
-	   	rows1.createCell(7).setCellValue("ÓÃ»§±¸×¢");
-	   	rows1.createCell(8).setCellValue("·¢»õ×´Ì¬");
-	   	rows1.createCell(9).setCellValue("¸¶¿î×´Ì¬");
+	   	rows1.createCell(0).setCellValue("è®¢å•å‘èµ·äºº");
+	   	rows1.createCell(1).setCellValue("åˆ›å»ºæ—¶é—´");
+	   	rows1.createCell(2).setCellValue("å•†å“åç§°");
+	   	rows1.createCell(3).setCellValue("è´­ä¹°æ•°é‡");
+	   	rows1.createCell(4).setCellValue("æ”¶è´§äººå§“å");
+	   	rows1.createCell(5).setCellValue("æ”¶è´§äººç”µè¯");
+	   	rows1.createCell(6).setCellValue("æ”¶è´§äººåœ°å€");
+	   	rows1.createCell(7).setCellValue("ç”¨æˆ·å¤‡æ³¨");
+	   	rows1.createCell(8).setCellValue("å‘è´§çŠ¶æ€");
+	   	rows1.createCell(9).setCellValue("ä»˜æ¬¾çŠ¶æ€");
 	   	if(all.size()!=0) {
 	    for(int row=0;row<all.size();row++) {
-	    	// Ïò¹¤×÷±íÖĞÌí¼ÓÊı¾İ
+	    	// å‘å·¥ä½œè¡¨ä¸­æ·»åŠ æ•°æ®
 	    	 HSSFRow rows = sheet1.createRow(row+1);
 	    	 rows.createCell(0).setCellValue(all.get(row).getuName());
 	    	 rows.createCell(1).setCellValue(all.get(row).getOrdTime());
@@ -752,21 +718,21 @@ public class AdminAction extends ActionSupport {
 	    	 rows.createCell(9).setCellValue(all.get(row).getOrdPayState());
 	    }
 	   	}
-	    HSSFSheet sheet2= workbook.createSheet("ÒÑÍê³É¶©µ¥");
+	    HSSFSheet sheet2= workbook.createSheet("å·²å®Œæˆè®¢å•");
 	    HSSFRow rows2 = sheet2.createRow(0);
-	   	rows2.createCell(0).setCellValue("¶©µ¥·¢ÆğÈË");
-	   	rows2.createCell(1).setCellValue("´´½¨Ê±¼ä");
-	   	rows2.createCell(2).setCellValue("ÉÌÆ·Ãû³Æ");
-	   	rows2.createCell(3).setCellValue("¹ºÂòÊıÁ¿");
-	   	rows2.createCell(4).setCellValue("ÊÕ»õÈËĞÕÃû");
-	   	rows2.createCell(5).setCellValue("ÊÕ»õÈËµç»°");
-	   	rows2.createCell(6).setCellValue("ÊÕ»õÈËµØÖ·");
-	   	rows2.createCell(7).setCellValue("ÓÃ»§±¸×¢");
-	   	rows2.createCell(8).setCellValue("·¢»õ×´Ì¬");
-	   	rows2.createCell(9).setCellValue("¸¶¿î×´Ì¬");
+	   	rows2.createCell(0).setCellValue("è®¢å•å‘èµ·äºº");
+	   	rows2.createCell(1).setCellValue("åˆ›å»ºæ—¶é—´");
+	   	rows2.createCell(2).setCellValue("å•†å“åç§°");
+	   	rows2.createCell(3).setCellValue("è´­ä¹°æ•°é‡");
+	   	rows2.createCell(4).setCellValue("æ”¶è´§äººå§“å");
+	   	rows2.createCell(5).setCellValue("æ”¶è´§äººç”µè¯");
+	   	rows2.createCell(6).setCellValue("æ”¶è´§äººåœ°å€");
+	   	rows2.createCell(7).setCellValue("ç”¨æˆ·å¤‡æ³¨");
+	   	rows2.createCell(8).setCellValue("å‘è´§çŠ¶æ€");
+	   	rows2.createCell(9).setCellValue("ä»˜æ¬¾çŠ¶æ€");
 	   	if(yes.size()!=0) {
 	    for(int row=0;row<yes.size();row++) {
-	    	// Ïò¹¤×÷±íÖĞÌí¼ÓÊı¾İ
+	    	// å‘å·¥ä½œè¡¨ä¸­æ·»åŠ æ•°æ®
 	    	 HSSFRow rows = sheet2.createRow(row+1);
 	    	 rows.createCell(0).setCellValue(yes.get(row).getuName());
 	    	 rows.createCell(1).setCellValue(yes.get(row).getOrdTime());
@@ -780,21 +746,21 @@ public class AdminAction extends ActionSupport {
 	    	 rows.createCell(9).setCellValue(yes.get(row).getOrdPayState());
 	    }
 	   	}
-	    HSSFSheet sheet3= workbook.createSheet("ÒÑ¸¶¿îÎ´·¢»õ¶©µ¥");
+	    HSSFSheet sheet3= workbook.createSheet("å·²ä»˜æ¬¾æœªå‘è´§è®¢å•");
 	    HSSFRow rows3 = sheet3.createRow(0);
-	   	rows3.createCell(0).setCellValue("¶©µ¥·¢ÆğÈË");
-	   	rows3.createCell(1).setCellValue("´´½¨Ê±¼ä");
-	   	rows3.createCell(2).setCellValue("ÉÌÆ·Ãû³Æ");
-	   	rows3.createCell(3).setCellValue("¹ºÂòÊıÁ¿");
-	   	rows3.createCell(4).setCellValue("ÊÕ»õÈËĞÕÃû");
-	   	rows3.createCell(5).setCellValue("ÊÕ»õÈËµç»°");
-	   	rows3.createCell(6).setCellValue("ÊÕ»õÈËµØÖ·");
-	   	rows3.createCell(7).setCellValue("ÓÃ»§±¸×¢");
-	   	rows3.createCell(8).setCellValue("·¢»õ×´Ì¬");
-	   	rows3.createCell(9).setCellValue("¸¶¿î×´Ì¬");
+	   	rows3.createCell(0).setCellValue("è®¢å•å‘èµ·äºº");
+	   	rows3.createCell(1).setCellValue("åˆ›å»ºæ—¶é—´");
+	   	rows3.createCell(2).setCellValue("å•†å“åç§°");
+	   	rows3.createCell(3).setCellValue("è´­ä¹°æ•°é‡");
+	   	rows3.createCell(4).setCellValue("æ”¶è´§äººå§“å");
+	   	rows3.createCell(5).setCellValue("æ”¶è´§äººç”µè¯");
+	   	rows3.createCell(6).setCellValue("æ”¶è´§äººåœ°å€");
+	   	rows3.createCell(7).setCellValue("ç”¨æˆ·å¤‡æ³¨");
+	   	rows3.createCell(8).setCellValue("å‘è´§çŠ¶æ€");
+	   	rows3.createCell(9).setCellValue("ä»˜æ¬¾çŠ¶æ€");
 	   	if(no.size()!=0) {
 	    for(int row=0;row<no.size();row++) {
-	    	// Ïò¹¤×÷±íÖĞÌí¼ÓÊı¾İ
+	    	// å‘å·¥ä½œè¡¨ä¸­æ·»åŠ æ•°æ®
 	    	 HSSFRow rows = sheet3.createRow(row+1);
 	    	 rows.createCell(0).setCellValue(no.get(row).getuName());
 	    	 rows.createCell(1).setCellValue(no.get(row).getOrdTime());
@@ -811,37 +777,36 @@ public class AdminAction extends ActionSupport {
 	      File xlsFile = new File(ServletActionContext.getServletContext().getRealPath("/order.xls"));
 	      FileOutputStream xlsStream = new FileOutputStream(xlsFile);
 	      workbook.write(xlsStream);
-	      request.setAttribute("pages", 1);
 		return "exportOrderOK";
 	}
-	//ÏÔÊ¾ÉèÖÃĞÅÏ¢
+	//æ˜¾ç¤ºè®¾ç½®ä¿¡æ¯
 	public String showSetting() {
-		lucyCfg=admService.getLucyCfg();
+		admCfg=sessionAdmin;
 		return "showSettingOK";
 	}
-	//×¢ÏúµÇÂ¼£¨Çå³ısession£©
+	//æ³¨é”€ç™»å½•ï¼ˆæ¸…é™¤sessionï¼‰
 	public String loginOut() {
 		session.removeAttribute("admin");
 		return "loginOutOK";
 	}
-	//ËùÓĞÃÀÎÄ
+	//æ‰€æœ‰ç¾æ–‡
 	public String showNotes() {
 		noteslist=(List<Notes>) admService.getList(new Notes());
 		return "showNotrsOK";
 	}
-	//É¾³ıÃÀÎÄ
+	//åˆ é™¤ç¾æ–‡
 	public String delNotes() {
 		admService.del("Notes", Integer.parseInt(request.getParameter("id")));
 		return "delNotesOK";
 	}
-	//Ìí¼ÓÃÀÎÄ
+	//æ·»åŠ ç¾æ–‡
 	public String addNotes() {
 		Notes n=new Notes();
 		n.setArticle1(admTel);n.setArticle2(bookDetail);
 		admService.add(n);
 		return "addNotesOK";
 	}
-	//ÏÔÊ¾ÃÀÎÄĞÅÏ¢
+	//æ˜¾ç¤ºç¾æ–‡ä¿¡æ¯
 	public String showNoteInfo() {
 		int id=0;
 		if(request.getParameter("id")!=null)
@@ -851,7 +816,7 @@ public class AdminAction extends ActionSupport {
 		notes=(Notes) admService.getOne(Notes.class, id);
 		return "showNoteInfoOK";
 	}
-	//ĞŞ¸ÄÃÀÎÄ
+	//ä¿®æ”¹ç¾æ–‡
 	public String updateNote() {
 		Notes n=new Notes();
 		n.setBufid(tableid);
@@ -860,9 +825,40 @@ public class AdminAction extends ActionSupport {
 		request.setAttribute("id", tableid);
 		return "updateNoteOK";
 	}
-	//Êı¾İÍ³¼Æ
+	//æ•°æ®ç»Ÿè®¡
 	public String statistical() {
 		lolist=admService.statistical();
 		return "statisticalOK";
+	}
+	
+	/**
+	 * è·å¾—å½“å‰é¡µç ï¼ˆä»Urlä¸­æ‹¿åˆ°é¡µç ï¼Œå‡ºç°å¼‚å¸¸åˆ™é»˜è®¤ä¸ºç¬¬ä¸€é¡µï¼‰
+	 * @param message
+	 * é¡µç åœ¨requestä¸­çš„nameå€¼
+	 * @return
+	 */
+	private int getPage(String message) {
+		try {
+			return Integer.parseInt(request.getParameter(message));
+		}catch (Exception e) {
+			return 1;
+		}
+	}
+	/**
+	 * è®¾ç½®Cookiesç”Ÿå‘½å‘¨æœŸ
+	 * @param name
+	 * cookieå
+	 * @param value
+	 * cookieå€¼
+	 * @param isOK
+	 * æ˜¯å¦å­˜å…¥
+	 */
+	public void setCookie(String name,String value,boolean isOK) {
+		Cookie cookie = new Cookie(name, value);
+		if(isOK) 
+			cookie.setMaxAge(7 * 24 * 60 * 60);
+		else
+			cookie.setMaxAge(0);
+		response.addCookie(cookie);
 	}
 }
