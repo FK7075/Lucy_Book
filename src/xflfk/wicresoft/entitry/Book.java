@@ -1,5 +1,6 @@
 package xflfk.wicresoft.entitry;
 
+
 /**
  * 实体类——书本
  * @author fk-7075
@@ -51,7 +52,6 @@ public class Book {
 	public void setBdetail(String bdetail) {
 		this.bdetail = bdetail;
 	}
-
 	public Integer getbSales() {
 		return bSales;
 	}

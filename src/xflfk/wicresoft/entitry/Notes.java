@@ -1,5 +1,6 @@
 package xflfk.wicresoft.entitry;
 
+
 /**
  * 实体类——美文
  * @author fk-7075
