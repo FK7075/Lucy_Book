@@ -4,8 +4,8 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<constant name="struts.multipart.maxSize" value="9000000" />
-	<include file="xflfk/wicresoft/config/account.xml"></include>
-	<include file="xflfk/wicresoft/config/admin.xml"></include>
-	<include file="xflfk/wicresoft/config/download.xml"></include>
-	<include file="xflfk/wicresoft/config/user.xml"></include>
+	<include file="config/account.xml"></include>
+	<include file="config/admin.xml"></include>
+	<include file="config/download.xml"></include>
+	<include file="config/user.xml"></include>
 </struts>

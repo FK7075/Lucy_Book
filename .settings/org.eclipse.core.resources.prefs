@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/action/AdminAction.java=UTF-8
 encoding//src/log4j.properties=UTF-8
 encoding//src/lucky.properties=UTF-8
-encoding//src/xflfk/wicresoft/action/AdminAction.java=UTF-8
-encoding//src/xflfk/wicresoft/service/UserService.java=UTF-8
+encoding//src/service/UserService.java=UTF-8
+encoding//src/util/LucyUtil.java=UTF-8

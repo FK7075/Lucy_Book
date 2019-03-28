@@ -1,4 +1,4 @@
-<%@ page language="java" import="xflfk.wicresoft.entitry.User"
+<%@ page language="java" import="entitry.User"
 	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -103,7 +103,7 @@
 										href="${pageContext.request.contextPath }/User/pages/user_allAuthor?pages=1">作者</a></li>
 									<li><a href="#">类型</a>
 										<ul>
-											<c:forEach items="${stortlist1 }" var="ast">
+											<c:forEach items="${allstort }" var="ast">
 												<li><a
 													href="${pageContext.request.contextPath }/User/pages/user_stortToBooks?id=${ast.stid}">${ast.stName }</a></li>
 											</c:forEach>

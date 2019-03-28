@@ -45,7 +45,7 @@ function Click(){
 							<i class="input-group-text border-0 mdi mdi-magnify"></i>
 						</div>
 						<input type="text" class="form-control bg-transparent border-0"
-							placeholder="搜索">
+							placeholder="搜索" disabled="disabled">
 					</div>
 				</form>
 			</div>
