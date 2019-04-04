@@ -59,7 +59,7 @@ public interface SqlDao {
 	 * @param id
 	 * @return
 	 */
-	public boolean deleteById(String tableName,int id);
+	public boolean deleteById(Class clzz,int id);
 	/**
 	 * ¶ÔÏóÉ¾³ı
 	 * @param t

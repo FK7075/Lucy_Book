@@ -431,7 +431,7 @@ public class AdminAction extends ActionSupport {
 	//删除书本
 	public String delBook() {
 		int id=Integer.parseInt(request.getParameter("bid"));//获得书本ID'bid'
-		admService.del("Book", id);//执行删除操作
+		admService.del(Book.class, id);//执行删除操作
 		return "bookStoreOK";
 	}
 	//修改书本信息前的数据准备
@@ -480,7 +480,7 @@ public class AdminAction extends ActionSupport {
 	//删除类型和其下的所有书本
 	public String delStort() {
 		int id=Integer.parseInt(request.getParameter("stid"));//得到要删除的类型ID'stid'
-		admService.del("Stort", id);//执行删除操作
+		admService.del(Stort.class, id);//执行删除操作
 		return "delStortOK";
 	}
 	//修改类型信息
@@ -543,7 +543,7 @@ public class AdminAction extends ActionSupport {
 	//删除作者和其所有作品
 	public String delAuthor() {
 		int id=Integer.parseInt(request.getParameter("id"));//获得要删除的作者ID'id'
-		admService.del("Author", id);//执行删除操作
+		admService.del(Author.class, id);//执行删除操作
 		return "delAuthorOK";
 	}
 	//显示作者详细信息
@@ -776,7 +776,7 @@ public class AdminAction extends ActionSupport {
 	}
 	//删除美文
 	public String delNotes() {
-		admService.del("Notes", Integer.parseInt(request.getParameter("id")));//删除美文ID为'id'的那两篇美文
+		admService.del(Notes.class, Integer.parseInt(request.getParameter("id")));//删除美文ID为'id'的那两篇美文
 		return "delNotesOK";
 	}
 	//添加美文

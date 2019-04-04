@@ -1,11 +1,13 @@
 package entitry;
 
+import xfl.fk.annotation.Lucky;
 
 /**
  * 实体类——收货人
  * @author fk-7075
  *
  */
+@Lucky(id="consid")
 public class Consigness {
 	private Integer consid;//
 	private String consName;//收货人姓名

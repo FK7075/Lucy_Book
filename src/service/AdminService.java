@@ -77,8 +77,8 @@ public class AdminService {
 	 * @param id
 	 * @return
 	 */
-	public boolean del(String tableName,int id) {
-		return sqlDao.deleteById(tableName, id);
+	public boolean del(Class clzz,int id) {
+		return sqlDao.deleteById(clzz, id);
 	}
 
 	/**

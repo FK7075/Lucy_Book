@@ -366,7 +366,7 @@ public class UserService {
 			sqlDao.update(b);//执行还原操作
 		}
 		//****************************
-		sqlDao.deleteById("Orders", ordid);//执行订单删除操作
+		sqlDao.deleteById(Orders.class, ordid);//执行订单删除操作
 		return true;
 	}
 	/**

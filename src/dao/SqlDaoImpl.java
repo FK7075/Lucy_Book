@@ -48,8 +48,8 @@ public class SqlDaoImpl implements SqlDao {
 	}
 
 	@Override
-	public boolean deleteById(String tableName,int id) {
-		isOk=sqlControl.delete(tableName, id);
+	public boolean deleteById(Class clzz,int id) {
+		isOk=sqlControl.delete(clzz, id);
 		return isOk;
 	}
 

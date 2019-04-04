@@ -137,7 +137,7 @@ public class AccountAction extends ActionSupport {
 
 	// 删除用户
 	public String delUser() {
-		admService.del("User", id);
+		admService.del(User.class, id);
 		return "delUserOK";
 	}
 
@@ -164,7 +164,7 @@ public class AccountAction extends ActionSupport {
 	// 删除一名管理员
 	public String delAdmin() {
 		if (id != 1 && id != 2) {
-			admService.del("Admin", id);
+			admService.del(Admin.class, id);
 		} else {
 			request.setAttribute("fk1", 1);// 无法删除超级管理员信号
 		}

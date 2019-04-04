@@ -16,7 +16,7 @@ public class LuckyFactory {
 	 */
 	public static SqlControl getSqlControl() {
 		if(sql==null) {
-			sql=new SqlControl();
+			sql=SqlControl.getSqlControl();
 		}
 		return sql;
 	}

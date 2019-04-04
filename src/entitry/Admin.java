@@ -1,11 +1,13 @@
 package entitry;
 
+import xfl.fk.annotation.Lucky;
 
 /**
  * 实体类——管理员
  * @author fk-7075
  *
  */
+@Lucky(id="admid")
 public class Admin {
 	private Integer admid;//id
 	private String admName;//登录名

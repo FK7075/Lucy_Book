@@ -1,11 +1,13 @@
 package entitry;
 
+import xfl.fk.annotation.Lucky;
 
 /**
  * 实体类——订单明细
  * @author fk-7075
  *
  */
+@Lucky(id="detid")
 public class Detail {
 	private Integer detid;//
 	private Integer bid;//书本信息

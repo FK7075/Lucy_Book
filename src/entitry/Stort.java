@@ -1,11 +1,13 @@
 package entitry;
 
+import xfl.fk.annotation.Lucky;
 
 /**
  * 实体类——书本类型
  * @author fk-7075
  *
  */
+@Lucky(id="stid")
 public class Stort {
 	private Integer stid;
 	private String stName;//书本类型
